@@ -1,6 +1,6 @@
 [versions]
 agp = "8.9.2"
-jacksonModuleKotlin = "2.16.0"
+jacksonModuleKotlin = "2.18.3"
 kotlin = "2.0.21"
 coreKtx = "1.16.0"
 junit = "4.13.2"
