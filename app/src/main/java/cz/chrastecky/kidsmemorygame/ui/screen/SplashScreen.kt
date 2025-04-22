@@ -33,7 +33,7 @@ fun SplashScreen(
             val lastThemeId = sharedPreferences.getString("last_theme_id", null)
 
             val elapsed = System.currentTimeMillis() - startTime
-            val remaining = 1500L - elapsed
+            val remaining = 500L - elapsed
             if (remaining > 0) {
                 delay(remaining)
             }

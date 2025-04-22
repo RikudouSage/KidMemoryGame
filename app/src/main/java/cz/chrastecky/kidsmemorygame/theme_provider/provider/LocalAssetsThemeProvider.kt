@@ -4,6 +4,7 @@ import android.content.res.AssetManager
 import android.graphics.BitmapFactory
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import cz.chrastecky.kidsmemorygame.theme_provider.ThemeDetail
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeInfo
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
 
@@ -31,5 +32,35 @@ class LocalAssetsThemeProvider(
 
     override suspend fun ensureThemeDownloaded(id: String): Boolean {
         return true
+    }
+
+    override suspend fun getThemeDetail(id: String): ThemeDetail {
+        val basePath = "themes/$id"
+        assetManager.open("$basePath/theme.json").use { input ->
+            val raw: Map<String, Any> = mapper.readValue(input)
+
+            val iconPath = raw["icon"]!!
+            val backgroundPath = raw["background"]!!
+
+            val icon = assetManager.open("$basePath/$iconPath").use {
+                BitmapFactory.decodeStream(it)
+            }
+            val cards = (raw["cards"]!! as List<*>).map { cardPath ->
+                assetManager.open("$basePath/$cardPath").use {
+                    BitmapFactory.decodeStream(it)
+                }
+            }
+            val background = assetManager.open("$basePath/$backgroundPath").use {
+                BitmapFactory.decodeStream(it)
+            }
+
+            return ThemeDetail(
+                id = raw["id"]!! as String,
+                name = raw["name"]!! as String,
+                background = background,
+                cards = cards,
+                icon = icon,
+            )
+        }
     }
 }

@@ -77,7 +77,11 @@ fun AppNavigation(
         ) { backStackEntry ->
             val themeId = backStackEntry.arguments?.getString("themeId")
             if (themeId != null) {
-                GameScreen(themeId, sharedPreferences)
+                GameScreen(
+                    themeId = themeId,
+                    sharedPreferences = sharedPreferences,
+                    themeProvider = themeProvider,
+                )
             }
         }
     }
