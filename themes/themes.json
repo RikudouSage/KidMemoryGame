@@ -4,5 +4,29 @@
     "name" : "Sea Creatures",
     "configPath" : "sea/theme.json",
     "icon" : "cards/turtle.png"
+  },
+  {
+    "id" : "sea2",
+    "name" : "Sea Creatures",
+    "configPath" : "sea2/theme.json",
+    "icon" : "cards/turtle.png"
+  },
+  {
+    "id" : "sea3",
+    "name" : "Sea Creatures",
+    "configPath" : "sea3/theme.json",
+    "icon" : "cards/turtle.png"
+  },
+  {
+    "id" : "sea4",
+    "name" : "Sea Creatures",
+    "configPath" : "sea4/theme.json",
+    "icon" : "cards/turtle.png"
+  },
+  {
+    "id" : "sea5",
+    "name" : "Sea Creatures",
+    "configPath" : "sea5/theme.json",
+    "icon" : "cards/turtle.png"
   }
 ]
