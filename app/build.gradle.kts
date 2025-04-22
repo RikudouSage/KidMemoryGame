@@ -104,6 +104,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.jackson.module.kotlin)
+    implementation(libs.androidx.navigation.compose)
 }
 
 tasks.register("generateThemes") {
