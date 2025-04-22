@@ -1,5 +1,6 @@
 package cz.chrastecky.kidsmemorygame
 
+import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -23,50 +24,12 @@ class MainActivity : ComponentActivity() {
             else -> throw IllegalStateException("Unknown flavor: ${BuildConfig.FLAVOR}")
         }
 
+        val sharedPreferences = getSharedPreferences("main", MODE_PRIVATE)
+
         enableEdgeToEdge()
         setContent {
             KidsMemoryGameTheme {
-                AppNavigation(themeProvider)
-//                var themeList by remember { mutableStateOf<List<ThemeInfo>?>(null) }
-//                var loadError by remember { mutableStateOf<Throwable?>(null) }
-//                var showSplash by remember { mutableStateOf(true) }
-//                var reloadKey by remember { mutableIntStateOf(0) }
-//
-//                LaunchedEffect(reloadKey) {
-//                    val startTime = System.currentTimeMillis()
-//
-//                    try {
-//                        val themes = themeProvider.listAvailableThemes()
-//                        val elapsed = System.currentTimeMillis() - startTime
-//                        val remainingDelay = 1500L - elapsed
-//                        if (remainingDelay > 0) {
-//                            delay(remainingDelay)
-//                        }
-//
-//                        themeList = themes
-//                        showSplash = false
-//                    } catch (e: Exception) {
-//                        loadError = e
-//                        showSplash = false
-//                    }
-//                }
-//
-//                Crossfade (targetState = Triple(showSplash, themeList, loadError)) { (splash, themes, error) ->
-//                    when {
-//                        splash -> SplashScreen()
-//
-//                        error != null -> ErrorScreen(error) {
-//                            themeList = null
-//                            loadError = null
-//                            showSplash = true
-//                            reloadKey++
-//                        }
-//
-//                        themes != null -> ThemePickerScreen(themes) {
-//                            Log.d("ThemePicker", "Selected: ${it.name}")
-//                        }
-//                    }
-//                }
+                AppNavigation(themeProvider, sharedPreferences)
             }
         }
     }

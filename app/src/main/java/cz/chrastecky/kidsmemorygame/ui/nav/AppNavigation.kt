@@ -1,7 +1,9 @@
 package cz.chrastecky.kidsmemorygame.ui.nav
 
+import android.content.SharedPreferences
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,7 +20,10 @@ import cz.chrastecky.kidsmemorygame.ui.screen.SplashScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.ThemePickerScreen
 
 @Composable
-fun AppNavigation(themeProvider: ThemeProvider) {
+fun AppNavigation(
+    themeProvider: ThemeProvider,
+    sharedPreferences: SharedPreferences,
+) {
     val navController = rememberNavController()
     var themes by remember { mutableStateOf<List<ThemeInfo>?>(null) }
     var error by remember { mutableStateOf<Throwable?>(null) }
@@ -31,8 +36,9 @@ fun AppNavigation(themeProvider: ThemeProvider) {
     ) {
         composable("splash") {
             SplashScreen(
+                sharedPreferences = sharedPreferences,
                 loadThemes = { themeProvider.listAvailableThemes() },
-                onSuccess = {
+                onLoaded = {
                     themes = it
                     navController.navigate("picker") {
                         popUpTo("splash") { inclusive = true }
@@ -41,6 +47,11 @@ fun AppNavigation(themeProvider: ThemeProvider) {
                 onError = {
                     error = it
                     navController.navigate("error")
+                },
+                onThemeSelected = {
+                    navController.navigate("game/$it") {
+                        popUpTo("splash") { inclusive = true }
+                    }
                 }
             )
         }
@@ -60,10 +71,13 @@ fun AppNavigation(themeProvider: ThemeProvider) {
             )
         }
 
-        composable("game/{themeId}") { backStackEntry ->
+        composable(
+            route = "game/{themeId}",
+            enterTransition = { scaleIn() }
+        ) { backStackEntry ->
             val themeId = backStackEntry.arguments?.getString("themeId")
             if (themeId != null) {
-                GameScreen(themeId)
+                GameScreen(themeId, sharedPreferences)
             }
         }
     }
