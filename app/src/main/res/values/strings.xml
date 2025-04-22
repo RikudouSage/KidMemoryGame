@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Kids Memory Game</string>
+    <string name="error_prefix">An error occurred: %s</string>
+    <string name="button_retry">Retry</string>
+</resources>

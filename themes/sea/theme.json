@@ -1,0 +1,21 @@
+{
+  "id" : "sea",
+  "name" : "Sea Creatures",
+  "background" : "background.webp",
+  "cards" : [
+    "cards/clownfish.png",
+    "cards/dolphin.png",
+    "cards/hammerhead.png",
+    "cards/horsefish.png",
+    "cards/jellyfish.png",
+    "cards/octopus.png",
+    "cards/orca.png",
+    "cards/pufflefish.png",
+    "cards/sea_lion.png",
+    "cards/shark.png",
+    "cards/starfish.png",
+    "cards/swordfish.png",
+    "cards/turtle.png"
+  ],
+  "icon" : "cards/turtle.png"
+}

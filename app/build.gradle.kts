@@ -1,0 +1,169 @@
+import com.fasterxml.jackson.core.util.DefaultIndenter
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+}
+
+android {
+    namespace = "cz.chrastecky.kidsmemorygame"
+    compileSdk = 35
+
+    defaultConfig {
+        applicationId = "cz.chrastecky.kidsmemorygame"
+        minSdk = 24
+        targetSdk = 35
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+
+        debug {
+            kotlinOptions {
+                freeCompilerArgs += listOf("-Xdebug")
+            }
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+    buildFeatures {
+        compose = true
+    }
+
+    flavorDimensions += "distribution"
+
+    productFlavors {
+        create("playstore") {
+            dimension = "distribution"
+        }
+        create("lite") {
+            dimension = "distribution"
+        }
+        create("full") {
+            dimension = "distribution"
+        }
+    }
+}
+
+android.applicationVariants.all {
+    val variant = this
+    val flavor = variant.flavorName
+
+    if (flavor == "full") {
+        variant.mergeAssetsProvider.configure {
+            doLast {
+                val destination = File(variant.mergeAssetsProvider.get().outputDir.asFile.get(), "themes")
+                val source = File(rootDir, "themes")
+                println("Copying full flavor themes to: $destination")
+
+                project.copy {
+                    from(source)
+                    into(destination)
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.jackson.module.kotlin)
+}
+
+tasks.register("generateThemes") {
+    group = "assets"
+    description = "Generates theme.json files for all themes."
+
+    doLast {
+        val prettyPrinter = DefaultPrettyPrinter().apply {
+            indentArraysWith(DefaultIndenter.SYSTEM_LINEFEED_INSTANCE)
+        }
+        val mapper = jacksonObjectMapper().writer(prettyPrinter)
+
+        val themesRoot = File(rootDir, "themes")
+        val themeDirs = themesRoot.listFiles { it -> it.isDirectory } ?: return@doLast
+
+        val globalIndex = mutableListOf<Map<String, Any>>()
+
+        themeDirs.forEach { themeDir ->
+            val themeId = themeDir.name
+            val cardsDir = File(themeDir, "cards")
+            val cardFiles = cardsDir.listFiles { file ->
+                file.extension in listOf("webp", "png", "jpg")
+            }?.map { "cards/${it.name}" }?.sorted() ?: listOf()
+
+            val background = themeDir.listFiles()?.find { it.name.startsWith("background") }?.name ?: ""
+
+            val nameFile = File(themeDir, "name.txt")
+            val iconFile = File(themeDir, "icon.txt")
+            val name = if (nameFile.exists()) nameFile.readText().trim() else themeId.replaceFirstChar { it.uppercase() }
+            val icon = if (iconFile.exists()) iconFile.readText().trim() else cardFiles[0]
+
+            val themeJson = mapOf(
+                "id" to themeId,
+                "name" to name,
+                "background" to background,
+                "cards" to cardFiles,
+                "icon" to icon,
+            )
+
+            File(themeDir, "theme.json").writeText(
+                mapper.writeValueAsString(themeJson)
+            )
+
+            globalIndex.add(
+                mapOf(
+                    "id" to themeId,
+                    "name" to name,
+                    "configPath" to "$themeId/theme.json",
+                    "icon" to icon,
+                )
+            )
+
+            println("✓ Wrote theme.json for '$themeId'")
+        }
+
+        val globalFile = File(themesRoot, "themes.json")
+        globalFile.writeText(
+            mapper.writeValueAsString(globalIndex)
+        )
+
+        println("✓ Wrote top-level themes.json with ${globalIndex.size} entries.")
+    }
+}

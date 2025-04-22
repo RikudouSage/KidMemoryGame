@@ -1,0 +1,8 @@
+[
+  {
+    "id" : "sea",
+    "name" : "Sea Creatures",
+    "configPath" : "sea/theme.json",
+    "icon" : "cards/turtle.png"
+  }
+]
