@@ -23,6 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import cz.chrastecky.kidsmemorygame.ui.dto.GameCardData
+import cz.chrastecky.kidsmemorygame.ui.theme.GameCardBackground
 import cz.chrastecky.kidsmemorygame.ui.theme.SuccessCardBorder
 
 @Composable
@@ -64,7 +65,7 @@ fun GameCard(
                 shape = RoundedCornerShape(12.dp),
             )
             .clickable(enabled = !card.isMatched) { onClick() }
-            .background(MaterialTheme.colorScheme.surfaceVariant),
+            .background(GameCardBackground),
         contentAlignment = Alignment.Center
     ) {
         var modifier = Modifier.fillMaxSize()
