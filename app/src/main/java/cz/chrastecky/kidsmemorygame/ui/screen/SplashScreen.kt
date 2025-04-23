@@ -1,6 +1,5 @@
 package cz.chrastecky.kidsmemorygame.ui.screen
 
-import android.content.SharedPreferences
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -19,10 +18,8 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
-    sharedPreferences: SharedPreferences,
     loadThemes: suspend () -> List<ThemeInfo>,
     onLoaded: (List<ThemeInfo>) -> Unit,
-    onThemeSelected: (String) -> Unit,
     onError: (Throwable) -> Unit = {},
 ) {
     LaunchedEffect(Unit) {
@@ -30,19 +27,13 @@ fun SplashScreen(
         try {
             val themes = loadThemes()
 
-            val lastThemeId = sharedPreferences.getString("last_theme_id", null)
-
             val elapsed = System.currentTimeMillis() - startTime
             val remaining = 500L - elapsed
             if (remaining > 0) {
                 delay(remaining)
             }
 
-            if (lastThemeId != null && themes.any { it.id == lastThemeId }) {
-                onThemeSelected(lastThemeId)
-            } else {
-                onLoaded(themes)
-            }
+            onLoaded(themes)
         } catch (e: Exception) {
             onError(e)
         }

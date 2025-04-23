@@ -36,7 +36,6 @@ fun AppNavigation(
     ) {
         composable("splash") {
             SplashScreen(
-                sharedPreferences = sharedPreferences,
                 loadThemes = { themeProvider.listAvailableThemes() },
                 onLoaded = {
                     themes = it
@@ -48,11 +47,6 @@ fun AppNavigation(
                     error = it
                     navController.navigate("error")
                 },
-                onThemeSelected = {
-                    navController.navigate("game/$it") {
-                        popUpTo("splash") { inclusive = true }
-                    }
-                }
             )
         }
 
