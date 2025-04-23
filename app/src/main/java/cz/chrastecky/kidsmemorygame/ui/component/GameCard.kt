@@ -54,6 +54,8 @@ fun GameCard(
                 rotationY = rotation
                 cameraDistance = 12f * density
                 shadowElevation = if (card.isMatched) 12f else 2f
+                shape = RoundedCornerShape(12.dp)
+                clip = true
             }
             .clip(RoundedCornerShape(12.dp))
             .border(
