@@ -36,6 +36,7 @@ import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.component.GameCard
 import cz.chrastecky.kidsmemorygame.ui.dto.GameCardData
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
+import kotlinx.coroutines.delay
 
 @Composable
 fun GameScreen(
@@ -96,6 +97,7 @@ fun GameScreenMain(
     sharedPreferences: SharedPreferences,
 ) {
     var cards by remember { mutableStateOf<List<GameCardData>>(emptyList()) }
+    var flippedCards by remember { mutableStateOf<List<Int>>(emptyList()) }
     val gameSize = remember {
         val storedSize = sharedPreferences.getString("last_used_size", GameSize.Size4x3.name)!!
         try {
@@ -104,6 +106,7 @@ fun GameScreenMain(
             GameSize.Size4x3
         }
     }
+    var resetTrigger by remember { mutableStateOf(false) }
 
     val columns = gameSize.columns().toInt()
     val rows = gameSize.rows().toInt()
@@ -115,10 +118,24 @@ fun GameScreenMain(
             GameCardData(
                 image = image,
                 background = background,
-                id = index
+                imageId = index,
+                cardId = 0,
             )
         }
-        cards = (mapped + mapped).shuffled()
+        cards = (mapped + mapped).shuffled().mapIndexed { index, card ->
+            card.copy(cardId = index)
+        }
+    }
+
+    LaunchedEffect(resetTrigger) {
+        if (resetTrigger) {
+            delay(1000)
+            cards = cards.map {
+                if (it.cardId in flippedCards) it.copy(isFlipped = false) else it
+            }
+            flippedCards = emptyList()
+            resetTrigger = false
+        }
     }
 
     Box(
@@ -157,6 +174,41 @@ fun GameScreenMain(
                     items(cards) { card ->
                         GameCard(card, cardSize) {
 
+                            println(flippedCards.size)
+                            println(!flippedCards.contains(card.cardId))
+                            if (
+                                card.isMatched
+                                || (flippedCards.size == 2 && !flippedCards.contains(card.cardId))
+                            ) {
+                                return@GameCard
+                            }
+
+                            val newCards = cards.map {
+                                if (it.cardId == card.cardId) it.copy(isFlipped = !it.isFlipped) else it
+                            }
+                            cards = newCards
+
+                            val isCurrentlyFlipped = !card.isFlipped
+                            flippedCards = if (isCurrentlyFlipped) {
+                                flippedCards + card.cardId
+                            } else {
+                                flippedCards - card.cardId
+                            }
+
+                            if (flippedCards.size == 2) {
+                                val (first, second) = newCards.filter { it.cardId in flippedCards }
+
+                                if (first.imageId == second.imageId) {
+                                    cards = newCards.map {
+                                        if (it.cardId == first.cardId || it.cardId == second.cardId)
+                                            it.copy(isMatched = true, isFlipped = false)
+                                        else it
+                                    }
+                                    flippedCards = emptyList()
+                                } else {
+                                    resetTrigger = true
+                                }
+                            }
                         }
                     }
                 }
