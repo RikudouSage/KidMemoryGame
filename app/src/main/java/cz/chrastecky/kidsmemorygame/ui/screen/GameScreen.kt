@@ -7,10 +7,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -115,7 +117,8 @@ fun GameScreenMain(
     }
 
     val columns = gameSize.columns().toInt()
-    val cardCount = (columns * gameSize.rows().toInt()) / 2
+    val rows = gameSize.rows().toInt()
+    val cardCount = (columns * rows) / 2
 
     LaunchedEffect(theme.id, cardCount) {
         val selectedImages = theme.cards.shuffled().subList(0, cardCount)
@@ -140,17 +143,33 @@ fun GameScreenMain(
             modifier = Modifier.matchParentSize(),
         )
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(columns),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+        BoxWithConstraints(
             modifier = Modifier
                 .padding(horizontal = 100.dp, vertical = 40.dp)
-                .matchParentSize()
+                .fillMaxSize()
         ) {
-            items(cards) {
-                GameCard(it) {
+            val maxCardWidth = maxWidth / columns - 16.dp
+            val maxCardHeight = maxHeight / rows - 16.dp
+            val cardSize = minOf(maxCardWidth, maxCardHeight)
 
+            val spacing = 16.dp
+            val gridWidth = (cardSize + spacing) * columns - spacing
+
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(columns),
+                    verticalArrangement = Arrangement.spacedBy(spacing),
+                    horizontalArrangement = Arrangement.spacedBy(spacing),
+                    modifier = Modifier.width(gridWidth)
+                ) {
+                    items(cards) { card ->
+                        GameCard(card, cardSize) {
+
+                        }
+                    }
                 }
             }
         }
