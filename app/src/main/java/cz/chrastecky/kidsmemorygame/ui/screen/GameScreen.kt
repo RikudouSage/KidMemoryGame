@@ -174,8 +174,6 @@ fun GameScreenMain(
                     items(cards) { card ->
                         GameCard(card, cardSize) {
 
-                            println(flippedCards.size)
-                            println(!flippedCards.contains(card.cardId))
                             if (
                                 card.isMatched
                                 || (flippedCards.size == 2 && !flippedCards.contains(card.cardId))
