@@ -51,11 +51,11 @@ fun GameScreen(
     var theme by remember { mutableStateOf<ThemeDetail?>(null) }
     var background by remember { mutableStateOf<Bitmap?>(null) }
 
-    LaunchedEffect(themeId) {
-        sharedPreferences.edit {
-            putString("last_theme_id", themeId)
-        }
-    }
+//    LaunchedEffect(themeId) {
+//        sharedPreferences.edit {
+//            putString("last_theme_id", themeId)
+//        }
+//    }
 
     when {
         theme == null -> GameScreenLoader(themeId, themeProvider) { themeDetail, bitmap ->
