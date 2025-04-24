@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,6 +28,8 @@ fun AppNavigation(
     val navController = rememberNavController()
     var themes by remember { mutableStateOf<List<ThemeInfo>?>(null) }
     var error by remember { mutableStateOf<Throwable?>(null) }
+
+    var reloadGameKey by remember { mutableIntStateOf(0) }
 
     NavHost(
         navController = navController,
@@ -75,6 +78,8 @@ fun AppNavigation(
                     themeId = themeId,
                     sharedPreferences = sharedPreferences,
                     themeProvider = themeProvider,
+                    reloadGameKey = reloadGameKey,
+                    onRequestReset = { reloadGameKey++ },
                 )
             }
         }

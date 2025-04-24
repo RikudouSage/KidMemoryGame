@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -29,7 +30,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.edit
 import cz.chrastecky.kidsmemorygame.R
 import cz.chrastecky.kidsmemorygame.enums.GameSize
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeDetail
@@ -46,6 +46,8 @@ fun GameScreen(
     themeId: String,
     sharedPreferences: SharedPreferences,
     themeProvider: ThemeProvider,
+    reloadGameKey: Int,
+    onRequestReset: () -> Unit,
 ) {
     var theme by remember { mutableStateOf<ThemeDetail?>(null) }
     var background by remember { mutableStateOf<Bitmap?>(null) }
@@ -56,11 +58,14 @@ fun GameScreen(
             background = bitmap
         }
 
-        else -> GameScreenMain(
-            theme = theme!!,
-            background = background!!,
-            sharedPreferences = sharedPreferences,
-        )
+        else -> key(reloadGameKey) {
+            GameScreenMain(
+                theme = theme!!,
+                background = background!!,
+                sharedPreferences = sharedPreferences,
+                onRequestReset = onRequestReset,
+            )
+        }
     }
 }
 
@@ -98,11 +103,12 @@ fun GameScreenMain(
     theme: ThemeDetail,
     background: Bitmap,
     sharedPreferences: SharedPreferences,
+    onRequestReset: () -> Unit,
 ) {
     var cards by remember { mutableStateOf<List<GameCardData>>(emptyList()) }
     var flippedCards by remember { mutableStateOf<List<Int>>(emptyList()) }
     val gameSize = remember {
-        val storedSize = sharedPreferences.getString("last_used_size", GameSize.Size4x3.name)!!
+        val storedSize = sharedPreferences.getString("game_size", GameSize.Size4x3.name)!!
         try {
             GameSize.valueOf(storedSize)
         } catch (e: IllegalArgumentException) {
@@ -110,14 +116,13 @@ fun GameScreenMain(
         }
     }
     var resetTrigger by remember { mutableStateOf(false) }
-    var resetGameTrigger by remember { mutableStateOf(false) }
 
     val columns = gameSize.columns().toInt()
     val rows = gameSize.rows().toInt()
     val cardCount = (columns * rows) / 2
     val hasWon = cards.isNotEmpty() && cards.all { it.isMatched }
 
-    LaunchedEffect(theme.id, cardCount, resetGameTrigger) {
+    LaunchedEffect(theme.id, cardCount) {
         val selectedImages = theme.cards.shuffled().subList(0, cardCount)
         val mapped = selectedImages.mapIndexed { index, image ->
             GameCardData(
@@ -129,9 +134,6 @@ fun GameScreenMain(
         }
         cards = (mapped + mapped).shuffled().mapIndexed { index, card ->
             card.copy(cardId = index)
-        }
-        if (resetGameTrigger) {
-            resetGameTrigger = false
         }
     }
 
@@ -227,7 +229,7 @@ fun GameScreenMain(
 
             WinDialog(
                 onNewGame = {
-                    resetGameTrigger = true
+                    onRequestReset()
                 },
                 onChangeSize = {
                     // todo
