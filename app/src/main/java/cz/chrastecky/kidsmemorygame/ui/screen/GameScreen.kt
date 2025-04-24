@@ -33,6 +33,7 @@ import cz.chrastecky.kidsmemorygame.R
 import cz.chrastecky.kidsmemorygame.enums.GameSize
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeDetail
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
+import cz.chrastecky.kidsmemorygame.ui.component.ConfettiOverlay
 import cz.chrastecky.kidsmemorygame.ui.component.GameCard
 import cz.chrastecky.kidsmemorygame.ui.dto.GameCardData
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
@@ -111,6 +112,7 @@ fun GameScreenMain(
     val columns = gameSize.columns().toInt()
     val rows = gameSize.rows().toInt()
     val cardCount = (columns * rows) / 2
+    val hasWon = cards.isNotEmpty() && cards.all { it.isMatched }
 
     LaunchedEffect(theme.id, cardCount) {
         val selectedImages = theme.cards.shuffled().subList(0, cardCount)
@@ -211,6 +213,11 @@ fun GameScreenMain(
                     }
                 }
             }
+        }
+
+        // must be last otherwise the confetti are below the cards
+        if (hasWon) {
+            ConfettiOverlay()
         }
     }
 }
