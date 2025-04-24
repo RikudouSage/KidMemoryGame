@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         task:
-          - assembleFullDebug
+          - assembleFullRelease
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,10 +33,21 @@ jobs:
           echo Last build tool version is: $BUILD_TOOL_VERSION
       - name: Build with Gradle
         run: ./gradlew ${{ matrix.task }}
+      - name: Sign Android release
+        uses: r0adkll/sign-android-release@v1
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/full/release/
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOL_VERSION }}
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: debug
-          path: app/build/outputs/apk/full/debug/app-full-debug.apk
+          name: full
+          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
           if-no-files-found: error
           retention-days: 1
