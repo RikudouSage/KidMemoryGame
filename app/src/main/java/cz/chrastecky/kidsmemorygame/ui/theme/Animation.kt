@@ -1,3 +1,4 @@
 package cz.chrastecky.kidsmemorygame.ui.theme
 
-const val CardAnimationSpeed: Long = 300
+const val CardAnimationSpeed = 350
+const val ResetAnimationSpeed = 1000

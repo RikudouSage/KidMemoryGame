@@ -1,8 +1,11 @@
 package cz.chrastecky.kidsmemorygame.ui.screen
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -39,8 +42,11 @@ import cz.chrastecky.kidsmemorygame.ui.component.GameCard
 import cz.chrastecky.kidsmemorygame.ui.component.WinDialog
 import cz.chrastecky.kidsmemorygame.ui.dto.GameCardData
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
+import cz.chrastecky.kidsmemorygame.ui.theme.CardAnimationSpeed
+import cz.chrastecky.kidsmemorygame.ui.theme.ResetAnimationSpeed
 import kotlinx.coroutines.delay
 
+@SuppressLint("UnusedCrossfadeTargetStateParameter")
 @Composable
 fun GameScreen(
     themeId: String,
@@ -58,7 +64,11 @@ fun GameScreen(
             background = bitmap
         }
 
-        else -> key(reloadGameKey) {
+        else -> Crossfade(
+            targetState = reloadGameKey,
+            animationSpec = tween(durationMillis = ResetAnimationSpeed),
+            label = "game fade"
+        ) {
             GameScreenMain(
                 theme = theme!!,
                 background = background!!,
@@ -108,11 +118,12 @@ fun GameScreenMain(
     var cards by remember { mutableStateOf<List<GameCardData>>(emptyList()) }
     var flippedCards by remember { mutableStateOf<List<Int>>(emptyList()) }
     val gameSize = remember {
-        val storedSize = sharedPreferences.getString("game_size", GameSize.Size4x3.name)!!
+        val default = GameSize.Size2x2
+        val storedSize = sharedPreferences.getString("game_size", default.name)!!
         try {
             GameSize.valueOf(storedSize)
         } catch (e: IllegalArgumentException) {
-            GameSize.Size4x3
+            default
         }
     }
     var resetTrigger by remember { mutableStateOf(false) }
