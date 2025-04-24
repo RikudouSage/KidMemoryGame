@@ -118,7 +118,7 @@ fun GameScreenMain(
     var cards by remember { mutableStateOf<List<GameCardData>>(emptyList()) }
     var flippedCards by remember { mutableStateOf<List<Int>>(emptyList()) }
     val gameSize = remember {
-        val default = GameSize.Size2x2
+        val default = GameSize.Size4x3
         val storedSize = sharedPreferences.getString("game_size", default.name)!!
         try {
             GameSize.valueOf(storedSize)
