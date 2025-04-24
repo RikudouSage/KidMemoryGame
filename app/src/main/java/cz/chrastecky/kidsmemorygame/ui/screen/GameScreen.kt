@@ -240,6 +240,7 @@ fun GameScreenMain(
 
             WinDialog(
                 onNewGame = {
+                    cards = emptyList()
                     onRequestReset()
                 },
                 onChangeSize = {
