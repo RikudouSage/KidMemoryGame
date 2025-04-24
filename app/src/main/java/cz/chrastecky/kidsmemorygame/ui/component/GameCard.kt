@@ -23,6 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import cz.chrastecky.kidsmemorygame.ui.dto.GameCardData
+import cz.chrastecky.kidsmemorygame.ui.theme.CardAnimationSpeed
 import cz.chrastecky.kidsmemorygame.ui.theme.GameCardBackground
 import cz.chrastecky.kidsmemorygame.ui.theme.SuccessCardBorder
 
@@ -34,7 +35,7 @@ fun GameCard(
 ) {
     val rotation by animateFloatAsState(
         targetValue = if (card.isFlipped || card.isMatched) 180f else 0f,
-        animationSpec = tween(durationMillis = 300)
+        animationSpec = tween(durationMillis = CardAnimationSpeed.toInt())
     )
 
     val isFront = rotation > 90f

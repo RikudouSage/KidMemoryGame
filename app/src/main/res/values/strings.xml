@@ -2,4 +2,9 @@
     <string name="app_name">Kids Memory Game</string>
     <string name="error_prefix">An error occurred: %s</string>
     <string name="button_retry">Retry</string>
+    <string name="win_dialog_title">You win!</string>
+    <string name="win_dialog_content">Great job! What would you like to do next?</string>
+    <string name="new_game_button">New Game</string>
+    <string name="grid_size_button">Change Grid Size</string>
+    <string name="change_theme_button">Change Theme</string>
 </resources>

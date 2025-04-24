@@ -29,12 +29,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.edit
 import cz.chrastecky.kidsmemorygame.R
 import cz.chrastecky.kidsmemorygame.enums.GameSize
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeDetail
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.component.ConfettiOverlay
 import cz.chrastecky.kidsmemorygame.ui.component.GameCard
+import cz.chrastecky.kidsmemorygame.ui.component.WinDialog
 import cz.chrastecky.kidsmemorygame.ui.dto.GameCardData
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
 import kotlinx.coroutines.delay
@@ -108,13 +110,14 @@ fun GameScreenMain(
         }
     }
     var resetTrigger by remember { mutableStateOf(false) }
+    var resetGameTrigger by remember { mutableStateOf(false) }
 
     val columns = gameSize.columns().toInt()
     val rows = gameSize.rows().toInt()
     val cardCount = (columns * rows) / 2
     val hasWon = cards.isNotEmpty() && cards.all { it.isMatched }
 
-    LaunchedEffect(theme.id, cardCount) {
+    LaunchedEffect(theme.id, cardCount, resetGameTrigger) {
         val selectedImages = theme.cards.shuffled().subList(0, cardCount)
         val mapped = selectedImages.mapIndexed { index, image ->
             GameCardData(
@@ -126,6 +129,9 @@ fun GameScreenMain(
         }
         cards = (mapped + mapped).shuffled().mapIndexed { index, card ->
             card.copy(cardId = index)
+        }
+        if (resetGameTrigger) {
+            resetGameTrigger = false
         }
     }
 
@@ -218,6 +224,21 @@ fun GameScreenMain(
         // must be last otherwise the confetti are below the cards
         if (hasWon) {
             ConfettiOverlay()
+
+            WinDialog(
+                onNewGame = {
+                    resetGameTrigger = true
+                },
+                onChangeSize = {
+                    // todo
+                },
+                onThemePicker = {
+                    // Use a callback or navigation command
+                    // This depends on how you're navigating
+                    // Example with NavController:
+                    // navController.navigate("picker") { popUpTo("game/$themeId") { inclusive = true } }
+                }
+            )
         }
     }
 }
