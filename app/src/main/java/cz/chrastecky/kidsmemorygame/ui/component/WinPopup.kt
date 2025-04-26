@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -24,14 +23,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cz.chrastecky.kidsmemorygame.R
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
-import cz.chrastecky.kidsmemorygame.ui.theme.CardBorder
+import cz.chrastecky.kidsmemorygame.ui.theme.CardBackground
 import cz.chrastecky.kidsmemorygame.ui.theme.TextOnBackgroundColor
 
 @Composable
@@ -56,7 +54,8 @@ fun WinPopup(
             ) {
                 Box(
                     modifier = Modifier
-                        .background(BackgroundColor)
+                        .background(CardBackground)
+                        .border(width = 6.dp, color = BackgroundColor, shape = RoundedCornerShape(32.dp))
                         .clip(RoundedCornerShape(32.dp)) // Clip BOTH background and content!
                 ) {
                     Column(
