@@ -40,6 +40,7 @@ import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.component.ConfettiOverlay
 import cz.chrastecky.kidsmemorygame.ui.component.GameCard
 import cz.chrastecky.kidsmemorygame.ui.component.WinDialog
+import cz.chrastecky.kidsmemorygame.ui.component.WinPopup
 import cz.chrastecky.kidsmemorygame.ui.dto.GameCardData
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
 import cz.chrastecky.kidsmemorygame.ui.theme.CardAnimationSpeed
@@ -238,7 +239,7 @@ fun GameScreenMain(
         if (hasWon) {
             ConfettiOverlay()
 
-            WinDialog(
+            WinPopup(
                 onNewGame = {
                     cards = emptyList()
                     onRequestReset()
