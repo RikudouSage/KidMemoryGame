@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cz.chrastecky.kidsmemorygame.R
+import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
 
 @Composable
 fun WinPopup(
@@ -37,27 +38,21 @@ fun WinPopup(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.5f)), // Dim background
+            .background(Color.Black.copy(alpha = 0.5f)), // dim background
         contentAlignment = Alignment.Center
     ) {
-        Box(
-            modifier = Modifier
-                .padding(bottom = 48.dp)
-                .wrapContentSize()
-        ) {
-            // Card container
+        Box(contentAlignment = Alignment.TopCenter) {
+            // Card
             Card(
                 shape = RoundedCornerShape(32.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
                 modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .padding(horizontal = 16.dp)
+                    .wrapContentSize()
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
-                        .padding(top = 32.dp, bottom = 64.dp, start = 16.dp, end = 16.dp)
-                        .background(MaterialTheme.colorScheme.surface)
+                        .padding(top = 32.dp, bottom = 64.dp, start = 24.dp, end = 24.dp)
                 ) {
                     Text(
                         text = stringResource(R.string.win_dialog_title),
@@ -75,16 +70,16 @@ fun WinPopup(
                 }
             }
 
-            // Overlapping icon buttons
+            // Buttons
             Row(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .offset(y = 32.dp), // Protrude below card
+                    .offset(y = 32.dp), // Protrude buttons
                 horizontalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 IconCircleButton(Icons.Default.Refresh, "New Game", onNewGame)
 //                IconCircleButton(Icons.Default.GridView, "Grid Size", onChangeSize)
-//                IconCircleButton(Icons.Default.Pal, "Themes", onThemePicker)
+//                IconCircleButton(Icons.Default.Palette, "Themes", onThemePicker)
             }
         }
     }
