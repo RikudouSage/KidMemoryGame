@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.core.util.DefaultIndenter
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 
 plugins {
     alias(libs.plugins.android.application)
@@ -137,12 +138,23 @@ tasks.register("generateThemes") {
             val name = if (nameFile.exists()) nameFile.readText().trim() else themeId.replaceFirstChar { it.uppercase() }
             val icon = if (iconFile.exists()) iconFile.readText().trim() else cardFiles[0]
 
+            val mascots = mutableListOf<Map<String, Any>>()
+            cardFiles.forEach { card ->
+                val fileName = card.substringAfter("cards/").substringBeforeLast('.')
+                val mascotFile = File(cardsDir, "$fileName.mascot.json")
+                if (mascotFile.exists()) {
+                    val mascotData: Map<String, Any> = jacksonObjectMapper().readValue(mascotFile)
+                    mascots.add(mapOf("image" to card) + mascotData)
+                }
+            }
+
             val themeJson = mapOf(
                 "id" to themeId,
                 "name" to name,
                 "background" to background,
                 "cards" to cardFiles,
                 "icon" to icon,
+                "mascots" to mascots,
             )
 
             File(themeDir, "theme.json").writeText(

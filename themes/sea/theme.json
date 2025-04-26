@@ -17,5 +17,17 @@
     "cards/swordfish.png",
     "cards/turtle.png"
   ],
-  "icon" : "cards/turtle.png"
+  "icon" : "cards/turtle.png",
+  "mascots" : [
+    {
+      "image" : "cards/dolphin.png",
+      "rotation" : 45,
+      "y" : 480
+    },
+    {
+      "image" : "cards/starfish.png",
+      "rotation" : 0,
+      "y" : 622
+    }
+  ]
 }
