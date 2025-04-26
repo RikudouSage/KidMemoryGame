@@ -21,7 +21,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -39,11 +38,9 @@ import cz.chrastecky.kidsmemorygame.theme_provider.ThemeDetail
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.component.ConfettiOverlay
 import cz.chrastecky.kidsmemorygame.ui.component.GameCard
-import cz.chrastecky.kidsmemorygame.ui.component.WinDialog
 import cz.chrastecky.kidsmemorygame.ui.component.WinPopup
 import cz.chrastecky.kidsmemorygame.ui.dto.GameCardData
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
-import cz.chrastecky.kidsmemorygame.ui.theme.CardAnimationSpeed
 import cz.chrastecky.kidsmemorygame.ui.theme.ResetAnimationSpeed
 import kotlinx.coroutines.delay
 

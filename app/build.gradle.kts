@@ -105,6 +105,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.jackson.module.kotlin)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.material.icons.extended)
 }
 
 tasks.register("generateThemes") {

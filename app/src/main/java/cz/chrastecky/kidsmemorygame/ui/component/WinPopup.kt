@@ -14,8 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.GridView
+import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -91,8 +91,8 @@ fun WinPopup(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 IconCircleButton(Icons.Default.Refresh, "New Game", onNewGame)
-                IconCircleButton(Icons.Default.Call, "Grid Size", onChangeSize)
-                IconCircleButton(Icons.Default.Build, "Themes", onThemePicker)
+                IconCircleButton(Icons.Default.GridView, "Grid Size", onChangeSize)
+                IconCircleButton(Icons.Default.Palette, "Themes", onThemePicker)
             }
         }
     }
