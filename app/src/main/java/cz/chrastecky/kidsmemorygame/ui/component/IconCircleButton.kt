@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
+import cz.chrastecky.kidsmemorygame.ui.theme.ButtonBackground
 import cz.chrastecky.kidsmemorygame.ui.theme.CardBackground
 import cz.chrastecky.kidsmemorygame.ui.theme.CardBorder
 
@@ -26,7 +27,7 @@ fun IconCircleButton(
     Surface(
         shape = CircleShape,
         tonalElevation = 6.dp,
-        color = CardBackground,
+        color = ButtonBackground,
         shadowElevation = 4.dp,
         modifier = Modifier
             .size(64.dp)
