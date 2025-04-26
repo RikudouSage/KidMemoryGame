@@ -1,6 +1,7 @@
 package cz.chrastecky.kidsmemorygame.ui.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,12 +23,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cz.chrastecky.kidsmemorygame.R
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
+import cz.chrastecky.kidsmemorygame.ui.theme.CardBorder
+import cz.chrastecky.kidsmemorygame.ui.theme.TextOnBackgroundColor
 
 @Composable
 fun WinPopup(
@@ -49,24 +54,31 @@ fun WinPopup(
                 modifier = Modifier
                     .wrapContentSize()
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                Box(
                     modifier = Modifier
-                        .padding(top = 32.dp, bottom = 64.dp, start = 24.dp, end = 24.dp)
+                        .background(BackgroundColor)
+                        .clip(RoundedCornerShape(32.dp)) // Clip BOTH background and content!
                 ) {
-                    Text(
-                        text = stringResource(R.string.win_dialog_title),
-                        style = MaterialTheme.typography.headlineLarge,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .padding(top = 32.dp, bottom = 64.dp, start = 24.dp, end = 24.dp)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.win_dialog_title),
+                            style = MaterialTheme.typography.headlineLarge,
+                            color = TextOnBackgroundColor,
+                        )
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                    Text(
-                        text = stringResource(R.string.win_dialog_content),
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.bodyLarge,
-                    )
+                        Text(
+                            text = stringResource(R.string.win_dialog_content),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = TextOnBackgroundColor,
+                        )
+                    }
                 }
             }
 
