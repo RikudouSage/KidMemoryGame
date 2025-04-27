@@ -1,9 +1,6 @@
 package cz.chrastecky.kidsmemorygame.ui.component
 
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -125,12 +122,14 @@ private fun Mascot(
 ) {
     // unrotated width / target size
     val nominal = 150.dp.value / 1024f
-    val size = (mascot.image.width * nominal).dp
+
+    val width = (mascot.image.width * nominal).dp
+    val height = (mascot.image.height * nominal).dp
 
     val min = (-110).dp
     val max = 110.dp
 
-    val upPosition = (-130).dp
+    val upPosition = -height - 36.dp
     val downPosition = 0.dp
 
     var targetY by remember { mutableStateOf(downPosition) }
@@ -159,7 +158,7 @@ private fun Mascot(
         bitmap = mascot.image.asImageBitmap(),
         contentDescription = null,
         modifier = Modifier
-            .size(size)
+            .size(width, height)
             .offset {IntOffset(0, y.roundToPx())}
             .offset {IntOffset(targetX.roundToPx(), 0)}
     )
