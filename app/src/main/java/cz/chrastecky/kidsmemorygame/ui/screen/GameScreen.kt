@@ -37,6 +37,8 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -254,11 +256,39 @@ private fun GameScreenMain(
             }
         }
 
+        val density = LocalDensity.current
+        val layoutDirection = LocalLayoutDirection.current
+
         Box(
             contentAlignment = Alignment.TopStart,
             modifier = Modifier
                 .fillMaxSize()
-                .windowInsetsPadding(WindowInsets.safeDrawing)
+                .padding(
+                    start = maxOf(
+                        with(density) {
+                            WindowInsets.safeDrawing.getLeft(density, layoutDirection).toDp()
+                        },
+                        32.dp,
+                    ),
+                    end = maxOf(
+                        with(density) {
+                            WindowInsets.safeDrawing.getRight(density, layoutDirection).toDp()
+                        },
+                        32.dp,
+                    ),
+                    top = maxOf(
+                        with(density) {
+                            WindowInsets.safeDrawing.getTop(density).toDp()
+                        },
+                        32.dp,
+                    ),
+                    bottom = maxOf(
+                        with(density) {
+                            WindowInsets.safeDrawing.getBottom(density).toDp()
+                        },
+                        32.dp,
+                    )
+                )
         ) {
             IconCircleButton(
                 icon = Icons.Default.Sync,
