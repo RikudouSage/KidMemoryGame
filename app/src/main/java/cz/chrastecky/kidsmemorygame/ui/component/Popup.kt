@@ -5,6 +5,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,11 +38,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import cz.chrastecky.kidsmemorygame.R
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeMascot
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
 import cz.chrastecky.kidsmemorygame.ui.theme.CardBackground
@@ -58,13 +58,15 @@ fun Popup(
     showConfetti: Boolean,
     title: String,
     content: String,
+    onClickOutside: () -> Unit
 ) {
     Box(
+        contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.75f)), // dim background
-        contentAlignment = Alignment.Center
-    ) {
+            .background(Color.Black.copy(alpha = 0.75f))
+            .clickable { onClickOutside() }
+        ) {
         if (showConfetti) {
             ConfettiOverlay()
         }
@@ -77,12 +79,21 @@ fun Popup(
                 shape = RoundedCornerShape(32.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
                 modifier = Modifier
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        onClick = {}
+                    )
                     .wrapContentSize()
             ) {
                 Box(
                     modifier = Modifier
                         .background(CardBackground)
-                        .border(width = 6.dp, color = BackgroundColor, shape = RoundedCornerShape(32.dp))
+                        .border(
+                            width = 6.dp,
+                            color = BackgroundColor,
+                            shape = RoundedCornerShape(32.dp)
+                        )
                         .clip(RoundedCornerShape(32.dp)) // Clip BOTH background and content!
                 ) {
                     Column(
@@ -115,9 +126,9 @@ fun Popup(
                     .offset(y = 32.dp), // Protrude buttons
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                IconCircleButton(Icons.Default.Refresh, "New Game", onNewGame)
-                IconCircleButton(Icons.Default.GridView, "Grid Size", onChangeSize)
-                IconCircleButton(Icons.Default.Palette, "Themes", onThemePicker)
+                IconCircleButton(Icons.Default.Refresh, "New Game", onClick = onNewGame)
+                IconCircleButton(Icons.Default.GridView, "Grid Size", onClick = onChangeSize)
+                IconCircleButton(Icons.Default.Palette, "Themes", onClick = onThemePicker)
             }
         }
     }

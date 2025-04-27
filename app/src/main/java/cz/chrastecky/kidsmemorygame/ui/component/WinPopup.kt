@@ -20,5 +20,5 @@ fun WinPopup(
         showConfetti = true,
         title = stringResource(R.string.win_dialog_title),
         content = stringResource(R.string.win_dialog_content),
-    )
+    ) {}
 }

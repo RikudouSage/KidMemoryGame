@@ -12,26 +12,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
 import cz.chrastecky.kidsmemorygame.ui.theme.ButtonBackground
-import cz.chrastecky.kidsmemorygame.ui.theme.CardBackground
-import cz.chrastecky.kidsmemorygame.ui.theme.CardBorder
 
 @Composable
 fun IconCircleButton(
     icon: ImageVector,
     contentDescription: String,
-    onClick: () -> Unit
+    modifier: Modifier = Modifier,
+    size: Dp = 64.dp,
+    backgroundColor: Color = ButtonBackground,
+    borderColor: Color = BackgroundColor,
+    onClick: () -> Unit,
 ) {
     Surface(
         shape = CircleShape,
-        tonalElevation = 6.dp,
-        color = ButtonBackground,
-        shadowElevation = 4.dp,
-        modifier = Modifier
-            .size(64.dp)
-            .border(width = 6.dp, color = BackgroundColor, shape = CircleShape)
+        tonalElevation = size / 10,
+        color = backgroundColor,
+        shadowElevation = size / 16,
+        modifier = modifier
+            .size(size)
+            .border(width = size / 10, color = borderColor, shape = CircleShape)
             .clickable { onClick() }
     ) {
         Box(contentAlignment = Alignment.Center) {
@@ -39,7 +42,7 @@ fun IconCircleButton(
                 imageVector = icon,
                 contentDescription = contentDescription,
                 tint = Color.Black,
-                modifier = Modifier.size(32.dp),
+                modifier = Modifier.size(size / 2),
             )
         }
     }

@@ -11,13 +11,18 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Sync
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,11 +32,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import cz.chrastecky.kidsmemorygame.R
@@ -40,9 +47,12 @@ import cz.chrastecky.kidsmemorygame.enums.SharedPreferenceName
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeDetail
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.component.GameCard
+import cz.chrastecky.kidsmemorygame.ui.component.IconCircleButton
+import cz.chrastecky.kidsmemorygame.ui.component.Popup
 import cz.chrastecky.kidsmemorygame.ui.component.WinPopup
 import cz.chrastecky.kidsmemorygame.ui.dto.GameCardData
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
+import cz.chrastecky.kidsmemorygame.ui.theme.ButtonBackground
 import cz.chrastecky.kidsmemorygame.ui.theme.ResetAnimationSpeed
 import kotlinx.coroutines.delay
 
@@ -131,6 +141,7 @@ private fun GameScreenMain(
         }
     }
     var resetTrigger by remember { mutableStateOf(false) }
+    var showMenu by remember { mutableStateOf(false) }
     val mascot by remember { mutableStateOf(theme.mascots.shuffled().first()) }
 
     val columns = gameSize.columns().toInt()
@@ -243,20 +254,51 @@ private fun GameScreenMain(
             }
         }
 
+        Box(
+            contentAlignment = Alignment.TopStart,
+            modifier = Modifier
+                .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.safeDrawing)
+        ) {
+            IconCircleButton(
+                icon = Icons.Default.Sync,
+                contentDescription = stringResource(R.string.settings_button),
+                size = 32.dp,
+                backgroundColor = ButtonBackground.copy(alpha = 0.8f),
+                borderColor = Color.Transparent,
+            ) {
+                showMenu = true
+            }
+        }
+
+        fun onNewGame() {
+            cards = emptyList()
+            onRequestReset()
+        }
+
         if (hasWon) {
             WinPopup(
                 mascot = mascot,
-                onNewGame = {
-                    cards = emptyList()
-                    onRequestReset()
-                },
+                onNewGame = { onNewGame() },
                 onChangeSize = {
                     // todo
                 },
-                onThemePicker = {
-                    onThemeChangeRequested();
-                }
+                onThemePicker = { onThemeChangeRequested() }
             )
+        } else if (showMenu) {
+            Popup(
+                mascot = null,
+                onNewGame = { onNewGame() },
+                onChangeSize = {
+                    // todo
+                },
+                onThemePicker = { onThemeChangeRequested() },
+                showConfetti = false,
+                title = stringResource(R.string.settings),
+                content = stringResource(R.string.settings_description)
+            ) {
+                showMenu = false
+            }
         }
     }
 }

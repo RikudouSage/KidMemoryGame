@@ -3,9 +3,12 @@
     <string name="app_name">Pexeso pro děti</string>
     <string name="error_prefix">Nastala  chyba: %s</string>
     <string name="button_retry">Zkusit znovu</string>
-    <string name="win_dialog_title">🎉 Vyhráli jste! 🎉</string>
+    <string name="win_dialog_title">🎉 Vyhráváš! 🎉</string>
     <string name="win_dialog_content">Skvělá práce! Co chceš dělat teď?</string>
     <string name="new_game_button">Nová hra</string>
     <string name="grid_size_button">Změnit velikost</string>
     <string name="change_theme_button">Změnit téma</string>
+    <string name="settings_button">Nastavení</string>
+    <string name="settings">Nastavení hry</string>
+    <string name="settings_description">Vyber si, co chceš dělat!</string>
 </resources>

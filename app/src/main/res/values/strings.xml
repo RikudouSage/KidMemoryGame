@@ -7,4 +7,7 @@
     <string name="new_game_button">New Game</string>
     <string name="grid_size_button">Change Grid Size</string>
     <string name="change_theme_button">Change Theme</string>
+    <string name="settings_button">Settings</string>
+    <string name="settings">Game Options</string>
+    <string name="settings_description">Pick what you’d like to do!</string>
 </resources>
