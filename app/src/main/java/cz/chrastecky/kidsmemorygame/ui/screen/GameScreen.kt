@@ -124,11 +124,12 @@ fun GameScreenMain(
         }
     }
     var resetTrigger by remember { mutableStateOf(false) }
+    val mascot by remember { mutableStateOf(theme.mascots.shuffled().first()) }
 
     val columns = gameSize.columns().toInt()
     val rows = gameSize.rows().toInt()
     val cardCount = (columns * rows) / 2
-    val hasWon = cards.isNotEmpty() && cards.all { it.isMatched } || true
+    val hasWon = cards.isNotEmpty() && cards.all { it.isMatched }// || true
 
     LaunchedEffect(theme.id, cardCount) {
         val selectedImages = theme.cards.shuffled().subList(0, cardCount)
@@ -234,6 +235,7 @@ fun GameScreenMain(
         // must be last otherwise the confetti are below the cards
         if (hasWon) {
             WinPopup(
+                mascot = mascot,
                 onNewGame = {
                     cards = emptyList()
                     onRequestReset()

@@ -8,4 +8,5 @@ data class ThemeDetail(
     val background: Bitmap,
     val cards: List<Bitmap>,
     val icon: Bitmap,
+    val mascots: List<ThemeMascot>,
 )

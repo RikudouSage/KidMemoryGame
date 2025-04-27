@@ -4,8 +4,13 @@ import android.content.res.AssetManager
 import android.graphics.BitmapFactory
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import cz.chrastecky.kidsmemorygame.helper.asFloat
+import cz.chrastecky.kidsmemorygame.helper.asInt
+import cz.chrastecky.kidsmemorygame.helper.cropY
+import cz.chrastecky.kidsmemorygame.helper.rotate
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeDetail
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeInfo
+import cz.chrastecky.kidsmemorygame.theme_provider.ThemeMascot
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
 
 class LocalAssetsThemeProvider(
@@ -54,13 +59,34 @@ class LocalAssetsThemeProvider(
                 BitmapFactory.decodeStream(it)
             }
 
+            @Suppress("UNCHECKED_CAST")
+            val rawMascots = raw["mascots"] as List<Map<String, Any>>
+
+            val mascots = rawMascots.map {
+                val rotation = it["rotation"].asFloat()
+                val y = it["y"].asInt()
+
+                val path = basePath + "/" + it["image"]
+                val mascotImg = assetManager.open(path).use { res ->
+                    BitmapFactory.decodeStream(res)
+                }.rotate(rotation).cropY(y)
+
+                ThemeMascot(
+                    image = mascotImg,
+                    rotation = rotation,
+                    y = y,
+                )
+            }
+
             return ThemeDetail(
                 id = raw["id"]!! as String,
                 name = raw["name"]!! as String,
                 background = background,
                 cards = cards,
                 icon = icon,
+                mascots = mascots,
             )
         }
     }
 }
+
