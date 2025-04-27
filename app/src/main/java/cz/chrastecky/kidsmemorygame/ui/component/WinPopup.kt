@@ -46,6 +46,7 @@ fun WinPopup(
             .background(Color.Black.copy(alpha = 0.75f)), // dim background
         contentAlignment = Alignment.Center
     ) {
+        ConfettiOverlay()
         Box(contentAlignment = Alignment.TopCenter) {
             // Card
             Card(
