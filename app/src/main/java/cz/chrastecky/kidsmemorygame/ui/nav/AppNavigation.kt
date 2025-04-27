@@ -10,9 +10,11 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.core.content.edit
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import cz.chrastecky.kidsmemorygame.enums.SharedPreferenceName
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeInfo
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.screen.ErrorScreen
@@ -60,10 +62,22 @@ fun AppNavigation(
         }
 
         composable("picker") {
+            val lastThemeId = sharedPreferences.getString(SharedPreferenceName.LastUsedTheme.name, null)
+            if (lastThemeId != null) {
+                navController.navigate("game/$lastThemeId") {
+                    popUpTo(0) { inclusive = true }
+                    launchSingleTop = true
+                }
+                return@composable
+            }
+
             ThemePickerScreen (
                 themes = themes ?: emptyList(), // shouldn't happen, but safe
                 onThemeSelected = { theme ->
-                    navController.navigate("game/${theme.id}")
+                    navController.navigate("game/${theme.id}") {
+                        popUpTo(0) { inclusive = true }
+                        launchSingleTop = true
+                    }
                 }
             )
         }
@@ -73,6 +87,7 @@ fun AppNavigation(
             enterTransition = { scaleIn() }
         ) { backStackEntry ->
             val themeId = backStackEntry.arguments?.getString("themeId")
+
             if (themeId != null) {
                 GameScreen(
                     themeId = themeId,
@@ -80,6 +95,16 @@ fun AppNavigation(
                     themeProvider = themeProvider,
                     reloadGameKey = reloadGameKey,
                     onRequestReset = { reloadGameKey++ },
+                    onThemeChangeRequested = {
+                        sharedPreferences.edit(true) {
+                            remove(SharedPreferenceName.LastUsedTheme.name)
+                        }
+
+                        navController.navigate("picker") {
+                            popUpTo(0) { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    }
                 )
             }
         }

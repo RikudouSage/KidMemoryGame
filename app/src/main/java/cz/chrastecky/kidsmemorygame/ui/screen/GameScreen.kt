@@ -32,8 +32,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.edit
 import cz.chrastecky.kidsmemorygame.R
 import cz.chrastecky.kidsmemorygame.enums.GameSize
+import cz.chrastecky.kidsmemorygame.enums.SharedPreferenceName
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeDetail
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.component.GameCard
@@ -51,6 +53,7 @@ fun GameScreen(
     themeProvider: ThemeProvider,
     reloadGameKey: Int,
     onRequestReset: () -> Unit,
+    onThemeChangeRequested: () -> Unit,
 ) {
     var theme by remember { mutableStateOf<ThemeDetail?>(null) }
     var background by remember { mutableStateOf<Bitmap?>(null) }
@@ -71,6 +74,7 @@ fun GameScreen(
                 background = background!!,
                 sharedPreferences = sharedPreferences,
                 onRequestReset = onRequestReset,
+                onThemeChangeRequested = onThemeChangeRequested,
             )
         }
     }
@@ -111,12 +115,13 @@ fun GameScreenMain(
     background: Bitmap,
     sharedPreferences: SharedPreferences,
     onRequestReset: () -> Unit,
+    onThemeChangeRequested: () -> Unit
 ) {
     var cards by remember { mutableStateOf<List<GameCardData>>(emptyList()) }
     var flippedCards by remember { mutableStateOf<List<Int>>(emptyList()) }
     val gameSize = remember {
         val default = GameSize.Size4x3
-        val storedSize = sharedPreferences.getString("game_size", default.name)!!
+        val storedSize = sharedPreferences.getString(SharedPreferenceName.GameSize.name, default.name)!!
         try {
             GameSize.valueOf(storedSize)
         } catch (e: IllegalArgumentException) {
@@ -132,6 +137,10 @@ fun GameScreenMain(
     val hasWon = cards.isNotEmpty() && cards.all { it.isMatched }// || true
 
     LaunchedEffect(theme.id, cardCount) {
+        sharedPreferences.edit {
+            putString(SharedPreferenceName.LastUsedTheme.name, theme.id)
+        }
+
         val selectedImages = theme.cards.shuffled().subList(0, cardCount)
         val mapped = selectedImages.mapIndexed { index, image ->
             GameCardData(
@@ -244,10 +253,7 @@ fun GameScreenMain(
                     // todo
                 },
                 onThemePicker = {
-                    // Use a callback or navigation command
-                    // This depends on how you're navigating
-                    // Example with NavController:
-                    // navController.navigate("picker") { popUpTo("game/$themeId") { inclusive = true } }
+                    onThemeChangeRequested();
                 }
             )
         }
