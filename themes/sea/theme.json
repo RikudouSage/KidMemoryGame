@@ -4,6 +4,7 @@
   "background" : "background.webp",
   "cards" : [
     "cards/anglerfish.png",
+    "cards/blue-tang.png",
     "cards/clownfish.png",
     "cards/crab.png",
     "cards/dolphin.png",
@@ -14,6 +15,7 @@
     "cards/manta-ray.png",
     "cards/octopus.png",
     "cards/orca.png",
+    "cards/penguin.png",
     "cards/pufflefish.png",
     "cards/sea_lion.png",
     "cards/seal.png",
@@ -28,6 +30,21 @@
       "image" : "cards/dolphin.png",
       "rotation" : 45,
       "y" : 666
+    },
+    {
+      "image" : "cards/jellyfish.png",
+      "rotation" : 0,
+      "y" : 505
+    },
+    {
+      "image" : "cards/lobster.png",
+      "rotation" : 0,
+      "y" : 560
+    },
+    {
+      "image" : "cards/penguin.png",
+      "rotation" : 0,
+      "y" : 480
     },
     {
       "image" : "cards/starfish.png",
