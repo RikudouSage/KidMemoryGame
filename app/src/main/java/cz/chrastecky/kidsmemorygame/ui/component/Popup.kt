@@ -30,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -38,6 +39,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -60,19 +63,26 @@ fun Popup(
     content: String,
     onClickOutside: () -> Unit
 ) {
+    var boxWidth by remember { mutableIntStateOf(0) }
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black.copy(alpha = 0.75f))
             .clickable { onClickOutside() }
-        ) {
+    ) {
         if (showConfetti) {
             ConfettiOverlay()
         }
-        Box(contentAlignment = Alignment.TopCenter) {
-            if (mascot != null) {
-                Mascot(mascot)
+        Box(
+            contentAlignment = Alignment.TopCenter,
+            modifier = Modifier.onGloballyPositioned {
+                boxWidth = it.size.width
+            }
+        ) {
+            if (mascot != null && boxWidth != 0) {
+                Mascot(mascot, boxWidth)
             }
             // Card
             Card(
@@ -137,15 +147,20 @@ fun Popup(
 @Composable
 private fun Mascot(
     mascot: ThemeMascot,
+    parentWidth: Int,
 ) {
     // unrotated width / target size
     val nominal = 150.dp.value / 1024f
+    val density = LocalDensity.current
 
     val width = (mascot.image.width * nominal).dp
     val height = (mascot.image.height * nominal).dp
 
-    val min = (-110).dp
-    val max = 110.dp
+    val mascotWidthPx = with(density) { width.toPx() }
+
+    val availableSpace = parentWidth - mascotWidthPx
+    val min = -(availableSpace / 2)
+    val max = (availableSpace / 2)
 
     val upPosition = -height
     val downPosition = 0.dp
@@ -165,7 +180,9 @@ private fun Mascot(
 
         while (true) {
             delay(3000)
-            targetX = (Random.nextFloat() * (max.value - min.value) + min.value).dp
+            targetX = with(density) {
+                (Random.nextFloat() * (max - min) + min).toDp()
+            }
             targetY = upPosition
             delay(3000)
             targetY = downPosition
