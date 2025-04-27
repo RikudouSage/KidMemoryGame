@@ -83,7 +83,7 @@ fun GameScreen(
 }
 
 @Composable
-fun GameScreenLoader(
+private fun GameScreenLoader(
     themeId: String,
     themeProvider: ThemeProvider,
     onLoaded: (ThemeDetail, Bitmap) -> Unit
@@ -112,7 +112,7 @@ fun GameScreenLoader(
 }
 
 @Composable
-fun GameScreenMain(
+private fun GameScreenMain(
     theme: ThemeDetail,
     background: Bitmap,
     sharedPreferences: SharedPreferences,
