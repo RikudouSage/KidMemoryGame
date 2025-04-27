@@ -62,9 +62,9 @@ fun WinPopup(
             .background(Color.Black.copy(alpha = 0.75f)), // dim background
         contentAlignment = Alignment.Center
     ) {
-        Mascot(mascot)
         ConfettiOverlay()
         Box(contentAlignment = Alignment.TopCenter) {
+            Mascot(mascot)
             // Card
             Card(
                 shape = RoundedCornerShape(32.dp),
@@ -118,7 +118,7 @@ fun WinPopup(
 
 @Composable
 private fun Mascot(
-    mascot: ThemeMascot
+    mascot: ThemeMascot,
 ) {
     // unrotated width / target size
     val nominal = 150.dp.value / 1024f
@@ -129,7 +129,7 @@ private fun Mascot(
     val min = (-110).dp
     val max = 110.dp
 
-    val upPosition = -height - 36.dp
+    val upPosition = -height
     val downPosition = 0.dp
 
     var targetY by remember { mutableStateOf(downPosition) }
