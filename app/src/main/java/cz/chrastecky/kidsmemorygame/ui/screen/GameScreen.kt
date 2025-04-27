@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -58,24 +59,25 @@ fun GameScreen(
     var theme by remember { mutableStateOf<ThemeDetail?>(null) }
     var background by remember { mutableStateOf<Bitmap?>(null) }
 
-    when {
-        theme == null -> GameScreenLoader(themeId, themeProvider) { themeDetail, bitmap ->
-            theme = themeDetail
-            background = bitmap
-        }
-
-        else -> Crossfade(
-            targetState = reloadGameKey,
-            animationSpec = tween(durationMillis = ResetAnimationSpeed),
-            label = "game fade"
-        ) {
-            GameScreenMain(
-                theme = theme!!,
-                background = background!!,
-                sharedPreferences = sharedPreferences,
-                onRequestReset = onRequestReset,
-                onThemeChangeRequested = onThemeChangeRequested,
-            )
+    Crossfade(
+        targetState = theme != null,
+        animationSpec = tween(durationMillis = ResetAnimationSpeed),
+    ) { loaded ->
+        if (!loaded) {
+            GameScreenLoader(themeId, themeProvider) { themeDetail, bitmap ->
+                background = bitmap
+                theme = themeDetail
+            }
+        } else {
+            key(reloadGameKey) {
+                GameScreenMain(
+                    theme = theme!!,
+                    background = background!!,
+                    sharedPreferences = sharedPreferences,
+                    onRequestReset = onRequestReset,
+                    onThemeChangeRequested = onThemeChangeRequested,
+                )
+            }
         }
     }
 }
@@ -115,7 +117,7 @@ fun GameScreenMain(
     background: Bitmap,
     sharedPreferences: SharedPreferences,
     onRequestReset: () -> Unit,
-    onThemeChangeRequested: () -> Unit
+    onThemeChangeRequested: () -> Unit,
 ) {
     var cards by remember { mutableStateOf<List<GameCardData>>(emptyList()) }
     var flippedCards by remember { mutableStateOf<List<Int>>(emptyList()) }
@@ -241,7 +243,6 @@ fun GameScreenMain(
             }
         }
 
-        // must be last otherwise the confetti are below the cards
         if (hasWon) {
             WinPopup(
                 mascot = mascot,
