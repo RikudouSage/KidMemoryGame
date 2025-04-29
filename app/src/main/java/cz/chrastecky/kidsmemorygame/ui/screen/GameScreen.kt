@@ -336,12 +336,10 @@ private fun GameScreenMain(
             ) { newSize ->
                 showChangeSizeMenu = false
 
-                if (newSize != gameSize) {
-                    sharedPreferences.edit {
-                        putString(SharedPreferenceName.GameSize.name, newSize.name)
-                    }
-                    onRequestReset()
+                sharedPreferences.edit {
+                    putString(SharedPreferenceName.GameSize.name, newSize.name)
                 }
+                onRequestReset()
             }
         }
     }
