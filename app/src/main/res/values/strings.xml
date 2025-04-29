@@ -10,4 +10,6 @@
     <string name="settings_button">Settings</string>
     <string name="settings">Game Options</string>
     <string name="settings_description">Pick what you’d like to do!</string>
+    <string name="change_grid_size_title">Change size</string>
+    <string name="change_grid_size_content">Choose the size below!</string>
 </resources>

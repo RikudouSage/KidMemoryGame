@@ -47,6 +47,7 @@ import cz.chrastecky.kidsmemorygame.enums.GameSize
 import cz.chrastecky.kidsmemorygame.enums.SharedPreferenceName
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeDetail
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
+import cz.chrastecky.kidsmemorygame.ui.component.ChangeSizePopup
 import cz.chrastecky.kidsmemorygame.ui.component.GameCard
 import cz.chrastecky.kidsmemorygame.ui.component.IconCircleButton
 import cz.chrastecky.kidsmemorygame.ui.component.ResetGamePopup
@@ -142,7 +143,7 @@ private fun GameScreenMain(
         }
     }
     var resetTrigger by remember { mutableStateOf(false) }
-    var showMenu by remember { mutableStateOf(false) }
+    var showSettingsMenu by remember { mutableStateOf(false) }
     var showChangeSizeMenu by remember { mutableStateOf(false) }
     val mascot by remember { mutableStateOf(theme.mascots.shuffled().first()) }
 
@@ -297,7 +298,7 @@ private fun GameScreenMain(
                 backgroundColor = ButtonBackground.copy(alpha = 0.8f),
                 borderColor = Color.Transparent,
             ) {
-                showMenu = true
+                showSettingsMenu = true
             }
         }
 
@@ -315,15 +316,20 @@ private fun GameScreenMain(
                 },
                 onThemePicker = { onThemeChangeRequested() }
             )
-        } else if (showMenu) {
+        } else if (showSettingsMenu) {
             ResetGamePopup(
                 onNewGame = { onNewGame() },
                 onChangeSize = {
                     showChangeSizeMenu = true
-                    showMenu = false
                 },
                 onThemePicker = { onThemeChangeRequested() },
-                onClickOutside = {showMenu = false},
+                onClickOutside = {showSettingsMenu = false},
+            )
+        }
+
+        if (showChangeSizeMenu) {
+            ChangeSizePopup(
+                onClickOutside = {showChangeSizeMenu = false},
             )
         }
     }

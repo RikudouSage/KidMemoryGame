@@ -11,4 +11,6 @@
     <string name="settings_button">Nastavení</string>
     <string name="settings">Nastavení hry</string>
     <string name="settings_description">Vyber si, co chceš dělat!</string>
+    <string name="change_grid_size_title">Změnit velikost</string>
+    <string name="change_grid_size_content">Vyber si dole velikost!</string>
 </resources>

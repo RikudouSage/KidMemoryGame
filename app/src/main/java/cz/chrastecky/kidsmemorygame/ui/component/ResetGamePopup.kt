@@ -22,8 +22,6 @@ fun ResetGamePopup(
     onClickOutside: () -> Unit,
 ) {
     Popup(
-        mascot = null,
-        showConfetti = false,
         title = stringResource(R.string.settings),
         bodyText = stringResource(R.string.settings_description),
         onClickOutside = onClickOutside,

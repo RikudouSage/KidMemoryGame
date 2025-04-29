@@ -28,7 +28,6 @@ fun WinPopup(
         showConfetti = true,
         title = stringResource(R.string.win_dialog_title),
         bodyText = stringResource(R.string.win_dialog_content),
-        onClickOutside = {},
     ) {
         Row(
             modifier = Modifier

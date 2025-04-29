@@ -49,11 +49,12 @@ import kotlin.random.Random
 
 @Composable
 fun Popup(
-    mascot: ThemeMascot?,
-    showConfetti: Boolean,
     title: String,
     bodyText: String,
-    onClickOutside: () -> Unit,
+    showConfetti: Boolean = false,
+    showDimmer: Boolean = true,
+    onClickOutside: (() -> Unit) = {},
+    mascot: ThemeMascot? = null,
     content: (@Composable BoxScope.() -> Unit)? = null,
 ) {
     var boxWidth by remember { mutableIntStateOf(0) }
@@ -62,7 +63,7 @@ fun Popup(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.75f))
+            .background(Color.Black.copy(alpha = if (showDimmer) 0.75f else 0f))
             .clickable { onClickOutside() }
     ) {
         if (showConfetti) {
