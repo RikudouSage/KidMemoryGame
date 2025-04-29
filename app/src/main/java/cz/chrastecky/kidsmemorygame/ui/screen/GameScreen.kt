@@ -198,11 +198,12 @@ private fun GameScreenMain(
                 .padding(horizontal = 100.dp, vertical = 40.dp)
                 .fillMaxSize()
         ) {
-            val maxCardWidth = maxWidth / columns - 16.dp
-            val maxCardHeight = maxHeight / rows - 16.dp
+            val spacing = 32.dp / columns
+
+            val maxCardWidth = maxWidth / columns - spacing
+            val maxCardHeight = maxHeight / rows - spacing
             val cardSize = minOf(maxCardWidth, maxCardHeight)
 
-            val spacing = 16.dp
             val gridWidth = (cardSize + spacing) * columns - spacing
 
             Box(
