@@ -1,0 +1,36 @@
+{
+  "id" : "dinosaurs",
+  "name" : "Dinosaurs",
+  "background" : "background.png",
+  "cards" : [
+    "cards/ankylosaurus.png",
+    "cards/brachiosaurus.png",
+    "cards/carnotaurus.png",
+    "cards/pachycephalosaurus.png",
+    "cards/parasaurolophus.png",
+    "cards/pterodactylus.png",
+    "cards/spinosaurus.png",
+    "cards/stegosaurus.png",
+    "cards/t-rex.png",
+    "cards/triceratops.png",
+    "cards/velociraptor.png"
+  ],
+  "icon" : "cards/t-rex.png",
+  "mascots" : [
+    {
+      "image" : "cards/pterodactylus.png",
+      "rotation" : 0,
+      "y" : 600
+    },
+    {
+      "image" : "cards/t-rex.png",
+      "rotation" : 0,
+      "y" : 495
+    },
+    {
+      "image" : "cards/velociraptor.png",
+      "rotation" : 45,
+      "y" : 597
+    }
+  ]
+}

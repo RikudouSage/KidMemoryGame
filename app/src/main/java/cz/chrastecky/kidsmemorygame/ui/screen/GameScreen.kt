@@ -136,8 +136,18 @@ private fun GameScreenMain(
     val gameSize = remember {
         val default = GameSize.Size4x3
         val storedSize = sharedPreferences.getString(SharedPreferenceName.GameSize.name, default.name)!!
+
         try {
-            GameSize.valueOf(storedSize)
+            var storedSizeEnum = GameSize.valueOf(storedSize)
+            val requiredImageCount = (storedSizeEnum.columns() * storedSizeEnum.rows()) / 2u
+            if (theme.cards.size.toUInt() < requiredImageCount) {
+                storedSizeEnum = GameSize.Size4x3
+                sharedPreferences.edit {
+                    putString(SharedPreferenceName.GameSize.name, storedSizeEnum.name)
+                }
+            }
+
+            storedSizeEnum
         } catch (e: IllegalArgumentException) {
             default
         }

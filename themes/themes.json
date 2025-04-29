@@ -4,5 +4,11 @@
     "name" : "Sea Creatures",
     "configPath" : "sea/theme.json",
     "icon" : "cards/turtle.png"
+  },
+  {
+    "id" : "dinosaurs",
+    "name" : "Dinosaurs",
+    "configPath" : "dinosaurs/theme.json",
+    "icon" : "cards/t-rex.png"
   }
 ]
