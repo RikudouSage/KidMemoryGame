@@ -75,7 +75,7 @@ jobs:
         run: |
           mv full/*.apk cz.chrastecky.kidsmemorygame_${{ steps.extract_name.outputs.result }}_full.apk
       - name: Create a release
-        uses: softprops/action-gh-release@v2.0.4
+        uses: softprops/action-gh-release@v2.2.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
