@@ -34,7 +34,7 @@ fun ChangeSizePopup(
             totalCardsAmount >= requiredItemsAmount
         }
         val itemsPerRow = 3
-        val itemSize = 100.dp
+        val itemSize = 80.dp
         val spacing = 16.dp
 
         BoxWithConstraints {

@@ -28,16 +28,16 @@ enum class GameSize : HasColumns, HasRows {
         override fun columns(): UInt = 6u
         override fun rows(): UInt = 5u
     },
-    Size7x5 {
-        override fun columns(): UInt = 7u
-        override fun rows(): UInt = 5u
-    },
-    Size8x5 {
-        override fun columns(): UInt = 8u
-        override fun rows(): UInt = 5u
-    },
-    Size8x6 {
-        override fun columns(): UInt = 8u
-        override fun rows(): UInt = 6u
-    }
+//    Size7x5 {
+//        override fun columns(): UInt = 7u
+//        override fun rows(): UInt = 5u
+//    },
+//    Size8x5 {
+//        override fun columns(): UInt = 8u
+//        override fun rows(): UInt = 5u
+//    },
+//    Size8x6 {
+//        override fun columns(): UInt = 8u
+//        override fun rows(): UInt = 6u
+//    }
 }
