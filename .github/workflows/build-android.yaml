@@ -80,6 +80,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           name: ${{ steps.extract_name.outputs.result }}
+          body: |
+            The `full` variant contains all the images inside the apk and thus is larger.
           draft: false
           prerelease: false
           fail_on_unmatched_files: true
