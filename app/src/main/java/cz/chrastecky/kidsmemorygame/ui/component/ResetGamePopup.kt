@@ -13,22 +13,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cz.chrastecky.kidsmemorygame.R
-import cz.chrastecky.kidsmemorygame.theme_provider.ThemeMascot
-
 
 @Composable
-fun WinPopup(
-    mascot: ThemeMascot,
+fun ResetGamePopup(
     onNewGame: () -> Unit,
     onChangeSize: () -> Unit,
-    onThemePicker: () -> Unit
+    onThemePicker: () -> Unit,
+    onClickOutside: () -> Unit,
 ) {
     Popup(
-        mascot = mascot,
-        showConfetti = true,
-        title = stringResource(R.string.win_dialog_title),
-        bodyText = stringResource(R.string.win_dialog_content),
-        onClickOutside = {},
+        mascot = null,
+        showConfetti = false,
+        title = stringResource(R.string.settings),
+        bodyText = stringResource(R.string.settings_description),
+        onClickOutside = onClickOutside,
     ) {
         Row(
             modifier = Modifier

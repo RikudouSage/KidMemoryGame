@@ -49,7 +49,7 @@ import cz.chrastecky.kidsmemorygame.theme_provider.ThemeDetail
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.component.GameCard
 import cz.chrastecky.kidsmemorygame.ui.component.IconCircleButton
-import cz.chrastecky.kidsmemorygame.ui.component.Popup
+import cz.chrastecky.kidsmemorygame.ui.component.ResetGamePopup
 import cz.chrastecky.kidsmemorygame.ui.component.WinPopup
 import cz.chrastecky.kidsmemorygame.ui.dto.GameCardData
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
@@ -143,6 +143,7 @@ private fun GameScreenMain(
     }
     var resetTrigger by remember { mutableStateOf(false) }
     var showMenu by remember { mutableStateOf(false) }
+    var showChangeSizeMenu by remember { mutableStateOf(false) }
     val mascot by remember { mutableStateOf(theme.mascots.shuffled().first()) }
 
     val columns = gameSize.columns().toInt()
@@ -310,24 +311,20 @@ private fun GameScreenMain(
                 mascot = mascot,
                 onNewGame = { onNewGame() },
                 onChangeSize = {
-                    // todo
+                    showChangeSizeMenu = true
                 },
                 onThemePicker = { onThemeChangeRequested() }
             )
         } else if (showMenu) {
-            Popup(
-                mascot = null,
+            ResetGamePopup(
                 onNewGame = { onNewGame() },
                 onChangeSize = {
-                    // todo
+                    showChangeSizeMenu = true
+                    showMenu = false
                 },
                 onThemePicker = { onThemeChangeRequested() },
-                showConfetti = false,
-                title = stringResource(R.string.settings),
-                content = stringResource(R.string.settings_description)
-            ) {
-                showMenu = false
-            }
+                onClickOutside = {showMenu = false},
+            )
         }
     }
 }

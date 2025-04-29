@@ -7,10 +7,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -19,10 +18,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.GridView
-import androidx.compose.material.icons.filled.Palette
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -55,13 +50,11 @@ import kotlin.random.Random
 @Composable
 fun Popup(
     mascot: ThemeMascot?,
-    onNewGame: () -> Unit,
-    onChangeSize: () -> Unit,
-    onThemePicker: () -> Unit,
     showConfetti: Boolean,
     title: String,
-    content: String,
-    onClickOutside: () -> Unit
+    bodyText: String,
+    onClickOutside: () -> Unit,
+    content: (@Composable BoxScope.() -> Unit)? = null,
 ) {
     var boxWidth by remember { mutableIntStateOf(0) }
 
@@ -120,7 +113,7 @@ fun Popup(
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Text(
-                            text = content,
+                            text = bodyText,
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.bodyLarge,
                             color = TextOnBackgroundColor,
@@ -129,17 +122,7 @@ fun Popup(
                 }
             }
 
-            // Buttons
-            Row(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .offset(y = 32.dp), // Protrude buttons
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                IconCircleButton(Icons.Default.Refresh, "New Game", onClick = onNewGame)
-                IconCircleButton(Icons.Default.GridView, "Grid Size", onClick = onChangeSize)
-                IconCircleButton(Icons.Default.Palette, "Themes", onClick = onThemePicker)
-            }
+            content?.invoke(this)
         }
     }
 }
