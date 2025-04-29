@@ -144,7 +144,7 @@ private fun GameScreenMain(
     }
     var resetTrigger by remember { mutableStateOf(false) }
     var showSettingsMenu by remember { mutableStateOf(false) }
-    var showChangeSizeMenu by remember { mutableStateOf(false) }
+    var showChangeSizeMenu by remember { mutableStateOf(true) }
     val mascot by remember { mutableStateOf(theme.mascots.shuffled().first()) }
 
     val columns = gameSize.columns().toInt()
@@ -329,8 +329,18 @@ private fun GameScreenMain(
 
         if (showChangeSizeMenu) {
             ChangeSizePopup(
+                background = background,
                 onClickOutside = {showChangeSizeMenu = false},
-            )
+            ) { newSize ->
+                showChangeSizeMenu = false
+
+                if (newSize != gameSize) {
+                    sharedPreferences.edit {
+                        putString(SharedPreferenceName.GameSize.name, newSize.name)
+                    }
+                    onRequestReset()
+                }
+            }
         }
     }
 }

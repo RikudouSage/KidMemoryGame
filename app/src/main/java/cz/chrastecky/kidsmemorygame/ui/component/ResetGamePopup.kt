@@ -25,16 +25,17 @@ fun ResetGamePopup(
         title = stringResource(R.string.settings),
         bodyText = stringResource(R.string.settings_description),
         onClickOutside = onClickOutside,
-    ) {
-        Row(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .offset(y = 32.dp), // Protrude buttons
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            IconCircleButton(Icons.Default.Refresh, "New Game", onClick = onNewGame)
-            IconCircleButton(Icons.Default.GridView, "Grid Size", onClick = onChangeSize)
-            IconCircleButton(Icons.Default.Palette, "Themes", onClick = onThemePicker)
+        buttons = {
+            Row(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .offset(y = 32.dp), // Protrude buttons
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                IconCircleButton(Icons.Default.Refresh, "New Game", onClick = onNewGame)
+                IconCircleButton(Icons.Default.GridView, "Grid Size", onClick = onChangeSize)
+                IconCircleButton(Icons.Default.Palette, "Themes", onClick = onThemePicker)
+            }
         }
-    }
+    )
 }

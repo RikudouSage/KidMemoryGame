@@ -55,6 +55,7 @@ fun Popup(
     showDimmer: Boolean = true,
     onClickOutside: (() -> Unit) = {},
     mascot: ThemeMascot? = null,
+    buttons: (@Composable BoxScope.() -> Unit)? = null,
     content: (@Composable BoxScope.() -> Unit)? = null,
 ) {
     var boxWidth by remember { mutableIntStateOf(0) }
@@ -99,7 +100,7 @@ fun Popup(
                             shape = RoundedCornerShape(32.dp)
                         )
                         .clip(RoundedCornerShape(32.dp)) // Clip BOTH background and content!
-                ) {
+                ) inner@ {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
@@ -119,11 +120,13 @@ fun Popup(
                             style = MaterialTheme.typography.bodyLarge,
                             color = TextOnBackgroundColor,
                         )
+
+                        content?.invoke(this@inner)
                     }
                 }
             }
 
-            content?.invoke(this)
+            buttons?.invoke(this)
         }
     }
 }
