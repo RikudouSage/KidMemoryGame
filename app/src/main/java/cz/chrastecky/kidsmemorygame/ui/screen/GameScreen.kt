@@ -144,7 +144,7 @@ private fun GameScreenMain(
     }
     var resetTrigger by remember { mutableStateOf(false) }
     var showSettingsMenu by remember { mutableStateOf(false) }
-    var showChangeSizeMenu by remember { mutableStateOf(true) }
+    var showChangeSizeMenu by remember { mutableStateOf(false) }
     val mascot by remember { mutableStateOf(theme.mascots.shuffled().first()) }
 
     val columns = gameSize.columns().toInt()
@@ -329,7 +329,8 @@ private fun GameScreenMain(
 
         if (showChangeSizeMenu) {
             ChangeSizePopup(
-                background = background,
+                background = theme.background,
+                totalCardsAmount = theme.cards.size.toUInt(),
                 onClickOutside = {showChangeSizeMenu = false},
             ) { newSize ->
                 showChangeSizeMenu = false
