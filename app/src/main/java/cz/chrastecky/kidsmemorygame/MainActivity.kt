@@ -1,11 +1,15 @@
 package cz.chrastecky.kidsmemorygame
 
-import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.view.WindowInsets
+import android.view.WindowInsetsController
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.theme_provider.provider.LocalAssetsThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.nav.AppNavigation
@@ -32,5 +36,14 @@ class MainActivity : ComponentActivity() {
                 AppNavigation(themeProvider, sharedPreferences)
             }
         }
+        hideSystemUI()
+    }
+
+    private fun hideSystemUI() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        val controller = WindowInsetsControllerCompat(window, window.decorView)
+        controller.hide(WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars())
+        controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
     }
 }
