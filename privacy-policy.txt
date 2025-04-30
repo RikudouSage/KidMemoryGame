@@ -1,0 +1,8 @@
+The Kids Memory Game app does not use or track any data on you. If you use the full version, the app
+does not have access to the internet and all data are downloaded locally.
+
+If you use the lite version, the app has access to the internet and downloads data from https://github.com.
+The requests are subject to their own privacy policy, typically they'd log you IP address or similar.
+
+If you use the Google Play version, the app itself doesn't have access to the internet but additional
+data (theme packs) may be downloaded by Google Play Services, subject to their own privacy policy.
