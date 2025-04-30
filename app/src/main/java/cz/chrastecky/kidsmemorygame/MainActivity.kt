@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.theme_provider.provider.LocalAssetsThemeProvider
+import cz.chrastecky.kidsmemorygame.theme_provider.provider.RemoteAssetsThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.nav.AppNavigation
 import cz.chrastecky.kidsmemorygame.ui.theme.KidsMemoryGameTheme
 
@@ -25,6 +26,7 @@ class MainActivity : ComponentActivity() {
 
         themeProvider = when (BuildConfig.FLAVOR) {
             "full" -> LocalAssetsThemeProvider(assets)
+            "lite" -> RemoteAssetsThemeProvider(this)
             else -> throw IllegalStateException("Unknown flavor: ${BuildConfig.FLAVOR}")
         }
 

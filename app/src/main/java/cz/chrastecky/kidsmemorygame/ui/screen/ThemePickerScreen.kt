@@ -21,13 +21,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import cz.chrastecky.kidsmemorygame.R
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeInfo
+import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.component.ThemeCard
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
 
 @Composable
 fun ThemePickerScreen(
     themes: List<ThemeInfo>,
-    onThemeSelected: (ThemeInfo) -> Unit
+    themeProvider: ThemeProvider,
+    onThemeSelected: (ThemeInfo, Boolean) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -56,7 +58,12 @@ fun ThemePickerScreen(
                     .align(Alignment.CenterHorizontally)
             ) {
                 items(themes) { theme ->
-                    ThemeCard(theme = theme, onClick = { onThemeSelected(theme) })
+                    ThemeCard(
+                        theme = theme,
+                        themeProvider = themeProvider,
+                    ) { isDownloaded ->
+                        onThemeSelected(theme, isDownloaded)
+                    }
                 }
             }
         }
