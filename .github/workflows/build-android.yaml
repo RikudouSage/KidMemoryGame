@@ -100,10 +100,7 @@ jobs:
             - The `full` variant contains all the images inside the apk and thus is larger.
             - The `lite` variant doesn't contain any card files but offers to download them.
             
-            Meaning the `full` variant is self-contained and doesn't need access to the internet at all
-            (in fact, it doesn't even have permission to access internet), while the `lite` version
-            has smaller size (and thus smaller download size for updates), but needs internet to
-            access the card data.
+            Meaning the `full` variant is self-contained and doesn't need access to the internet at all (in fact, it doesn't even have permission to access internet), while the `lite` version has smaller size (and thus smaller download size for updates), but needs internet to access the card data.
           draft: false
           prerelease: false
           fail_on_unmatched_files: true
