@@ -114,6 +114,19 @@ android.applicationVariants.all {
                 into(assetsDir)
             }
         }
+
+        variant.mergeAssetsProvider.configure {
+            doLast {
+                val destination = File(variant.mergeAssetsProvider.get().outputDir.asFile.get(), "themes/themes.json")
+                destination.parentFile.mkdirs()
+                val themesJson = File(rootDir, "themes/themes.json")
+
+                project.copy {
+                    from(themesJson)
+                    into(destination)
+                }
+            }
+        }
     }
 }
 
@@ -136,12 +149,18 @@ dependencies {
     implementation(libs.jackson.module.kotlin)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.material.icons.extended)
-    add("liteImplementation", libs.ktor.client.core)
-    add("liteImplementation", libs.ktor.client.cio)
-    add("liteImplementation", libs.ktor.client.content.negotiation)
-    add("liteImplementation", libs.ktor.serialization.kotlinx.json)
-    add("playstoreImplementation", libs.asset.delivery)
-    add("playstoreImplementation", libs.asset.delivery.ktx)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.asset.delivery)
+    implementation(libs.asset.delivery.ktx)
+//    add("liteImplementation", libs.ktor.client.core)
+//    add("liteImplementation", libs.ktor.client.cio)
+//    add("liteImplementation", libs.ktor.client.content.negotiation)
+//    add("liteImplementation", libs.ktor.serialization.kotlinx.json)
+//    add("playstoreImplementation", libs.asset.delivery)
+//    add("playstoreImplementation", libs.asset.delivery.ktx)
 }
 
 tasks.register("generateThemes") {
