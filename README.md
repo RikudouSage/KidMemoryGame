@@ -13,7 +13,6 @@ Built-in learning benefits:
 
 🧠 Improves memory & concentration
 🎨 Boosts visual recognition & pattern skills
-🤝 Encourages turn-taking with a 2-player “pass-and-play” mode
 
 [Download Memory Game](https://github.com/RikudouSage/KidMemoryGame/releases/latest) today and watch your little one light up as they learn! 🚀
 
