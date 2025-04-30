@@ -140,6 +140,7 @@ dependencies {
     add("liteImplementation", libs.ktor.client.cio)
     add("liteImplementation", libs.ktor.client.content.negotiation)
     add("liteImplementation", libs.ktor.serialization.kotlinx.json)
+    add("playstoreImplementation", libs.asset.delivery)
     add("playstoreImplementation", libs.asset.delivery.ktx)
 }
 
