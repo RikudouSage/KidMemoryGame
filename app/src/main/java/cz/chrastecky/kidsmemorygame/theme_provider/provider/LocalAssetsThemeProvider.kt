@@ -35,7 +35,7 @@ class LocalAssetsThemeProvider(
         }
     }
 
-    override suspend fun ensureThemeDownloaded(id: String): Boolean {
+    override suspend fun isThemeDownloaded(id: String): Boolean {
         return true
     }
 
@@ -87,6 +87,10 @@ class LocalAssetsThemeProvider(
                 mascots = mascots,
             )
         }
+    }
+
+    override suspend fun download(id: String, onProgress: (Float) -> Unit) {
+        onProgress(1.0f)
     }
 }
 

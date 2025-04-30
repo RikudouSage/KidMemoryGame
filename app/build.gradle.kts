@@ -107,6 +107,10 @@ dependencies {
     implementation(libs.jackson.module.kotlin)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.material.icons.extended)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio) // or Android engine
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
 }
 
 tasks.register("generateThemes") {

@@ -5,6 +5,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -17,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import cz.chrastecky.kidsmemorygame.enums.SharedPreferenceName
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeInfo
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
+import cz.chrastecky.kidsmemorygame.ui.screen.DownloadScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.ErrorScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.GameScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.SplashScreen
@@ -62,24 +64,74 @@ fun AppNavigation(
         }
 
         composable("picker") {
+            var screenState by remember { mutableStateOf<PickerScreenState>(PickerScreenState.Loading) }
             val lastThemeId = sharedPreferences.getString(SharedPreferenceName.LastUsedTheme.name, null)
-            if (lastThemeId != null) {
-                navController.navigate("game/$lastThemeId") {
+
+            LaunchedEffect(lastThemeId) {
+                if (lastThemeId != null) {
+                    val isDownloaded = themeProvider.isThemeDownloaded(lastThemeId)
+                    screenState = if (isDownloaded) {
+                        PickerScreenState.NavigateToGame(lastThemeId)
+                    } else {
+                        PickerScreenState.NavigateToDownload(lastThemeId)
+                    }
+                } else {
+                    screenState = PickerScreenState.ShowPicker
+                }
+            }
+
+            when (val state = screenState) {
+                is PickerScreenState.NavigateToGame -> {
+                    LaunchedEffect(state.id) {
+                        navController.navigate("game/${state.id}") {
+                            popUpTo(0) { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    }
+                }
+
+                is PickerScreenState.NavigateToDownload -> {
+                    LaunchedEffect(state.id) {
+                        navController.navigate("download/${state.id}") {
+                            popUpTo(0) { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    }
+                }
+
+                PickerScreenState.ShowPicker -> {
+                    ThemePickerScreen(
+                        themes = themes ?: emptyList(),
+                        themeProvider = themeProvider,
+                    ) { theme, isDownloaded ->
+                        val route = if (isDownloaded) "game/${theme.id}" else "download/${theme.id}"
+                        navController.navigate(route) {
+                            popUpTo(0) { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    }
+                }
+
+                PickerScreenState.Loading -> {
+                }
+            }
+        }
+
+        composable(
+            route = "download/{themeId}",
+            enterTransition = { scaleIn() }
+        ) { backStackEntry ->
+            val themeId = backStackEntry.arguments?.getString("themeId") ?: return@composable
+
+            DownloadScreen(
+                themeId = themeId,
+                themeProvider = themeProvider,
+            ) {
+                navController.navigate("game/${themeId}") {
                     popUpTo(0) { inclusive = true }
                     launchSingleTop = true
                 }
-                return@composable
             }
-
-            ThemePickerScreen (
-                themes = themes ?: emptyList(), // shouldn't happen, but safe
-                onThemeSelected = { theme ->
-                    navController.navigate("game/${theme.id}") {
-                        popUpTo(0) { inclusive = true }
-                        launchSingleTop = true
-                    }
-                }
-            )
         }
 
         composable(
@@ -109,4 +161,11 @@ fun AppNavigation(
             }
         }
     }
+}
+
+private sealed class PickerScreenState {
+    data object Loading : PickerScreenState()
+    data object ShowPicker : PickerScreenState()
+    data class NavigateToGame(val id: String) : PickerScreenState()
+    data class NavigateToDownload(val id: String) : PickerScreenState()
 }
