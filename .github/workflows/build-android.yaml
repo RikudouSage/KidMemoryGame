@@ -14,9 +14,18 @@ jobs:
       matrix:
         task:
           - assembleFullRelease
+          - assembleLiteRelease
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Extract directory
+        id: extract_name
+        uses: actions/github-script@v7
+        with:
+          result-encoding: string
+          script: |
+            const match = '${{ matrix.task }}'.match(/assemble([A-Z].+?)Release/i);
+            return match ? match[1].toLowerCase() : '';
       - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
@@ -37,7 +46,7 @@ jobs:
         uses: r0adkll/sign-android-release@v1
         id: sign_app
         with:
-          releaseDirectory: app/build/outputs/apk/full/release/
+          releaseDirectory: app/build/outputs/apk/${{ steps.extract_name.outputs.result }}/release/
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.KEY_ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
@@ -47,10 +56,11 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: full
+          name: ${{ steps.extract_name.outputs.result }}
           path: ${{ steps.sign_app.outputs.signedReleaseFile }}
           if-no-files-found: error
           retention-days: 1
+
   create_release:
     name: Create a release
     runs-on: ubuntu-latest
@@ -71,9 +81,15 @@ jobs:
         with:
           name: full
           path: full
+      - name: Download (lite)
+        uses: actions/download-artifact@v4
+        with:
+          name: lite
+          path: lite
       - name: Rename files
         run: |
           mv full/*.apk cz.chrastecky.kidsmemorygame_${{ steps.extract_name.outputs.result }}_full.apk
+          mv lite/*.apk cz.chrastecky.kidsmemorygame_${{ steps.extract_name.outputs.result }}_lite.apk
       - name: Create a release
         uses: softprops/action-gh-release@v2.2.2
         env:
@@ -81,7 +97,13 @@ jobs:
         with:
           name: ${{ steps.extract_name.outputs.result }}
           body: |
-            The `full` variant contains all the images inside the apk and thus is larger.
+            - The `full` variant contains all the images inside the apk and thus is larger.
+            - The `lite` variant doesn't contain any card files but offers to download them.
+            
+            Meaning the `full` variant is self-contained and doesn't need access to the internet at all
+            (in fact, it doesn't even have permission to access internet), while the `lite` version
+            has smaller size (and thus smaller download size for updates), but needs internet to
+            access the card data.
           draft: false
           prerelease: false
           fail_on_unmatched_files: true
@@ -89,3 +111,4 @@ jobs:
           make_latest: true
           files: |
             cz.chrastecky.kidsmemorygame_${{ steps.extract_name.outputs.result }}_full.apk
+            cz.chrastecky.kidsmemorygame_${{ steps.extract_name.outputs.result }}_lite.apk
