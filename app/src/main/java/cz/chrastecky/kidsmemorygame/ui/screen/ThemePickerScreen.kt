@@ -4,12 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -24,6 +21,7 @@ import cz.chrastecky.kidsmemorygame.theme_provider.ThemeInfo
 import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.component.ThemeCard
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
+import kotlin.math.ceil
 
 @Composable
 fun ThemePickerScreen(
@@ -43,26 +41,38 @@ fun ThemePickerScreen(
             modifier = Modifier.matchParentSize(),
         )
 
-        Column(
+        Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(4),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
+            val columns = minOf(4, themes.size)
+            val spacing = 8.dp
+            val itemSize = 120.dp
+
+            val rows = ceil(themes.size / columns.toFloat()).toInt()
+
+            val gridWidth = (itemSize + spacing) * columns - spacing
+            val gridHeight = (itemSize + spacing) * rows - spacing
+
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 180.dp, end = 180.dp)
-                    .fillMaxHeight()
-                    .wrapContentHeight()
-                    .align(Alignment.CenterHorizontally)
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
             ) {
-                items(themes) { theme ->
-                    ThemeCard(
-                        theme = theme,
-                        themeProvider = themeProvider,
-                    ) { isDownloaded ->
-                        onThemeSelected(theme, isDownloaded)
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(columns),
+                    verticalArrangement = Arrangement.spacedBy(spacing),
+                    horizontalArrangement = Arrangement.spacedBy(spacing),
+                    modifier = Modifier
+                        .width(gridWidth)
+                        .height(gridHeight)
+                ) {
+                    items(themes) { theme ->
+                        ThemeCard(
+                            theme = theme,
+                            themeProvider = themeProvider,
+                        ) { isDownloaded ->
+                            onThemeSelected(theme, isDownloaded)
+                        }
                     }
                 }
             }
