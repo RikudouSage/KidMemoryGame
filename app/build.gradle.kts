@@ -2,6 +2,7 @@ import com.fasterxml.jackson.core.util.DefaultIndenter
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import java.io.FileFilter
 
 plugins {
     alias(libs.plugins.android.application)
@@ -66,6 +67,12 @@ android {
             dimension = "distribution"
         }
     }
+
+    if (project.findProperty("includeAssetPacks") == "true") {
+        val themesDir = File(rootDir, "themes")
+        val themePacks = themesDir.listFiles(FileFilter { it.isDirectory })?.map { ":${it.name}" } ?: emptyList()
+        assetPacks += themePacks
+    }
 }
 
 android.applicationVariants.all {
@@ -83,6 +90,28 @@ android.applicationVariants.all {
                     from(source)
                     into(destination)
                 }
+            }
+        }
+    } else if (flavor == "playstore") {
+        val source = File(rootDir, "themes")
+        val templatesDir = File(rootDir, "templates")
+        val themeDirs = source.listFiles { file -> file.isDirectory}?.toList() ?: emptyList()
+
+        themeDirs.forEach { themeDir ->
+            val themeName = themeDir.name
+            val targetDir = File(rootDir, themeName)
+            val assetsDir = File(targetDir, "src/main/assets")
+            assetsDir.mkdirs()
+
+            val gitignore = File(targetDir, ".gitignore")
+            gitignore.writeText("/*")
+
+            val template = File(templatesDir, "asset-pack-build-gradle.template").readText()
+            File(targetDir, "build.gradle.kts").writeText(template.replace("{{name}}", themeName))
+
+            project.copy {
+                from(themeDir)
+                into(assetsDir)
             }
         }
     }
@@ -111,6 +140,7 @@ dependencies {
     implementation(libs.ktor.client.cio) // or Android engine
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.asset.delivery.ktx)
 }
 
 tasks.register("generateThemes") {

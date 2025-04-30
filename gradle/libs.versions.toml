@@ -1,5 +1,6 @@
 [versions]
 agp = "8.9.2"
+assetDeliveryKtx = "2.3.0"
 jacksonModuleKotlin = "2.18.3"
 kotlin = "2.0.21"
 coreKtx = "1.16.0"
@@ -20,6 +21,7 @@ navigationCompose = "2.8.9"
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+asset-delivery-ktx = { module = "com.google.android.play:asset-delivery-ktx", version.ref = "assetDeliveryKtx" }
 jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jacksonModuleKotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
