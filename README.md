@@ -16,6 +16,18 @@ Built-in learning benefits:
 
 [Download Memory Game](https://github.com/RikudouSage/KidMemoryGame/releases/latest) today and watch your little one light up as they learn! 🚀
 
+## Screenshots
+
+![](screenshots/01.png)
+
+![](screenshots/02.png)
+
+![](screenshots/03.png)
+
+![](screenshots/04.png)
+
+![](screenshots/05.png)
+
 ## Technical details
 
 The game is built using Kotlin, to compile it yourself, simply clone the repository, open it in Android
