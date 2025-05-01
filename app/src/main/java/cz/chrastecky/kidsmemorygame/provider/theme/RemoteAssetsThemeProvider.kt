@@ -1,4 +1,4 @@
-package cz.chrastecky.kidsmemorygame.provider.provider
+package cz.chrastecky.kidsmemorygame.provider.theme
 
 import android.content.Context
 import android.graphics.BitmapFactory

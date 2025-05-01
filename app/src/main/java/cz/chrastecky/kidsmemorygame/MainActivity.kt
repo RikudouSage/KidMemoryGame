@@ -9,8 +9,8 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
-import cz.chrastecky.kidsmemorygame.provider.provider.LocalAssetsThemeProvider
-import cz.chrastecky.kidsmemorygame.provider.provider.RemoteAssetsThemeProvider
+import cz.chrastecky.kidsmemorygame.provider.theme.LocalAssetsThemeProvider
+import cz.chrastecky.kidsmemorygame.provider.theme.RemoteAssetsThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.nav.AppNavigation
 import cz.chrastecky.kidsmemorygame.ui.theme.KidsMemoryGameTheme
 
