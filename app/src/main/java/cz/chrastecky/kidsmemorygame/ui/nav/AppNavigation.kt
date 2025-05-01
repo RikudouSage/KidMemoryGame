@@ -34,10 +34,23 @@ fun AppNavigation(
     sharedPreferences: SharedPreferences,
 ) {
     val navController = rememberNavController()
+    val context = LocalContext.current
+
     var themes by remember { mutableStateOf<List<ThemeInfo>?>(null) }
     var error by remember { mutableStateOf<Throwable?>(null) }
-
     var reloadGameKey by remember { mutableIntStateOf(0) }
+
+    var musicPlayer by remember {
+        mutableStateOf<MusicPlayer?>(null)
+    }
+
+    LaunchedEffect(Unit) {
+        if (musicPlayer == null) {
+            val musicFiles = musicProvider.getMusicFiles()
+            musicPlayer = MusicPlayer(context, musicFiles)
+            musicPlayer!!.start()
+        }
+    }
 
     NavHost(
         navController = navController,
@@ -70,12 +83,6 @@ fun AppNavigation(
         composable("picker") {
             var screenState by remember { mutableStateOf<PickerScreenState>(PickerScreenState.Loading) }
             val lastThemeId = sharedPreferences.getString(SharedPreferenceName.LastUsedTheme.name, null)
-            val context = LocalContext.current
-
-            LaunchedEffect(Unit) {
-                val musicPlayer = MusicPlayer(context = context, musicFiles = musicProvider.getMusicFiles())
-                musicPlayer.start()
-            }
 
             LaunchedEffect(lastThemeId) {
                 if (lastThemeId != null) {
