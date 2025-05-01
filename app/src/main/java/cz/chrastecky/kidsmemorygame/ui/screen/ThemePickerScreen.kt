@@ -17,7 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import cz.chrastecky.kidsmemorygame.R
-import cz.chrastecky.kidsmemorygame.provider.ThemeInfo
+import cz.chrastecky.kidsmemorygame.dto.ThemeInfo
 import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.component.ThemeCard
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor

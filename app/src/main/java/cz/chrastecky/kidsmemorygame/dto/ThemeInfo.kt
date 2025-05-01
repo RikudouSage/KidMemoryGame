@@ -1,4 +1,4 @@
-package cz.chrastecky.kidsmemorygame.provider
+package cz.chrastecky.kidsmemorygame.dto
 
 import android.graphics.Bitmap
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties

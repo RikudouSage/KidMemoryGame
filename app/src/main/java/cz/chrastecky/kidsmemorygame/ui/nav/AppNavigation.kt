@@ -16,7 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import cz.chrastecky.kidsmemorygame.enums.SharedPreferenceName
-import cz.chrastecky.kidsmemorygame.provider.ThemeInfo
+import cz.chrastecky.kidsmemorygame.dto.ThemeInfo
 import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.screen.DownloadScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.ErrorScreen

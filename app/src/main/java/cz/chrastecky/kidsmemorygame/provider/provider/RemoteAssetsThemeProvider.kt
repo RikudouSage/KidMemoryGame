@@ -9,9 +9,9 @@ import cz.chrastecky.kidsmemorygame.helper.asFloat
 import cz.chrastecky.kidsmemorygame.helper.asInt
 import cz.chrastecky.kidsmemorygame.helper.cropY
 import cz.chrastecky.kidsmemorygame.helper.rotate
-import cz.chrastecky.kidsmemorygame.provider.ThemeDetail
-import cz.chrastecky.kidsmemorygame.provider.ThemeInfo
-import cz.chrastecky.kidsmemorygame.provider.ThemeMascot
+import cz.chrastecky.kidsmemorygame.dto.ThemeDetail
+import cz.chrastecky.kidsmemorygame.dto.ThemeInfo
+import cz.chrastecky.kidsmemorygame.dto.ThemeMascot
 import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
