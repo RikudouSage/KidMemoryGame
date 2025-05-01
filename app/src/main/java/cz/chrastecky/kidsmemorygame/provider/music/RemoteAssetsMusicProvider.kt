@@ -2,6 +2,7 @@ package cz.chrastecky.kidsmemorygame.provider.music
 
 import android.content.Context
 import android.os.ParcelFileDescriptor
+import android.util.Log
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import cz.chrastecky.kidsmemorygame.dto.MusicTrack
@@ -28,7 +29,13 @@ class RemoteAssetsMusicProvider(
         val musicJsonFile = musicDir.resolve("music.json")
         val jsonString: String
         if (!musicJsonFile.exists()) {
-            val response: HttpResponse = client.get("$baseUrl/music.json")
+            val response: HttpResponse
+            try {
+                response = client.get("$baseUrl/music.json")
+            } catch (e: Throwable) {
+                Log.e("DownloadError", e.stackTraceToString())
+                return emptyList()
+            }
             if (!response.status.isSuccess()) {
                 return emptyList()
             }
@@ -45,7 +52,13 @@ class RemoteAssetsMusicProvider(
         return trackList.map {
             val localPath = musicDir.resolve(it)
             if (!localPath.exists()) {
-                val response = client.get("$baseUrl/$it")
+                val response: HttpResponse
+                try {
+                    response = client.get("$baseUrl/$it")
+                } catch (e: Throwable) {
+                    Log.e("DownloadError", e.stackTraceToString())
+                    return emptyList()
+                }
                 if (!response.status.isSuccess()) {
                     return emptyList()
                 }
