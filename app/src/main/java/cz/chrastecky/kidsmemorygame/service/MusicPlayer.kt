@@ -13,6 +13,10 @@ class MusicPlayer(
     private val playlist = musicFiles.shuffled().toMutableList()
 
     fun start() {
+        if (playlist.size == 0) {
+            return
+        }
+
         val musicFile = playlist[currentIndex]
 
         mediaPlayer?.release()
