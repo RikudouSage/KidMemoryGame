@@ -1,19 +1,19 @@
 package cz.chrastecky.kidsmemorygame.service
 
-import android.content.Context
 import android.media.MediaPlayer
 import cz.chrastecky.kidsmemorygame.dto.MusicTrack
 
-class MusicPlayer(
-    private val context: Context,
-    musicFiles: List<MusicTrack>,
-) {
+class MusicPlayer {
     private var currentIndex = 0
     private var mediaPlayer: MediaPlayer? = null
-    private val playlist = musicFiles.shuffled().toMutableList()
+    private var started = false
 
-    fun start() {
-        if (playlist.size == 0) {
+    private var playlist: List<MusicTrack> = emptyList()
+
+    fun start(musicFiles: List<MusicTrack>) {
+        playlist = musicFiles.shuffled()
+
+        if (playlist.isEmpty()) {
             return
         }
 
@@ -26,17 +26,39 @@ class MusicPlayer(
                 currentIndex++
                 if (currentIndex >= playlist.size) {
                     currentIndex = 0
-                    playlist.shuffle()
                 }
                 start()
             }
             prepare()
             start()
         }
+
+        started = true
+    }
+
+    fun pause() {
+        if (playlist.isEmpty() || mediaPlayer == null) {
+            return
+        }
+
+        mediaPlayer!!.pause()
+    }
+
+    fun resume() {
+        if (playlist.isEmpty() || mediaPlayer == null) {
+            return
+        }
+
+        mediaPlayer!!.start()
     }
 
     fun stop() {
         mediaPlayer?.release()
         mediaPlayer = null
+        started = false
+    }
+
+    fun isStarted(): Boolean {
+        return started
     }
 }

@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.lifecycleScope
 import cz.chrastecky.kidsmemorygame.provider.MusicProvider
 import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.provider.music.LocalAssetsMusicProvider
@@ -15,12 +16,15 @@ import cz.chrastecky.kidsmemorygame.provider.music.NullMusicProvider
 import cz.chrastecky.kidsmemorygame.provider.music.RemoteAssetsMusicProvider
 import cz.chrastecky.kidsmemorygame.provider.theme.LocalAssetsThemeProvider
 import cz.chrastecky.kidsmemorygame.provider.theme.RemoteAssetsThemeProvider
+import cz.chrastecky.kidsmemorygame.service.MusicPlayer
 import cz.chrastecky.kidsmemorygame.ui.nav.AppNavigation
 import cz.chrastecky.kidsmemorygame.ui.theme.KidsMemoryGameTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     private lateinit var themeProvider: ThemeProvider
     private lateinit var musicProvider: MusicProvider
+    private val musicPlayer = MusicPlayer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +37,27 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             KidsMemoryGameTheme {
-                AppNavigation(themeProvider, musicProvider, sharedPreferences)
+                AppNavigation(
+                    themeProvider = themeProvider,
+                    sharedPreferences = sharedPreferences,
+                )
             }
         }
         hideSystemUI()
+
+        lifecycleScope.launch {
+            musicPlayer.start(musicProvider.getMusicFiles())
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        musicPlayer.pause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        musicPlayer.resume()
     }
 
     private fun hideSystemUI() {
