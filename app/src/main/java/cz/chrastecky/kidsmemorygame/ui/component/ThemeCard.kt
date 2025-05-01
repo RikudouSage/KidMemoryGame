@@ -28,8 +28,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import cz.chrastecky.kidsmemorygame.theme_provider.ThemeInfo
-import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
+import cz.chrastecky.kidsmemorygame.dto.ThemeInfo
+import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
 import cz.chrastecky.kidsmemorygame.ui.theme.CardBackground
 import cz.chrastecky.kidsmemorygame.ui.theme.CardBorder

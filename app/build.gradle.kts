@@ -75,13 +75,20 @@ android.applicationVariants.all {
     if (flavor == "full") {
         variant.mergeAssetsProvider.configure {
             doLast {
-                val destination = File(variant.mergeAssetsProvider.get().outputDir.asFile.get(), "themes")
-                val source = File(rootDir, "themes")
-                println("Copying full flavor themes to: $destination")
+                val themesSource = File(rootDir, "themes")
+                val themesDestination = File(variant.mergeAssetsProvider.get().outputDir.asFile.get(), "themes")
 
                 project.copy {
-                    from(source)
-                    into(destination)
+                    from(themesSource)
+                    into(themesDestination)
+                }
+
+                val musicSource = File(rootDir, "music")
+                val musicDestination = File(variant.mergeAssetsProvider.get().outputDir.asFile.get(), "music")
+
+                project.copy {
+                    from(musicSource)
+                    into(musicDestination)
                 }
             }
         }
@@ -183,5 +190,16 @@ tasks.register("generateThemes") {
         )
 
         println("✓ Wrote top-level themes.json with ${globalIndex.size} entries.")
+
+        val musicDir = File(rootDir, "music")
+        val musicFiles = musicDir.listFiles { it -> it.isFile && it.extension == "ogg" }?.toList() ?: return@doLast
+        val indexFile = musicDir.resolve("music.json")
+
+        val result: MutableList<String> = mutableListOf()
+        musicFiles.forEach {
+            result += it.name
+        }
+
+        indexFile.writeText(mapper.writeValueAsString(result))
     }
 }

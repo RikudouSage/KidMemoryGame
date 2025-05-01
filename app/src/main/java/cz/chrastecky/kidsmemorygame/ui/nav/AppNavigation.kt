@@ -11,13 +11,16 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.edit
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import cz.chrastecky.kidsmemorygame.enums.SharedPreferenceName
-import cz.chrastecky.kidsmemorygame.theme_provider.ThemeInfo
-import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
+import cz.chrastecky.kidsmemorygame.dto.ThemeInfo
+import cz.chrastecky.kidsmemorygame.provider.MusicProvider
+import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
+import cz.chrastecky.kidsmemorygame.service.MusicPlayer
 import cz.chrastecky.kidsmemorygame.ui.screen.DownloadScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.ErrorScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.GameScreen
@@ -27,13 +30,27 @@ import cz.chrastecky.kidsmemorygame.ui.screen.ThemePickerScreen
 @Composable
 fun AppNavigation(
     themeProvider: ThemeProvider,
+    musicProvider: MusicProvider,
     sharedPreferences: SharedPreferences,
 ) {
     val navController = rememberNavController()
+    val context = LocalContext.current
+
     var themes by remember { mutableStateOf<List<ThemeInfo>?>(null) }
     var error by remember { mutableStateOf<Throwable?>(null) }
-
     var reloadGameKey by remember { mutableIntStateOf(0) }
+
+    var musicPlayer by remember {
+        mutableStateOf<MusicPlayer?>(null)
+    }
+
+    LaunchedEffect(Unit) {
+        if (musicPlayer == null) {
+            val musicFiles = musicProvider.getMusicFiles()
+            musicPlayer = MusicPlayer(context, musicFiles)
+            musicPlayer!!.start()
+        }
+    }
 
     NavHost(
         navController = navController,
