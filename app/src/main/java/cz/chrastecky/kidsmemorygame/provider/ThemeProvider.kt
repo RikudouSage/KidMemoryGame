@@ -1,4 +1,4 @@
-package cz.chrastecky.kidsmemorygame.theme_provider
+package cz.chrastecky.kidsmemorygame.provider
 
 interface ThemeProvider {
     suspend fun listAvailableThemes(): List<ThemeInfo>

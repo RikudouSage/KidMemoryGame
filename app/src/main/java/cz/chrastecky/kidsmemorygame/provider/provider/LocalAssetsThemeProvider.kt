@@ -1,4 +1,4 @@
-package cz.chrastecky.kidsmemorygame.theme_provider.provider
+package cz.chrastecky.kidsmemorygame.provider.provider
 
 import android.content.res.AssetManager
 import android.graphics.BitmapFactory
@@ -8,10 +8,10 @@ import cz.chrastecky.kidsmemorygame.helper.asFloat
 import cz.chrastecky.kidsmemorygame.helper.asInt
 import cz.chrastecky.kidsmemorygame.helper.cropY
 import cz.chrastecky.kidsmemorygame.helper.rotate
-import cz.chrastecky.kidsmemorygame.theme_provider.ThemeDetail
-import cz.chrastecky.kidsmemorygame.theme_provider.ThemeInfo
-import cz.chrastecky.kidsmemorygame.theme_provider.ThemeMascot
-import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
+import cz.chrastecky.kidsmemorygame.provider.ThemeDetail
+import cz.chrastecky.kidsmemorygame.provider.ThemeInfo
+import cz.chrastecky.kidsmemorygame.provider.ThemeMascot
+import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 
 class LocalAssetsThemeProvider(
     private val assetManager: AssetManager,

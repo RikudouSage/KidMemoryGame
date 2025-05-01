@@ -39,7 +39,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import cz.chrastecky.kidsmemorygame.theme_provider.ThemeMascot
+import cz.chrastecky.kidsmemorygame.provider.ThemeMascot
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
 import cz.chrastecky.kidsmemorygame.ui.theme.CardBackground
 import cz.chrastecky.kidsmemorygame.ui.theme.ResetAnimationSpeed
