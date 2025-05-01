@@ -75,13 +75,20 @@ android.applicationVariants.all {
     if (flavor == "full") {
         variant.mergeAssetsProvider.configure {
             doLast {
-                val destination = File(variant.mergeAssetsProvider.get().outputDir.asFile.get(), "themes")
-                val source = File(rootDir, "themes")
-                println("Copying full flavor themes to: $destination")
+                val themesSource = File(rootDir, "themes")
+                val themesDestination = File(variant.mergeAssetsProvider.get().outputDir.asFile.get(), "themes")
 
                 project.copy {
-                    from(source)
-                    into(destination)
+                    from(themesSource)
+                    into(themesDestination)
+                }
+
+                val musicSource = File(rootDir, "music")
+                val musicDestination = File(variant.mergeAssetsProvider.get().outputDir.asFile.get(), "music")
+
+                project.copy {
+                    from(musicSource)
+                    into(musicDestination)
                 }
             }
         }
