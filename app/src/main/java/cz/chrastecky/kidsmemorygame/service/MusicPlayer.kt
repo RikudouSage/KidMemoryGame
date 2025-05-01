@@ -10,8 +10,12 @@ class MusicPlayer {
 
     private var playlist: List<MusicTrack> = emptyList()
 
-    fun start(musicFiles: List<MusicTrack>) {
-        playlist = musicFiles.shuffled()
+    fun start(musicFiles: List<MusicTrack>, shuffle: Boolean = true) {
+        playlist = if (shuffle) {
+            musicFiles.shuffled()
+        } else {
+            musicFiles
+        }
 
         if (playlist.isEmpty()) {
             return
@@ -27,7 +31,7 @@ class MusicPlayer {
                 if (currentIndex >= playlist.size) {
                     currentIndex = 0
                 }
-                start()
+                start(playlist, false)
             }
             prepare()
             start()
