@@ -3,12 +3,14 @@
     "id" : "sea",
     "name" : "Sea Creatures",
     "configPath" : "sea/theme.json",
-    "icon" : "cards/turtle.png"
+    "icon" : "cards/turtle.png",
+    "hash" : "2577d56a3c6a52d4e564d9ee75443b9509b233431ce4c61e483983c5862ad4e0"
   },
   {
     "id" : "dinosaurs",
     "name" : "Dinosaurs",
     "configPath" : "dinosaurs/theme.json",
-    "icon" : "cards/t-rex.png"
+    "icon" : "cards/t-rex.png",
+    "hash" : "b867ccf807ef2fa245a6fe9fb845f0c0e5c412aba1db0fdea22aac1605e1bd4a"
   }
 ]

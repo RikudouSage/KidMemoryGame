@@ -2,6 +2,7 @@ import com.fasterxml.jackson.core.util.DefaultIndenter
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import java.security.MessageDigest
 
 plugins {
     alias(libs.plugins.android.application)
@@ -136,6 +137,8 @@ tasks.register("generateThemes") {
         val globalIndex = mutableListOf<Map<String, Any>>()
 
         themeDirs.forEach { themeDir ->
+            val digest = MessageDigest.getInstance("SHA-256")
+
             val themeId = themeDir.name
             val cardsDir = File(themeDir, "cards")
             val cardFiles = cardsDir.listFiles { file ->
@@ -157,6 +160,29 @@ tasks.register("generateThemes") {
                     val mascotData: Map<String, Any> = jacksonObjectMapper().readValue(mascotFile)
                     mascots.add(mapOf("image" to card) + mascotData)
                 }
+
+                val file = File(themeDir, card)
+                file.inputStream().use { input ->
+                    val buffer = ByteArray(8192)
+                    while (true) {
+                        val read = input.read(buffer)
+                        if (read <= 0) {
+                            break
+                        }
+                        digest.update(buffer, 0, read)
+                    }
+                }
+            }
+
+            File(themeDir, background).inputStream().use { input ->
+                val buffer = ByteArray(8192)
+                while (true) {
+                    val read = input.read(buffer)
+                    if (read <= 0) {
+                        break
+                    }
+                    digest.update(buffer, 0, read)
+                }
             }
 
             val themeJson = mapOf(
@@ -166,6 +192,7 @@ tasks.register("generateThemes") {
                 "cards" to cardFiles,
                 "icon" to icon,
                 "mascots" to mascots,
+                "hash" to digest.digest().joinToString("") { "%02x".format(it) }
             )
 
             File(themeDir, "theme.json").writeText(
@@ -178,6 +205,7 @@ tasks.register("generateThemes") {
                     "name" to name,
                     "configPath" to "$themeId/theme.json",
                     "icon" to icon,
+                    "hash" to themeJson["hash"]!!,
                 )
             )
 
