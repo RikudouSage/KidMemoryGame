@@ -136,8 +136,6 @@ tasks.register("generateThemes") {
 
         val globalIndex = mutableListOf<Map<String, Any>>()
 
-        val globalDigest = MessageDigest.getInstance("SHA-256")
-
         themeDirs.forEach { themeDir ->
             val digest = MessageDigest.getInstance("SHA-256")
 
@@ -172,7 +170,6 @@ tasks.register("generateThemes") {
                             break
                         }
                         digest.update(buffer, 0, read)
-                        globalDigest.update(buffer, 0, read)
                     }
                 }
             }
@@ -185,7 +182,6 @@ tasks.register("generateThemes") {
                         break
                     }
                     digest.update(buffer, 0, read)
-                    globalDigest.update(buffer, 0, read)
                 }
             }
 
