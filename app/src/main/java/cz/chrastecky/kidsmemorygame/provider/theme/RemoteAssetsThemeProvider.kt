@@ -17,7 +17,6 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.request.get
-import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.isSuccess
 import java.io.File
@@ -33,27 +32,50 @@ class RemoteAssetsThemeProvider(
 
     override suspend fun listAvailableThemes(): List<ThemeInfo> {
         val themesJsonFile = themesDir.resolve("themes.json")
-        val jsonString: String
-        if (!themesJsonFile.exists()) {
-            val themesJsonUrl = "$baseUrl/themes.json"
-            val response: HttpResponse = client.get(themesJsonUrl)
-            if (!response.status.isSuccess()) {
+
+        val localJsonString: String
+        var remoteJsonString: String
+
+        try {
+            val remoteThemesJsonResponse = client.get("$baseUrl/themes.json")
+            if (!remoteThemesJsonResponse.status.isSuccess()) {
                 throw ThemeLoadingFailedException("Failed loading the list of themes, try again later.")
             }
-            jsonString = response.bodyAsText()
-
-            themesJsonFile.parentFile?.mkdirs()
-            themesJsonFile.writeText(jsonString)
-        } else {
-            jsonString = themesJsonFile.readText()
+            remoteJsonString = remoteThemesJsonResponse.bodyAsText()
+        } catch (e: Throwable) {
+            if (themesJsonFile.exists()) {
+                remoteJsonString = themesJsonFile.readText()
+            } else {
+                throw e
+            }
         }
 
-        val rawList: List<Map<String, String>> = mapper.readValue(jsonString)
+        if (!themesJsonFile.exists()) {
+            themesJsonFile.parentFile?.mkdirs()
+            themesJsonFile.writeText(remoteJsonString)
+            localJsonString = remoteJsonString
+        } else {
+            localJsonString = themesJsonFile.readText()
+            themesJsonFile.writeText(remoteJsonString)
+        }
 
-        return rawList.map { entry ->
+        val rawListRemote: List<Map<String, String>> = mapper.readValue(remoteJsonString)
+        val rawListLocal: List<Map<String, String>> = mapper.readValue(localJsonString)
+        val hashmap: MutableMap<String, String> = mutableMapOf()
+
+        rawListRemote.forEach {
+            hashmap[it["id"]!!] = it["hash"] ?: ""
+        }
+
+        return rawListLocal.map { entry ->
             val id = entry["id"]!!
             val iconPath = entry["icon"]!!
             val name = entry["name"]!!
+            val hash = entry["hash"]
+
+            if (hashmap[id] != hash) {
+                themesDir.resolve(id).deleteRecursively()
+            }
 
             val iconFile = themesDir.resolve("$id/$iconPath")
             if (!iconFile.exists()) {
