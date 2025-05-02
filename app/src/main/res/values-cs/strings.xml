@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Pexeso pro děti</string>
-    <string name="error_prefix">Nastala  chyba: %s</string>
+    <string name="error_prefix">Nastala chyba: %s</string>
     <string name="button_retry">Zkusit znovu</string>
     <string name="win_dialog_title">🎉 Vyhráváš! 🎉</string>
     <string name="win_dialog_content">Skvělá práce! Co chceš dělat teď?</string>

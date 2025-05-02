@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pexeso pre deti</string>
+    <string name="error_prefix">Vyskytla sa chyba: %s</string>
+    <string name="button_retry">Skúsiť znova</string>
+    <string name="win_dialog_title">🎉 Vyhrávaš! 🎉</string>
+    <string name="win_dialog_content">Skvelá práca! Čo chceš robiť teraz?</string>
+    <string name="new_game_button">Nová hra</string>
+    <string name="grid_size_button">Zmeniť veľkosť</string>
+    <string name="change_theme_button">Zmeniť tému</string>
+    <string name="settings_button">Nastavenia</string>
+    <string name="settings">Nastavenie hry</string>
+    <string name="settings_description">Vyber si, čo chceš robiť!</string>
+    <string name="change_grid_size_title">Zmeniť veľkosť</string>
+    <string name="change_grid_size_content">Vyber si dole veľkosť!</string>
+</resources>
