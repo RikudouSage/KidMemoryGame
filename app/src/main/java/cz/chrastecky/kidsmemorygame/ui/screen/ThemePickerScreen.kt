@@ -43,8 +43,13 @@ fun ThemePickerScreen(
 
         Box(
             modifier = Modifier.fillMaxSize()
-        ) {
+        ) inner@ {
             val columns = minOf(4, themes.size)
+            // for some reason this happens when you open a foldable phone
+            if (columns == 0) {
+                return@inner
+            }
+
             val spacing = 8.dp
             val itemSize = 120.dp
 
