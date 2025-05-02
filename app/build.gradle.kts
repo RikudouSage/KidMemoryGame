@@ -160,8 +160,15 @@ tasks.register("generateThemes") {
                     val mascotData: Map<String, Any> = jacksonObjectMapper().readValue(mascotFile)
                     mascots.add(mapOf("image" to card) + mascotData)
                 }
+            }
 
-                val file = File(themeDir, card)
+            val hashableFiles = mutableListOf<File>()
+            hashableFiles += cardsDir.listFiles()?.toList() ?: emptyList()
+            hashableFiles += themeDir.listFiles { file ->
+                !file.isDirectory && !file.name.equals("theme.json")
+            }?.toList() ?: emptyList()
+
+            hashableFiles.forEach { file ->
                 file.inputStream().use { input ->
                     val buffer = ByteArray(8192)
                     while (true) {
@@ -171,17 +178,6 @@ tasks.register("generateThemes") {
                         }
                         digest.update(buffer, 0, read)
                     }
-                }
-            }
-
-            File(themeDir, background).inputStream().use { input ->
-                val buffer = ByteArray(8192)
-                while (true) {
-                    val read = input.read(buffer)
-                    if (read <= 0) {
-                        break
-                    }
-                    digest.update(buffer, 0, read)
                 }
             }
 
