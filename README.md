@@ -1,6 +1,6 @@
 ## 👶 Made for tiny explorers (ages 2-6)
 
-Turn screen time into brain-boosting fun with Kids Memory Game—a vibrant and ad-free card-matching game!.
+Turn screen time into brain-boosting fun with Memory Match for kids—a vibrant and ad-free card-matching game!.
 
 Why kids (and parents!) love it:
 - Bright, lovable themes – sea animals, dinosaurs and more to come!
@@ -14,7 +14,7 @@ Built-in learning benefits:
 🧠 Improves memory & concentration
 🎨 Boosts visual recognition & pattern skills
 
-[Download Memory Game](https://github.com/RikudouSage/KidMemoryGame/releases/latest) today and watch your little one light up as they learn! 🚀
+[Download Memory Match for kids](https://github.com/RikudouSage/KidMemoryGame/releases/latest) today and watch your little one light up as they learn! 🚀
 
 ## Screenshots
 

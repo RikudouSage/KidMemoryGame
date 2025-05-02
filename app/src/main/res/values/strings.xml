@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kids Memory Game</string>
+    <string name="app_name">Memory Match for kids</string>
     <string name="error_prefix">An error occurred: %s</string>
     <string name="button_retry">Retry</string>
     <string name="win_dialog_title">🎉 You win! 🎉</string>
