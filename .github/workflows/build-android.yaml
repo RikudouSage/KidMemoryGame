@@ -89,10 +89,10 @@ jobs:
         id: sign_app
         with:
           releaseDirectory: app/build/outputs/bundle/playstoreRelease/
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
+          signingKeyBase64: ${{ secrets.UPLOAD_KEY }}
+          alias: ${{ secrets.UPLOAD_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.UPLOAD_KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.UPLOAD_KEY_PASSWORD }}
         env:
           BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOL_VERSION }}
       - name: Upload artifact
