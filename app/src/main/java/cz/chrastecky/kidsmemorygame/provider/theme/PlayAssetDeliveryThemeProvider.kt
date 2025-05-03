@@ -15,11 +15,12 @@ import cz.chrastecky.kidsmemorygame.helper.asFloat
 import cz.chrastecky.kidsmemorygame.helper.asInt
 import cz.chrastecky.kidsmemorygame.helper.cropY
 import cz.chrastecky.kidsmemorygame.helper.rotate
+import cz.chrastecky.kidsmemorygame.helper.waitForPackIfNeeded
 import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import kotlinx.coroutines.CompletableDeferred
 import java.io.File
 
-class PlayAssetThemeProvider(
+class PlayAssetDeliveryThemeProvider(
     context: Context,
 ) : ThemeProvider {
     private val assetPackManager = AssetPackManagerFactory.getInstance(context)
@@ -27,7 +28,7 @@ class PlayAssetThemeProvider(
     private val mapper = jacksonObjectMapper()
 
     override suspend fun listAvailableThemes(): List<ThemeInfo> {
-        val iconsBasePath = waitForPackIfNeeded("theme_icons")
+        val iconsBasePath = waitForPackIfNeeded(assetPackManager, "theme_icons")
 
         assetManager.open("themes/themes.json").use { input ->
             val rawList: List<Map<String, String>> = mapper.readValue(input)
@@ -50,7 +51,7 @@ class PlayAssetThemeProvider(
     }
 
     override suspend fun getThemeDetail(id: String): ThemeDetail {
-        val basePath = waitForPackIfNeeded(id) + "/$id"
+        val basePath = waitForPackIfNeeded(assetPackManager, id) + "/$id"
 
         val input = File(basePath, "theme.json").inputStream()
         val raw: Map<String, Any> = mapper.readValue(input)
@@ -141,37 +142,6 @@ class PlayAssetThemeProvider(
         try {
             assetPackManager.fetch(listOf(id))
             deferred.await()
-        } finally {
-            assetPackManager.unregisterListener(listener)
-        }
-    }
-
-    private suspend fun waitForPackIfNeeded(packName: String): String {
-        val location = assetPackManager.getPackLocation(packName)
-        if (location != null) {
-            return location.assetsPath()!!
-        }
-
-        val deferred = CompletableDeferred<String>()
-        val listener = AssetPackStateUpdateListener { state ->
-            if (state.name() != packName) {
-                return@AssetPackStateUpdateListener
-            }
-            if (state.status() == AssetPackStatus.COMPLETED) {
-                val loc = assetPackManager.getPackLocation(packName)
-                if (loc != null) {
-                    deferred.complete(loc.assetsPath()!!)
-                }
-            } else if (state.status() == AssetPackStatus.FAILED || state.status() == AssetPackStatus.CANCELED) {
-                deferred.completeExceptionally(RuntimeException("Failed to load theme pack $packName"))
-            }
-        }
-
-        assetPackManager.registerListener(listener)
-        assetPackManager.fetch(listOf(packName))
-
-        try {
-            return deferred.await()
         } finally {
             assetPackManager.unregisterListener(listener)
         }

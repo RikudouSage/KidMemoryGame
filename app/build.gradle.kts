@@ -74,6 +74,7 @@ android {
         val themePacks = themesDir.listFiles(FileFilter { it.isDirectory })?.map { ":${it.name}" } ?: emptyList()
         assetPacks += themePacks
         assetPacks += ":theme_icons"
+        assetPacks += ":sound_pack"
     }
 }
 
@@ -109,16 +110,21 @@ android.applicationVariants.all {
                 val themesSource = File(rootDir, "themes")
                 val templatesDir = File(rootDir, "templates")
                 val themeDirs = themesSource.listFiles { file -> file.isDirectory}?.toList() ?: emptyList()
+                val musicDir = File(rootDir, "music")
 
+                val soundsDir = File(rootDir, "sound_pack")
                 val themeIconsDir = File(rootDir, "theme_icons")
+                val template = templatesDir.resolve("asset-pack-immediate.template").readText()
                 themeIconsDir.mkdirs()
-                val gitignoreIconsDir = File(themeIconsDir, ".gitignore")
-                gitignoreIconsDir.writeText("/*")
-                val targetGradleFile = themeIconsDir.resolve("build.gradle.kts")
-                if (targetGradleFile.exists()) {
-                    targetGradleFile.delete()
-                }
-                templatesDir.resolve("theme-icons-gradle.template").copyTo(targetGradleFile)
+                soundsDir.mkdirs()
+                val gitignoreIcons = File(themeIconsDir, ".gitignore")
+                val gitignoreSounds = File(soundsDir, ".gitignore")
+                gitignoreIcons.writeText("/*")
+                gitignoreSounds.writeText("/*")
+                val targetGradleFileIcons = themeIconsDir.resolve("build.gradle.kts")
+                val targetGradleFileSounds = soundsDir.resolve("build.gradle.kts")
+                targetGradleFileIcons.writeText(template.replace("{{name}}", "theme_icons"))
+                targetGradleFileSounds.writeText(template.replace("{{name}}", "sound_pack"))
 
                 themeDirs.forEach { themeDir ->
                     val themeName = themeDir.name
@@ -129,8 +135,8 @@ android.applicationVariants.all {
                     val gitignore = File(targetDir, ".gitignore")
                     gitignore.writeText("/*")
 
-                    val template = File(templatesDir, "asset-pack-build-gradle.template").readText()
-                    File(targetDir, "build.gradle.kts").writeText(template.replace("{{name}}", themeName))
+                    val themePackTemplate = File(templatesDir, "asset-pack-build-gradle.template").readText()
+                    File(targetDir, "build.gradle.kts").writeText(themePackTemplate.replace("{{name}}", themeName))
 
                     project.copy {
                         from(themeDir)
@@ -149,6 +155,11 @@ android.applicationVariants.all {
                         targetIconFile.delete()
                     }
                     iconFile.copyTo(targetIconFile)
+                }
+
+                project.copy {
+                    from(musicDir)
+                    into(soundsDir.resolve("src/assets/main/music"))
                 }
 
                 val destination = File(variant.mergeAssetsProvider.get().outputDir.asFile.get(), "themes")

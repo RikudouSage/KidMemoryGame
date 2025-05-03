@@ -27,6 +27,7 @@ include(":app")
 val themesDir = File(rootDir, "themes")
 val themeDirs = themesDir.listFiles(FileFilter { it.isDirectory }) ?: arrayOf()
 val themeIconsDir = File(rootDir, "theme_icons")
+val soundsDir = File(rootDir, "sound_pack")
 
 themeDirs.forEach { themeDir ->
     val name = themeDir.name
@@ -36,4 +37,7 @@ themeDirs.forEach { themeDir ->
 }
 if (themeIconsDir.exists()) {
     include(":theme_icons")
+}
+if (soundsDir.exists()) {
+    include(":sound_pack")
 }

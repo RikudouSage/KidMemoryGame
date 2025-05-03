@@ -3,7 +3,7 @@ plugins {
 }
 
 assetPack {
-  packName.set("theme_icons")
+  packName.set("{{name}}")
   dynamicDelivery {
     deliveryType.set("fast-follow")
   }
