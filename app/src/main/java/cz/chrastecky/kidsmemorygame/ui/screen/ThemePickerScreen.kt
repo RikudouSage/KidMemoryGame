@@ -22,6 +22,7 @@ import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.component.ThemeCard
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
 import kotlin.math.ceil
+import kotlin.math.max
 
 @Composable
 fun ThemePickerScreen(
@@ -43,8 +44,9 @@ fun ThemePickerScreen(
 
         Box(
             modifier = Modifier.fillMaxSize()
-        ) {
-            val columns = minOf(4, themes.size)
+        ) inner@ {
+            val columns = max(1, minOf(4, themes.size))
+
             val spacing = 8.dp
             val itemSize = 120.dp
 

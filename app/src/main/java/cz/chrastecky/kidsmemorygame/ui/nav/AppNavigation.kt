@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.core.content.edit
 import androidx.navigation.compose.NavHost
@@ -31,7 +32,7 @@ fun AppNavigation(
 ) {
     val navController = rememberNavController()
 
-    var themes by remember { mutableStateOf<List<ThemeInfo>?>(null) }
+    var themes by rememberSaveable { mutableStateOf<List<ThemeInfo>?>(null) }
     var error by remember { mutableStateOf<Throwable?>(null) }
     var reloadGameKey by remember { mutableIntStateOf(0) }
 
