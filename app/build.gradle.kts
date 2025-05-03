@@ -102,55 +102,55 @@ android.applicationVariants.all {
             }
         }
     } else if (flavor == "playstore") {
-        val mapper = jacksonObjectMapper()
-
-        val themesSource = File(rootDir, "themes")
-        val templatesDir = File(rootDir, "templates")
-        val themeDirs = themesSource.listFiles { file -> file.isDirectory}?.toList() ?: emptyList()
-
-        val themeIconsDir = File(rootDir, "theme_icons")
-        themeIconsDir.mkdirs()
-        val gitignoreIconsDir = File(themeIconsDir, ".gitignore")
-        gitignoreIconsDir.writeText("/*")
-        val targetGradleFile = themeIconsDir.resolve("build.gradle.kts")
-        if (targetGradleFile.exists()) {
-            targetGradleFile.delete()
-        }
-        templatesDir.resolve("theme-icons-gradle.template").copyTo(targetGradleFile)
-
-        themeDirs.forEach { themeDir ->
-            val themeName = themeDir.name
-            val targetDir = File(rootDir, themeName)
-            val assetsDir = File(targetDir, "src/main/assets/$themeName")
-            assetsDir.mkdirs()
-
-            val gitignore = File(targetDir, ".gitignore")
-            gitignore.writeText("/*")
-
-            val template = File(templatesDir, "asset-pack-build-gradle.template").readText()
-            File(targetDir, "build.gradle.kts").writeText(template.replace("{{name}}", themeName))
-
-            project.copy {
-                from(themeDir)
-                into(assetsDir)
-            }
-
-            val themeJson = mapper.readValue<Map<String, Any>>(themeDir.resolve("theme.json"))
-            val iconFilePath = themeJson["icon"] as String
-            val iconFile = themeDir.resolve(iconFilePath)
-            if (!iconFile.exists()) {
-                throw Exception("Failed resolving the icon file")
-            }
-            val targetIconFile = themeIconsDir.resolve("src/main/assets/$themeName.${iconFile.extension}")
-            targetIconFile.mkdirs()
-            if (targetIconFile.exists()) {
-                targetIconFile.delete()
-            }
-            iconFile.copyTo(targetIconFile)
-        }
-
         variant.mergeAssetsProvider.configure {
             doLast {
+                val mapper = jacksonObjectMapper()
+
+                val themesSource = File(rootDir, "themes")
+                val templatesDir = File(rootDir, "templates")
+                val themeDirs = themesSource.listFiles { file -> file.isDirectory}?.toList() ?: emptyList()
+
+                val themeIconsDir = File(rootDir, "theme_icons")
+                themeIconsDir.mkdirs()
+                val gitignoreIconsDir = File(themeIconsDir, ".gitignore")
+                gitignoreIconsDir.writeText("/*")
+                val targetGradleFile = themeIconsDir.resolve("build.gradle.kts")
+                if (targetGradleFile.exists()) {
+                    targetGradleFile.delete()
+                }
+                templatesDir.resolve("theme-icons-gradle.template").copyTo(targetGradleFile)
+
+                themeDirs.forEach { themeDir ->
+                    val themeName = themeDir.name
+                    val targetDir = File(rootDir, themeName)
+                    val assetsDir = File(targetDir, "src/main/assets/$themeName")
+                    assetsDir.mkdirs()
+
+                    val gitignore = File(targetDir, ".gitignore")
+                    gitignore.writeText("/*")
+
+                    val template = File(templatesDir, "asset-pack-build-gradle.template").readText()
+                    File(targetDir, "build.gradle.kts").writeText(template.replace("{{name}}", themeName))
+
+                    project.copy {
+                        from(themeDir)
+                        into(assetsDir)
+                    }
+
+                    val themeJson = mapper.readValue<Map<String, Any>>(themeDir.resolve("theme.json"))
+                    val iconFilePath = themeJson["icon"] as String
+                    val iconFile = themeDir.resolve(iconFilePath)
+                    if (!iconFile.exists()) {
+                        throw Exception("Failed resolving the icon file")
+                    }
+                    val targetIconFile = themeIconsDir.resolve("src/main/assets/$themeName.${iconFile.extension}")
+                    targetIconFile.mkdirs()
+                    if (targetIconFile.exists()) {
+                        targetIconFile.delete()
+                    }
+                    iconFile.copyTo(targetIconFile)
+                }
+
                 val destination = File(variant.mergeAssetsProvider.get().outputDir.asFile.get(), "themes")
                 destination.parentFile.mkdirs()
                 val themesJson = File(rootDir, "themes/themes.json")
