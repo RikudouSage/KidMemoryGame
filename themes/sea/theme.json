@@ -35,6 +35,11 @@
       "y" : 666
     },
     {
+      "image" : "cards/hammerhead.png",
+      "rotation" : 22,
+      "y" : 762
+    },
+    {
       "image" : "cards/jellyfish.png",
       "rotation" : 0,
       "y" : 505
@@ -54,5 +59,6 @@
       "rotation" : 0,
       "y" : 622
     }
-  ]
+  ],
+  "hash" : "42532508a13a7d9f97eebc77ad539ed812a3ec62b2ba8f4dc78dae919ed861ff"
 }

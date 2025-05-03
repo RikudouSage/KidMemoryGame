@@ -45,8 +45,8 @@ import androidx.core.content.edit
 import cz.chrastecky.kidsmemorygame.R
 import cz.chrastecky.kidsmemorygame.enums.GameSize
 import cz.chrastecky.kidsmemorygame.enums.SharedPreferenceName
-import cz.chrastecky.kidsmemorygame.theme_provider.ThemeDetail
-import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
+import cz.chrastecky.kidsmemorygame.dto.ThemeDetail
+import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.component.ChangeSizePopup
 import cz.chrastecky.kidsmemorygame.ui.component.GameCard
 import cz.chrastecky.kidsmemorygame.ui.component.IconCircleButton

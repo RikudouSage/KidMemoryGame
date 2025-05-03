@@ -10,14 +10,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.core.content.edit
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import cz.chrastecky.kidsmemorygame.dto.ThemeInfo
 import cz.chrastecky.kidsmemorygame.enums.SharedPreferenceName
-import cz.chrastecky.kidsmemorygame.theme_provider.ThemeInfo
-import cz.chrastecky.kidsmemorygame.theme_provider.ThemeProvider
+import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.screen.DownloadScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.ErrorScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.GameScreen
@@ -30,9 +31,9 @@ fun AppNavigation(
     sharedPreferences: SharedPreferences,
 ) {
     val navController = rememberNavController()
-    var themes by remember { mutableStateOf<List<ThemeInfo>?>(null) }
-    var error by remember { mutableStateOf<Throwable?>(null) }
 
+    var themes by rememberSaveable { mutableStateOf<List<ThemeInfo>?>(null) }
+    var error by remember { mutableStateOf<Throwable?>(null) }
     var reloadGameKey by remember { mutableIntStateOf(0) }
 
     NavHost(

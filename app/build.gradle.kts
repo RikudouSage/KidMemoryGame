@@ -3,6 +3,7 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.FileFilter
+import java.security.MessageDigest
 
 plugins {
     alias(libs.plugins.android.application)
@@ -18,8 +19,8 @@ android {
         applicationId = "cz.chrastecky.kidsmemorygame"
         minSdk = 24
         targetSdk = 35
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 9
+        versionName = "1.2.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -82,13 +83,20 @@ android.applicationVariants.all {
     if (flavor == "full") {
         variant.mergeAssetsProvider.configure {
             doLast {
-                val destination = File(variant.mergeAssetsProvider.get().outputDir.asFile.get(), "themes")
-                val source = File(rootDir, "themes")
-                println("Copying full flavor themes to: $destination")
+                val themesSource = File(rootDir, "themes")
+                val themesDestination = File(variant.mergeAssetsProvider.get().outputDir.asFile.get(), "themes")
 
                 project.copy {
-                    from(source)
-                    into(destination)
+                    from(themesSource)
+                    into(themesDestination)
+                }
+
+                val musicSource = File(rootDir, "music")
+                val musicDestination = File(variant.mergeAssetsProvider.get().outputDir.asFile.get(), "music")
+
+                project.copy {
+                    from(musicSource)
+                    into(musicDestination)
                 }
             }
         }
@@ -179,6 +187,8 @@ tasks.register("generateThemes") {
         val globalIndex = mutableListOf<Map<String, Any>>()
 
         themeDirs.forEach { themeDir ->
+            val digest = MessageDigest.getInstance("SHA-256")
+
             val themeId = themeDir.name
             val cardsDir = File(themeDir, "cards")
             val cardFiles = cardsDir.listFiles { file ->
@@ -202,6 +212,25 @@ tasks.register("generateThemes") {
                 }
             }
 
+            val hashableFiles = mutableListOf<File>()
+            hashableFiles += cardsDir.listFiles()?.toList() ?: emptyList()
+            hashableFiles += themeDir.listFiles { file ->
+                !file.isDirectory && !file.name.equals("theme.json")
+            }?.toList() ?: emptyList()
+
+            hashableFiles.forEach { file ->
+                file.inputStream().use { input ->
+                    val buffer = ByteArray(8192)
+                    while (true) {
+                        val read = input.read(buffer)
+                        if (read <= 0) {
+                            break
+                        }
+                        digest.update(buffer, 0, read)
+                    }
+                }
+            }
+
             val themeJson = mapOf(
                 "id" to themeId,
                 "name" to name,
@@ -209,6 +238,7 @@ tasks.register("generateThemes") {
                 "cards" to cardFiles,
                 "icon" to icon,
                 "mascots" to mascots,
+                "hash" to digest.digest().joinToString("") { "%02x".format(it) }
             )
 
             File(themeDir, "theme.json").writeText(
@@ -221,6 +251,7 @@ tasks.register("generateThemes") {
                     "name" to name,
                     "configPath" to "$themeId/theme.json",
                     "icon" to icon,
+                    "hash" to themeJson["hash"]!!,
                 )
             )
 
@@ -233,5 +264,16 @@ tasks.register("generateThemes") {
         )
 
         println("✓ Wrote top-level themes.json with ${globalIndex.size} entries.")
+
+        val musicDir = File(rootDir, "music")
+        val musicFiles = musicDir.listFiles { it -> it.isFile && it.extension == "ogg" }?.toList() ?: return@doLast
+        val indexFile = musicDir.resolve("music.json")
+
+        val result: MutableList<String> = mutableListOf()
+        musicFiles.forEach {
+            result += it.name
+        }
+
+        indexFile.writeText(mapper.writeValueAsString(result))
     }
 }

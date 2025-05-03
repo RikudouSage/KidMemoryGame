@@ -1,4 +1,7 @@
-package cz.chrastecky.kidsmemorygame.theme_provider
+package cz.chrastecky.kidsmemorygame.provider
+
+import cz.chrastecky.kidsmemorygame.dto.ThemeDetail
+import cz.chrastecky.kidsmemorygame.dto.ThemeInfo
 
 interface ThemeProvider {
     suspend fun listAvailableThemes(): List<ThemeInfo>
