@@ -62,6 +62,7 @@ jobs:
           retention-days: 1
   build_play_store:
     name: Build AAB
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
