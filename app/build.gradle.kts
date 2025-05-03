@@ -159,7 +159,7 @@ android.applicationVariants.all {
 
                 project.copy {
                     from(musicDir)
-                    into(soundsDir.resolve("src/assets/main/music"))
+                    into(soundsDir.resolve("src/main/assets/music"))
                 }
 
                 val destination = File(variant.mergeAssetsProvider.get().outputDir.asFile.get(), "themes")
