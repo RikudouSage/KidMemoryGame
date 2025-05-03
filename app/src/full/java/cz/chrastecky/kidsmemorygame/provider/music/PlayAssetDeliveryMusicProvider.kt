@@ -4,7 +4,7 @@ import android.content.Context
 import cz.chrastecky.kidsmemorygame.dto.MusicTrack
 import cz.chrastecky.kidsmemorygame.provider.MusicProvider
 
-// dump class to make stuff compile
+// dummy class to make stuff compile
 class PlayAssetDeliveryMusicProvider(
     context: Context
 ) : MusicProvider {
