@@ -2,6 +2,7 @@ import com.fasterxml.jackson.core.util.DefaultIndenter
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import java.io.FileFilter
 import java.security.MessageDigest
 
 plugins {
@@ -18,7 +19,7 @@ android {
         applicationId = "cz.chrastecky.kidsmemorygame"
         minSdk = 24
         targetSdk = 35
-        versionCode = 9
+        versionCode = 10
         versionName = "1.2.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -67,6 +68,14 @@ android {
             dimension = "distribution"
         }
     }
+
+    if (project.findProperty("includeAssetPacks") == "true") {
+        val themesDir = File(rootDir, "themes")
+        val themePacks = themesDir.listFiles(FileFilter { it.isDirectory })?.map { ":${it.name}" } ?: emptyList()
+        assetPacks += themePacks
+        assetPacks += ":theme_icons"
+        assetPacks += ":sound_pack"
+    }
 }
 
 android.applicationVariants.all {
@@ -93,6 +102,76 @@ android.applicationVariants.all {
                 }
             }
         }
+    } else if (flavor == "playstore") {
+        variant.mergeAssetsProvider.configure {
+            doLast {
+                val mapper = jacksonObjectMapper()
+
+                val themesSource = File(rootDir, "themes")
+                val templatesDir = File(rootDir, "templates")
+                val themeDirs = themesSource.listFiles { file -> file.isDirectory}?.toList() ?: emptyList()
+                val musicDir = File(rootDir, "music")
+
+                val soundsDir = File(rootDir, "sound_pack")
+                val themeIconsDir = File(rootDir, "theme_icons")
+                val template = templatesDir.resolve("asset-pack-immediate.template").readText()
+                themeIconsDir.mkdirs()
+                soundsDir.mkdirs()
+                val gitignoreIcons = File(themeIconsDir, ".gitignore")
+                val gitignoreSounds = File(soundsDir, ".gitignore")
+                gitignoreIcons.writeText("/*")
+                gitignoreSounds.writeText("/*")
+                val targetGradleFileIcons = themeIconsDir.resolve("build.gradle.kts")
+                val targetGradleFileSounds = soundsDir.resolve("build.gradle.kts")
+                targetGradleFileIcons.writeText(template.replace("{{name}}", "theme_icons"))
+                targetGradleFileSounds.writeText(template.replace("{{name}}", "sound_pack"))
+
+                themeDirs.forEach { themeDir ->
+                    val themeName = themeDir.name
+                    val targetDir = File(rootDir, themeName)
+                    val assetsDir = File(targetDir, "src/main/assets/$themeName")
+                    assetsDir.mkdirs()
+
+                    val gitignore = File(targetDir, ".gitignore")
+                    gitignore.writeText("/*")
+
+                    val themePackTemplate = File(templatesDir, "asset-pack-build-gradle.template").readText()
+                    File(targetDir, "build.gradle.kts").writeText(themePackTemplate.replace("{{name}}", themeName))
+
+                    project.copy {
+                        from(themeDir)
+                        into(assetsDir)
+                    }
+
+                    val themeJson = mapper.readValue<Map<String, Any>>(themeDir.resolve("theme.json"))
+                    val iconFilePath = themeJson["icon"] as String
+                    val iconFile = themeDir.resolve(iconFilePath)
+                    if (!iconFile.exists()) {
+                        throw Exception("Failed resolving the icon file")
+                    }
+                    val targetIconFile = themeIconsDir.resolve("src/main/assets/$themeName.${iconFile.extension}")
+                    targetIconFile.mkdirs()
+                    if (targetIconFile.exists()) {
+                        targetIconFile.delete()
+                    }
+                    iconFile.copyTo(targetIconFile)
+                }
+
+                project.copy {
+                    from(musicDir)
+                    into(soundsDir.resolve("src/main/assets/music"))
+                }
+
+                val destination = File(variant.mergeAssetsProvider.get().outputDir.asFile.get(), "themes")
+                destination.parentFile.mkdirs()
+                val themesJson = File(rootDir, "themes/themes.json")
+
+                project.copy {
+                    from(themesJson)
+                    into(destination)
+                }
+            }
+        }
     }
 }
 
@@ -116,9 +195,17 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.cio) // or Android engine
+    implementation(libs.ktor.client.cio)
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.asset.delivery)
+    implementation(libs.asset.delivery.ktx)
+//    add("liteImplementation", libs.ktor.client.core)
+//    add("liteImplementation", libs.ktor.client.cio)
+//    add("liteImplementation", libs.ktor.client.content.negotiation)
+//    add("liteImplementation", libs.ktor.serialization.kotlinx.json)
+//    add("playstoreImplementation", libs.asset.delivery)
+//    add("playstoreImplementation", libs.asset.delivery.ktx)
 }
 
 tasks.register("generateThemes") {

@@ -13,8 +13,10 @@ import cz.chrastecky.kidsmemorygame.provider.MusicProvider
 import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.provider.music.LocalAssetsMusicProvider
 import cz.chrastecky.kidsmemorygame.provider.music.NullMusicProvider
+import cz.chrastecky.kidsmemorygame.provider.music.PlayAssetDeliveryMusicProvider
 import cz.chrastecky.kidsmemorygame.provider.music.RemoteAssetsMusicProvider
 import cz.chrastecky.kidsmemorygame.provider.theme.LocalAssetsThemeProvider
+import cz.chrastecky.kidsmemorygame.provider.theme.PlayAssetDeliveryThemeProvider
 import cz.chrastecky.kidsmemorygame.provider.theme.RemoteAssetsThemeProvider
 import cz.chrastecky.kidsmemorygame.service.MusicPlayer
 import cz.chrastecky.kidsmemorygame.ui.nav.AppNavigation
@@ -72,12 +74,14 @@ class MainActivity : ComponentActivity() {
         themeProvider = when (BuildConfig.FLAVOR) {
             "full" -> LocalAssetsThemeProvider(assets)
             "lite" -> RemoteAssetsThemeProvider(this)
+            "playstore" -> PlayAssetDeliveryThemeProvider(this)
             else -> throw IllegalStateException("Unknown flavor: ${BuildConfig.FLAVOR}")
         }
 
         musicProvider = when (BuildConfig.FLAVOR) {
             "full" -> LocalAssetsMusicProvider(assets)
             "lite" -> RemoteAssetsMusicProvider(this)
+            "playstore" -> PlayAssetDeliveryMusicProvider(this)
             else -> NullMusicProvider()
         }
     }
