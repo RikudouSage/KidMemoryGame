@@ -84,6 +84,8 @@ jobs:
         run: |
           ./gradlew bundlePlaystoreRelease
           ./gradlew bundlePlaystoreRelease -PincludeAssetPacks=true
+          ls -lah app/build/outputs/
+          ls -lah app/build/outputs/bundle/
 #      - name: Sign Android release
 #        uses: r0adkll/sign-android-release@v1
 #        id: sign_app
