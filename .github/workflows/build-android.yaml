@@ -99,7 +99,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.extract_name.outputs.result }}
+          name: playstore
           path: ${{ steps.sign_app.outputs.signedReleaseFile }}
           if-no-files-found: error
           retention-days: 1
