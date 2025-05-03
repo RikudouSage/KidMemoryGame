@@ -15,7 +15,6 @@ jobs:
         task:
           - assembleFullRelease
           - assembleLiteRelease
-          - bundlePlaystoreRelease -PincludeAssetPacks=true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -61,6 +60,47 @@ jobs:
           path: ${{ steps.sign_app.outputs.signedReleaseFile }}
           if-no-files-found: error
           retention-days: 1
+  build_play_store:
+    name: Build AAB
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: gradle
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Setup build tool version variable
+        shell: bash
+        run: |
+          BUILD_TOOL_VERSION=$(ls /usr/local/lib/android/sdk/build-tools/ | tail -n 1)
+          echo "BUILD_TOOL_VERSION=$BUILD_TOOL_VERSION" >> $GITHUB_ENV
+          echo Last build tool version is: $BUILD_TOOL_VERSION
+      - name: Build with Gradle
+        run: |
+          ./gradlew bundlePlaystoreRelease
+          ./gradlew bundlePlaystoreRelease -PincludeAssetPacks=true
+#      - name: Sign Android release
+#        uses: r0adkll/sign-android-release@v1
+#        id: sign_app
+#        with:
+#          releaseDirectory: app/build/outputs/apk/${{ steps.extract_name.outputs.result }}/release/
+#          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+#          alias: ${{ secrets.KEY_ALIAS }}
+#          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+#          keyPassword: ${{ secrets.KEY_PASSWORD }}
+#        env:
+#          BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOL_VERSION }}
+#      - name: Upload artifact
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: ${{ steps.extract_name.outputs.result }}
+#          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
+#          if-no-files-found: error
+#          retention-days: 1
 
   create_release:
     name: Create a release
