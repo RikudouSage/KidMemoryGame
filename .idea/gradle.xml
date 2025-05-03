@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/dinosaurs" />
             <option value="$PROJECT_DIR$/sea" />
+            <option value="$PROJECT_DIR$/theme_icons" />
           </set>
         </option>
       </GradleProjectSettings>
