@@ -15,6 +15,7 @@ jobs:
         task:
           - assembleFullRelease
           - assembleLiteRelease
+          - bundlePlaystoreRelease
     steps:
       - name: Checkout
         uses: actions/checkout@v4
