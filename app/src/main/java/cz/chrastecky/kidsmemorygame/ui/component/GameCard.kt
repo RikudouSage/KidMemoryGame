@@ -73,11 +73,9 @@ fun GameCard(
                 if (!card.isMatched) {
                     while (true) {
                         awaitPointerEventScope {
-                            val down = awaitFirstDown(requireUnconsumed = false)
-                            val up = waitForUpOrCancellation()
-                            if (up != null && !up.positionChangeConsumed()) {
-                                onClick()
-                            }
+                            awaitFirstDown(requireUnconsumed = false)
+                            waitForUpOrCancellation()
+                            onClick()
                         }
                     }
                 }
