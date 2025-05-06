@@ -241,7 +241,7 @@ private fun GameScreenMain(
                             }
                             cards = newCards
 
-                            val isCurrentlyFlipped = !card.isFlipped
+                            val isCurrentlyFlipped = cards.first { it.cardId == card.cardId }.isFlipped
                             flippedCards = if (isCurrentlyFlipped) {
                                 flippedCards + card.cardId
                             } else {
