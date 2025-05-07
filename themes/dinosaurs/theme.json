@@ -1,38 +1,38 @@
 {
   "id" : "dinosaurs",
   "name" : "Dinosaurs",
-  "background" : "background.png",
+  "background" : "background.webp",
   "cards" : [
-    "cards/ankylosaurus.png",
-    "cards/brachiosaurus.png",
-    "cards/carnotaurus.png",
-    "cards/dilophosaurus.png",
-    "cards/pachycephalosaurus.png",
-    "cards/parasaurolophus.png",
-    "cards/pterodactylus.png",
-    "cards/spinosaurus.png",
-    "cards/stegosaurus.png",
-    "cards/t-rex.png",
-    "cards/triceratops.png",
-    "cards/velociraptor.png"
+    "cards/ankylosaurus.webp",
+    "cards/brachiosaurus.webp",
+    "cards/carnotaurus.webp",
+    "cards/dilophosaurus.webp",
+    "cards/pachycephalosaurus.webp",
+    "cards/parasaurolophus.webp",
+    "cards/pterodactylus.webp",
+    "cards/spinosaurus.webp",
+    "cards/stegosaurus.webp",
+    "cards/t-rex.webp",
+    "cards/triceratops.webp",
+    "cards/velociraptor.webp"
   ],
-  "icon" : "cards/t-rex.png",
+  "icon" : "cards/t-rex.webp",
   "mascots" : [
     {
-      "image" : "cards/pterodactylus.png",
+      "image" : "cards/pterodactylus.webp",
       "rotation" : 0,
       "y" : 600
     },
     {
-      "image" : "cards/t-rex.png",
+      "image" : "cards/t-rex.webp",
       "rotation" : 0,
       "y" : 495
     },
     {
-      "image" : "cards/velociraptor.png",
+      "image" : "cards/velociraptor.webp",
       "rotation" : 45,
       "y" : 581
     }
   ],
-  "hash" : "bddb2b94c2603fd1f52b000c457e7c1a7f1a539d1d3dbffcf47630dd4e3c83d9"
+  "hash" : "27cd932e8d27809252726b6717c51ad1c4f9d598f75010ca1737284694982e3b"
 }
