@@ -3,37 +3,37 @@
   "name" : "Fruit",
   "background" : "background.webp",
   "cards" : [
-    "cards/apple.png",
-    "cards/banana.png",
-    "cards/blueberry.png",
-    "cards/cherry.png",
-    "cards/coconut.png",
-    "cards/grapes.png",
-    "cards/lemon.png",
-    "cards/orange.png",
-    "cards/peach.png",
-    "cards/pear.png",
-    "cards/pineapple.png",
-    "cards/strawberry.png",
-    "cards/watermelon.png"
+    "cards/apple.webp",
+    "cards/banana.webp",
+    "cards/blueberry.webp",
+    "cards/cherry.webp",
+    "cards/coconut.webp",
+    "cards/grapes.webp",
+    "cards/lemon.webp",
+    "cards/orange.webp",
+    "cards/peach.webp",
+    "cards/pear.webp",
+    "cards/pineapple.webp",
+    "cards/strawberry.webp",
+    "cards/watermelon.webp"
   ],
-  "icon" : "cards/apple.png",
+  "icon" : "cards/apple.webp",
   "mascots" : [
     {
-      "image" : "cards/apple.png",
+      "image" : "cards/apple.webp",
       "rotation" : 0,
       "y" : 721
     },
     {
-      "image" : "cards/banana.png",
+      "image" : "cards/banana.webp",
       "rotation" : 0,
       "y" : 661
     },
     {
-      "image" : "cards/strawberry.png",
+      "image" : "cards/strawberry.webp",
       "rotation" : 0,
       "y" : 680
     }
   ],
-  "hash" : "be70637f69858574d1d2ecc899df888da1d927ef5a1488e32ed641994b232894"
+  "hash" : "37d6cfa5a9782a375e2b98110e84d00c6171ed9b50286606ea1705a660179160"
 }

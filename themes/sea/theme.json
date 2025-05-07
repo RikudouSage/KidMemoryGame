@@ -3,62 +3,62 @@
   "name" : "Sea Creatures",
   "background" : "background.webp",
   "cards" : [
-    "cards/anglerfish.png",
-    "cards/blue-tang.png",
-    "cards/clownfish.png",
-    "cards/crab.png",
-    "cards/dolphin.png",
-    "cards/giant-clam.png",
-    "cards/hammerhead.png",
-    "cards/horsefish.png",
-    "cards/jellyfish.png",
-    "cards/lobster.png",
-    "cards/manta-ray.png",
-    "cards/moray-eel.png",
-    "cards/octopus.png",
-    "cards/orca.png",
-    "cards/penguin.png",
-    "cards/pufflefish.png",
-    "cards/sea-urchin.png",
-    "cards/sea_lion.png",
-    "cards/seal.png",
-    "cards/shark.png",
-    "cards/starfish.png",
-    "cards/swordfish.png",
-    "cards/turtle.png"
+    "cards/anglerfish.webp",
+    "cards/blue-tang.webp",
+    "cards/clownfish.webp",
+    "cards/crab.webp",
+    "cards/dolphin.webp",
+    "cards/giant-clam.webp",
+    "cards/hammerhead.webp",
+    "cards/horsefish.webp",
+    "cards/jellyfish.webp",
+    "cards/lobster.webp",
+    "cards/manta-ray.webp",
+    "cards/moray-eel.webp",
+    "cards/octopus.webp",
+    "cards/orca.webp",
+    "cards/penguin.webp",
+    "cards/pufflefish.webp",
+    "cards/sea-urchin.webp",
+    "cards/sea_lion.webp",
+    "cards/seal.webp",
+    "cards/shark.webp",
+    "cards/starfish.webp",
+    "cards/swordfish.webp",
+    "cards/turtle.webp"
   ],
-  "icon" : "cards/turtle.png",
+  "icon" : "cards/turtle.webp",
   "mascots" : [
     {
-      "image" : "cards/dolphin.png",
+      "image" : "cards/dolphin.webp",
       "rotation" : 45,
       "y" : 666
     },
     {
-      "image" : "cards/hammerhead.png",
+      "image" : "cards/hammerhead.webp",
       "rotation" : 22,
       "y" : 762
     },
     {
-      "image" : "cards/jellyfish.png",
+      "image" : "cards/jellyfish.webp",
       "rotation" : 0,
       "y" : 505
     },
     {
-      "image" : "cards/lobster.png",
+      "image" : "cards/lobster.webp",
       "rotation" : 0,
       "y" : 560
     },
     {
-      "image" : "cards/penguin.png",
+      "image" : "cards/penguin.webp",
       "rotation" : 0,
       "y" : 480
     },
     {
-      "image" : "cards/starfish.png",
+      "image" : "cards/starfish.webp",
       "rotation" : 0,
       "y" : 622
     }
   ],
-  "hash" : "42532508a13a7d9f97eebc77ad539ed812a3ec62b2ba8f4dc78dae919ed861ff"
+  "hash" : "d86070c901929425793afe0e11ede0751601fe29f791f805c19a0af4d71b6b1b"
 }
