@@ -3,7 +3,7 @@
 Turn screen time into brain-boosting fun with Memory Match for kids—a vibrant and ad-free card-matching game!.
 
 Why kids (and parents!) love it:
-- Bright, lovable themes – sea animals, dinosaurs and more to come!
+- Bright, lovable themes – sea animals, dinosaurs, fruit and more to come!
 - Grows with your child – multiple board sizes (2×2, 3×2, 4×3, 4×4, 6×4, 6×5) that gently ramp up the challenge.
 - Positive rewards – get a burst of confetti that celebrate every success.
 - No reading required – big icons, cheerful voice-overs, and simple tap controls.

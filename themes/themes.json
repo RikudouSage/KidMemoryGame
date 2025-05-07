@@ -12,5 +12,12 @@
     "configPath" : "dinosaurs/theme.json",
     "icon" : "cards/t-rex.png",
     "hash" : "bddb2b94c2603fd1f52b000c457e7c1a7f1a539d1d3dbffcf47630dd4e3c83d9"
+  },
+  {
+    "id" : "fruit",
+    "name" : "Fruit",
+    "configPath" : "fruit/theme.json",
+    "icon" : "cards/apple.png",
+    "hash" : "be70637f69858574d1d2ecc899df888da1d927ef5a1488e32ed641994b232894"
   }
 ]
