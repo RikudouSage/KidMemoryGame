@@ -4,20 +4,20 @@
     "name" : "Sea Creatures",
     "configPath" : "sea/theme.json",
     "icon" : "cards/turtle.webp",
-    "hash" : "d86070c901929425793afe0e11ede0751601fe29f791f805c19a0af4d71b6b1b"
+    "hash" : "6311a2a26cf33dc88157904b9a2277b5fdc97bb929910f2dff3128d4f4210de0"
   },
   {
     "id" : "dinosaurs",
     "name" : "Dinosaurs",
     "configPath" : "dinosaurs/theme.json",
     "icon" : "cards/t-rex.webp",
-    "hash" : "27cd932e8d27809252726b6717c51ad1c4f9d598f75010ca1737284694982e3b"
+    "hash" : "dbaf3afa6113e2f73ef18f2db5cc87f51f19251939a2bb28e3383ba925ce699d"
   },
   {
     "id" : "fruit",
     "name" : "Fruit",
     "configPath" : "fruit/theme.json",
     "icon" : "cards/apple.webp",
-    "hash" : "37d6cfa5a9782a375e2b98110e84d00c6171ed9b50286606ea1705a660179160"
+    "hash" : "9d8862d0bcb3ccff67d0e46f461c056bf69c840c6033f30c94871d504003de27"
   }
 ]
