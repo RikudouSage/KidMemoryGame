@@ -19,6 +19,7 @@
     "cards/orca.webp",
     "cards/penguin.webp",
     "cards/pufflefish.webp",
+    "cards/sea-urchin.webp",
     "cards/sea_lion.webp",
     "cards/seal.webp",
     "cards/shark.webp",
@@ -59,5 +60,5 @@
       "y" : 622
     }
   ],
-  "hash" : "69fddb97d8f3a840d829a2d20a95a1ce1962bf0d8767ed39b4b1ca1c30516cfa"
+  "hash" : "6311a2a26cf33dc88157904b9a2277b5fdc97bb929910f2dff3128d4f4210de0"
 }
