@@ -10,13 +10,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.core.content.edit
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import cz.chrastecky.kidsmemorygame.dto.ThemeInfo
 import cz.chrastecky.kidsmemorygame.enums.SharedPreferenceName
 import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.ui.screen.DownloadScreen
@@ -24,6 +23,7 @@ import cz.chrastecky.kidsmemorygame.ui.screen.ErrorScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.GameScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.SplashScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.ThemePickerScreen
+import cz.chrastecky.kidsmemorygame.ui.view_model.ThemeInfoViewModel
 
 @Composable
 fun AppNavigation(
@@ -32,7 +32,7 @@ fun AppNavigation(
 ) {
     val navController = rememberNavController()
 
-    var themes by rememberSaveable { mutableStateOf<List<ThemeInfo>?>(null) }
+    val themesViewModel: ThemeInfoViewModel = viewModel()
     var error by remember { mutableStateOf<Throwable?>(null) }
     var reloadGameKey by remember { mutableIntStateOf(0) }
 
@@ -46,7 +46,7 @@ fun AppNavigation(
             SplashScreen(
                 loadThemes = { themeProvider.listAvailableThemes() },
                 onLoaded = {
-                    themes = it
+                    themesViewModel.themes = it
                     navController.navigate("picker") {
                         popUpTo("splash") { inclusive = true }
                     }
@@ -102,7 +102,7 @@ fun AppNavigation(
 
                 PickerScreenState.ShowPicker -> {
                     ThemePickerScreen(
-                        themes = themes ?: emptyList(),
+                        themes = themesViewModel.themes ?: emptyList(),
                         themeProvider = themeProvider,
                     ) { theme, isDownloaded ->
                         val route = if (isDownloaded) "game/${theme.id}" else "download/${theme.id}"
