@@ -155,7 +155,7 @@ private fun GameScreenMain(
     var resetTrigger by remember { mutableStateOf(false) }
     var showSettingsMenu by remember { mutableStateOf(false) }
     var showChangeSizeMenu by remember { mutableStateOf(false) }
-    val mascot by remember { mutableStateOf(theme.mascots.shuffled().first()) }
+    val mascot by remember { mutableStateOf(theme.mascots.shuffled().firstOrNull()) }
 
     val columns = gameSize.columns().toInt()
     val rows = gameSize.rows().toInt()

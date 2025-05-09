@@ -1,0 +1,21 @@
+{
+  "id" : "colours",
+  "name" : "Colours",
+  "background" : "background.webp",
+  "cards" : [
+    "cards/black.webp",
+    "cards/blue.webp",
+    "cards/brown.webp",
+    "cards/gray.webp",
+    "cards/green.webp",
+    "cards/orange.webp",
+    "cards/pink.webp",
+    "cards/purple.webp",
+    "cards/red.webp",
+    "cards/white.webp",
+    "cards/yellow.webp"
+  ],
+  "icon" : "icon.webp",
+  "mascots" : [ ],
+  "hash" : "4325353a6577df20856df2125f998d5d4c1b53113833d88d92ddf4d81825641a"
+}
