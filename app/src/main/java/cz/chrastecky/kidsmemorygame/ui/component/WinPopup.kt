@@ -18,7 +18,7 @@ import cz.chrastecky.kidsmemorygame.dto.ThemeMascot
 
 @Composable
 fun WinPopup(
-    mascot: ThemeMascot,
+    mascot: ThemeMascot?,
     onNewGame: () -> Unit,
     onChangeSize: () -> Unit,
     onThemePicker: () -> Unit
