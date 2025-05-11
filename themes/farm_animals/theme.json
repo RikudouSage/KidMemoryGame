@@ -1,5 +1,5 @@
 {
-  "id" : "farm-animals",
+  "id" : "farm_animals",
   "name" : "Farm Animals",
   "background" : "background.webp",
   "cards" : [
@@ -37,5 +37,5 @@
       "y" : 860
     }
   ],
-  "hash" : "c1ed144724cc52ffd75dfb7aacfa112df093bf7d6d6960b8187be4dcc194c285"
+  "hash" : "663c343c1a0b2885a402944da1ab9bf22ea63755a50e92d23de3d842dac31205"
 }
