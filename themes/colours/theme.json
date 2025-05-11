@@ -1,7 +1,7 @@
 {
   "id" : "colours",
   "name" : "Colours",
-  "background" : "background.png",
+  "background" : "background.webp",
   "cards" : [
     "cards/black.webp",
     "cards/blue.webp",
@@ -17,5 +17,5 @@
   ],
   "icon" : "icon.webp",
   "mascots" : [ ],
-  "hash" : "ef4ddb2f05359f58ef0786b6340da5b4dba6ccf79a37f2d88cb369340bd8312f"
+  "hash" : "31525abb93646f17f97fb0dfda7c2abc352083c290f37df44bacbfbcd259d3dd"
 }
