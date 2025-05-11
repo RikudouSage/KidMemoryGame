@@ -1,14 +1,7 @@
 package cz.chrastecky.kidsmemorygame
 
-import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.content.pm.ActivityInfo
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -29,16 +22,10 @@ import cz.chrastecky.kidsmemorygame.service.MusicPlayer
 import cz.chrastecky.kidsmemorygame.ui.nav.AppNavigation
 import cz.chrastecky.kidsmemorygame.ui.theme.KidsMemoryGameTheme
 import kotlinx.coroutines.launch
-import androidx.core.net.toUri
-
-private const val ACTION_REQUEST_THEMES = BuildConfig.APPLICATION_ID + ".REQUEST_THEME_INFO"
-private const val ACTION_RESPONSE_THEMES = BuildConfig.APPLICATION_ID + ".RESPONSE_THEME_INFO"
-private const val EXTRA_RESPONSE_URI = BuildConfig.APPLICATION_ID + ".EXTRA_THEME_DIR_URI"
 
 class MainActivity : ComponentActivity() {
     private lateinit var themeProvider: ThemeProvider
     private lateinit var musicProvider: MusicProvider
-    private var pluginReceiver: BroadcastReceiver? = null
     private val musicPlayer = MusicPlayer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,16 +55,11 @@ class MainActivity : ComponentActivity() {
     override fun onPause() {
         super.onPause()
         musicPlayer.pause()
-
-        if (pluginReceiver != null) {
-            unregisterReceiver(pluginReceiver)
-        }
     }
 
     override fun onResume() {
         super.onResume()
         musicPlayer.resume()
-        registerPluginReceiver()
     }
 
     private fun hideSystemUI() {
@@ -101,38 +83,6 @@ class MainActivity : ComponentActivity() {
             "lite" -> RemoteAssetsMusicProvider(this)
             "playstore" -> PlayAssetDeliveryMusicProvider(this)
             else -> NullMusicProvider()
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            pluginReceiver = object : BroadcastReceiver() {
-                override fun onReceive(context: Context?, intent: Intent?) {
-                    val uri = intent?.getStringExtra(EXTRA_RESPONSE_URI)?.toUri()
-                    if (uri == null) {
-                        Log.w("PluginDiscovery", "A plugin with no theme uri responded")
-                    }
-                }
-            }
-            askPluginsToReportThemselves()
-        }
-    }
-
-    private fun askPluginsToReportThemselves() {
-        val intent = Intent(ACTION_REQUEST_THEMES)
-        intent.flags = Intent.FLAG_INCLUDE_STOPPED_PACKAGES
-        sendBroadcast(intent)
-    }
-
-    @SuppressLint("UnspecifiedRegisterReceiverFlag")
-    private fun registerPluginReceiver() {
-        if (pluginReceiver == null) {
-            return
-        }
-
-        val filter = IntentFilter(ACTION_RESPONSE_THEMES)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            registerReceiver(pluginReceiver, filter, RECEIVER_EXPORTED)
-        } else {
-            registerReceiver(pluginReceiver, filter)
         }
     }
 }
