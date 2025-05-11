@@ -26,5 +26,12 @@
     "configPath" : "colours/theme.json",
     "icon" : "icon.webp",
     "hash" : "306acf419671080a03e341cc8531b4c544136421d1d3f686250568a4bdfa3eee"
+  },
+  {
+    "id" : "farm-animals",
+    "name" : "Farm Animals",
+    "configPath" : "farm-animals/theme.json",
+    "icon" : "cards/pig.webp",
+    "hash" : "c1ed144724cc52ffd75dfb7aacfa112df093bf7d6d6960b8187be4dcc194c285"
   }
 ]
