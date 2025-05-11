@@ -11,21 +11,21 @@
     "name" : "Dinosaurs",
     "configPath" : "dinosaurs/theme.json",
     "icon" : "cards/t-rex.webp",
-    "hash" : "dbaf3afa6113e2f73ef18f2db5cc87f51f19251939a2bb28e3383ba925ce699d"
+    "hash" : "46c677d32ea1e4d39f0ffded07e3dffd68c8375e21312e095c2cb4a52022188a"
   },
   {
     "id" : "fruit",
     "name" : "Fruit",
     "configPath" : "fruit/theme.json",
     "icon" : "cards/apple.webp",
-    "hash" : "c008b722f1be1a8b95aab99bb058341f8379b344f56c5de9385631a5c182aae0"
+    "hash" : "c32d50afc24214110906ebf3c29ddcdf51ce964bb441bb94fb35b69608c7a842"
   },
   {
     "id" : "colours",
     "name" : "Colours",
     "configPath" : "colours/theme.json",
     "icon" : "icon.webp",
-    "hash" : "306acf419671080a03e341cc8531b4c544136421d1d3f686250568a4bdfa3eee"
+    "hash" : "31525abb93646f17f97fb0dfda7c2abc352083c290f37df44bacbfbcd259d3dd"
   },
   {
     "id" : "farm_animals",
