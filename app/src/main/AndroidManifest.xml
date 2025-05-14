@@ -8,6 +8,10 @@
         </intent>
     </queries>
     <uses-permission android:name="cz.chrastecky.kidsmemorygame.PERMISSION_REQUEST_THEMES" />
+    <permission
+        android:name="cz.chrastecky.kidsmemorygame.PERMISSION_REQUEST_THEMES"
+        android:label="Allow listing theme plugins"
+        android:protectionLevel="normal" />
 
     <application
         android:allowBackup="true"
