@@ -2,6 +2,7 @@ package cz.chrastecky.kidsmemorygame
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -12,34 +13,40 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import cz.chrastecky.kidsmemorygame.provider.MusicProvider
-import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.provider.music.LocalAssetsMusicProvider
 import cz.chrastecky.kidsmemorygame.provider.music.NullMusicProvider
 import cz.chrastecky.kidsmemorygame.provider.music.PlayAssetDeliveryMusicProvider
 import cz.chrastecky.kidsmemorygame.provider.music.RemoteAssetsMusicProvider
 import cz.chrastecky.kidsmemorygame.provider.theme.LocalAssetsThemeProvider
 import cz.chrastecky.kidsmemorygame.provider.theme.PlayAssetDeliveryThemeProvider
+import cz.chrastecky.kidsmemorygame.provider.theme.RegistrableThemeProvider
 import cz.chrastecky.kidsmemorygame.provider.theme.RemoteAssetsThemeProvider
+import cz.chrastecky.kidsmemorygame.provider.theme.parseFromPlugin
 import cz.chrastecky.kidsmemorygame.service.MusicPlayer
 import cz.chrastecky.kidsmemorygame.ui.nav.AppNavigation
 import cz.chrastecky.kidsmemorygame.ui.theme.KidsMemoryGameTheme
+import cz.chrastecky.kidsmemorygame.ui.view_model.UiStateViewModel
 import kotlinx.coroutines.launch
-import androidx.core.net.toUri
 
 private const val ACTION_REQUEST_THEMES = BuildConfig.APPLICATION_ID + ".REQUEST_THEME_INFO"
 private const val ACTION_RESPONSE_THEMES = BuildConfig.APPLICATION_ID + ".RESPONSE_THEME_INFO"
 private const val EXTRA_RESPONSE_URI = BuildConfig.APPLICATION_ID + ".EXTRA_THEME_DIR_URI"
 
 class MainActivity : ComponentActivity() {
-    private lateinit var themeProvider: ThemeProvider
+    private lateinit var themeProvider: RegistrableThemeProvider
     private lateinit var musicProvider: MusicProvider
     private var pluginReceiver: BroadcastReceiver? = null
     private val musicPlayer = MusicPlayer()
+    private lateinit var uiStateViewModel: UiStateViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,13 +55,17 @@ class MainActivity : ComponentActivity() {
         initialize()
 
         val sharedPreferences = getSharedPreferences("main", MODE_PRIVATE)
+        uiStateViewModel = ViewModelProvider(this)[UiStateViewModel::class.java]
 
         enableEdgeToEdge()
         setContent {
+            val reloadKey by uiStateViewModel.reloadKey.collectAsState()
+
             KidsMemoryGameTheme {
                 AppNavigation(
                     themeProvider = themeProvider,
                     sharedPreferences = sharedPreferences,
+                    reloadKey = reloadKey,
                 )
             }
         }
@@ -89,12 +100,12 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun initialize() {
-        themeProvider = when (BuildConfig.FLAVOR) {
+        themeProvider = RegistrableThemeProvider(when (BuildConfig.FLAVOR) {
             "full" -> LocalAssetsThemeProvider(assets)
             "lite" -> RemoteAssetsThemeProvider(this)
             "playstore" -> PlayAssetDeliveryThemeProvider(this)
             else -> throw IllegalStateException("Unknown flavor: ${BuildConfig.FLAVOR}")
-        }
+        })
 
         musicProvider = when (BuildConfig.FLAVOR) {
             "full" -> LocalAssetsMusicProvider(assets)
@@ -109,7 +120,19 @@ class MainActivity : ComponentActivity() {
                     val uri = intent?.getStringExtra(EXTRA_RESPONSE_URI)?.toUri()
                     if (uri == null) {
                         Log.w("PluginDiscovery", "A plugin with no theme uri responded")
+                        return
                     }
+
+                    val details = parseFromPlugin(uri, this@MainActivity)
+                    if (details == null) {
+                        Log.w("PluginDiscovery", "A plugin with invalid theme configs")
+                        return
+                    }
+
+                    details.forEach {
+                        themeProvider.register(it)
+                    }
+                    uiStateViewModel.incrementReloadKey()
                 }
             }
             askPluginsToReportThemselves()
@@ -118,8 +141,15 @@ class MainActivity : ComponentActivity() {
 
     private fun askPluginsToReportThemselves() {
         val intent = Intent(ACTION_REQUEST_THEMES)
-        intent.flags = Intent.FLAG_INCLUDE_STOPPED_PACKAGES
-        sendBroadcast(intent)
+        val resolveInfos = packageManager.queryBroadcastReceivers(intent, 0)
+
+        for (info in resolveInfos) {
+            val targetComponent = ComponentName(info.activityInfo.packageName, info.activityInfo.name)
+            val explicitIntent = Intent(ACTION_REQUEST_THEMES).apply {
+                component = targetComponent
+            }
+            sendBroadcast(explicitIntent)
+        }
     }
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag")

@@ -21,8 +21,9 @@ fun SplashScreen(
     loadThemes: suspend () -> List<ThemeInfo>,
     onLoaded: (List<ThemeInfo>) -> Unit,
     onError: (Throwable) -> Unit = {},
+    reloadKey: Int,
 ) {
-    LaunchedEffect(Unit) {
+    LaunchedEffect(reloadKey) {
         val startTime = System.currentTimeMillis()
         try {
             val themes = loadThemes()
