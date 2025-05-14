@@ -48,6 +48,8 @@ class MainActivity : ComponentActivity() {
     private val musicPlayer = MusicPlayer()
     private lateinit var uiStateViewModel: UiStateViewModel
 
+    private var receiverRegistered = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -80,8 +82,9 @@ class MainActivity : ComponentActivity() {
         super.onPause()
         musicPlayer.pause()
 
-        if (pluginReceiver != null) {
+        if (pluginReceiver != null && receiverRegistered) {
             unregisterReceiver(pluginReceiver)
+            receiverRegistered = false
         }
     }
 
@@ -135,6 +138,7 @@ class MainActivity : ComponentActivity() {
                     uiStateViewModel.incrementReloadKey()
                 }
             }
+            registerPluginReceiver()
             askPluginsToReportThemselves()
         }
     }
@@ -154,7 +158,7 @@ class MainActivity : ComponentActivity() {
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     private fun registerPluginReceiver() {
-        if (pluginReceiver == null) {
+        if (pluginReceiver == null || receiverRegistered) {
             return
         }
 
@@ -164,5 +168,6 @@ class MainActivity : ComponentActivity() {
         } else {
             registerReceiver(pluginReceiver, filter)
         }
+        receiverRegistered = true
     }
 }
