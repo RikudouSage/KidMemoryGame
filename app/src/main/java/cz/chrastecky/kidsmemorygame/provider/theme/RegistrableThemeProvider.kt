@@ -86,7 +86,6 @@ fun parseFromPlugin(providerUri: Uri, context: Context): List<ThemeDetail>? {
         return json.map { themeInfoJson ->
             val themeDetailJsonPath = "$basePath/${themeInfoJson["configPath"]}"
             val themeDetailJsonString = context.contentResolver.openInputStream(themeDetailJsonPath.toUri())?.bufferedReader()?.use { it.readText() }
-            println(themeDetailJsonString)
             if (themeDetailJsonString == null) {
                 return null
             }
