@@ -7,6 +7,7 @@
             <action android:name="cz.chrastecky.kidsmemorygame.REQUEST_THEME_INFO" />
         </intent>
     </queries>
+    <uses-permission android:name="cz.chrastecky.kidsmemorygame.PERMISSION_REQUEST_THEMES" />
 
     <application
         android:allowBackup="true"
