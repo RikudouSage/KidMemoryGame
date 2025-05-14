@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import cz.chrastecky.kidsmemorygame.R
 import cz.chrastecky.kidsmemorygame.dto.ThemeInfo
 import cz.chrastecky.kidsmemorygame.ui.theme.BackgroundColor
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 
 @Composable
@@ -21,8 +22,9 @@ fun SplashScreen(
     loadThemes: suspend () -> List<ThemeInfo>,
     onLoaded: (List<ThemeInfo>) -> Unit,
     onError: (Throwable) -> Unit = {},
+    reloadKey: Int,
 ) {
-    LaunchedEffect(Unit) {
+    LaunchedEffect(reloadKey) {
         val startTime = System.currentTimeMillis()
         try {
             val themes = loadThemes()
@@ -34,6 +36,8 @@ fun SplashScreen(
             }
 
             onLoaded(themes)
+        } catch (e: CancellationException) {
+            // ignore
         } catch (e: Exception) {
             onError(e)
         }

@@ -141,7 +141,16 @@ private fun GameScreenMain(
             var storedSizeEnum = GameSize.valueOf(storedSize)
             val requiredImageCount = (storedSizeEnum.columns() * storedSizeEnum.rows()) / 2u
             if (theme.cards.size.toUInt() < requiredImageCount) {
-                storedSizeEnum = GameSize.Size4x3
+                for (entry in GameSize.entries.sortedByDescending { it.rows() * it.columns() }) {
+                    val requiredImageCountInner = entry.rows() * entry.columns() / 2u
+                    if (theme.cards.size.toUInt() < requiredImageCountInner) {
+                        continue
+                    }
+
+                    storedSizeEnum = entry
+                    break
+                }
+
                 sharedPreferences.edit {
                     putString(SharedPreferenceName.GameSize.name, storedSizeEnum.name)
                 }

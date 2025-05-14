@@ -29,12 +29,21 @@ import cz.chrastecky.kidsmemorygame.ui.view_model.ThemeInfoViewModel
 fun AppNavigation(
     themeProvider: ThemeProvider,
     sharedPreferences: SharedPreferences,
+    reloadKey: Int,
 ) {
     val navController = rememberNavController()
 
     val themesViewModel: ThemeInfoViewModel = viewModel()
     var error by remember { mutableStateOf<Throwable?>(null) }
     var reloadGameKey by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(reloadKey) {
+        if (themesViewModel.themes == null) {
+            return@LaunchedEffect
+        }
+
+        themesViewModel.themes = themeProvider.listAvailableThemes()
+    }
 
     NavHost(
         navController = navController,
@@ -55,6 +64,7 @@ fun AppNavigation(
                     error = it
                     navController.navigate("error")
                 },
+                reloadKey = reloadKey,
             )
         }
 
