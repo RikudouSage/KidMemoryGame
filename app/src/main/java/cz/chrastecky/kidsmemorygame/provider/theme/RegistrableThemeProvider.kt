@@ -9,6 +9,11 @@ import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import androidx.core.net.toUri
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import cz.chrastecky.kidsmemorygame.dto.ThemeMascot
+import cz.chrastecky.kidsmemorygame.helper.asFloat
+import cz.chrastecky.kidsmemorygame.helper.asInt
+import cz.chrastecky.kidsmemorygame.helper.cropY
+import cz.chrastecky.kidsmemorygame.helper.rotate
 
 class RegistrableThemeProvider (
     private val themeProvider: ThemeProvider,
@@ -110,6 +115,23 @@ fun parseFromPlugin(providerUri: Uri, context: Context): List<ThemeDetail>? {
 
                 cardBitmap
             }
+            val mascots = rawMascots.map {
+                val rotation = it["rotation"].asFloat()
+                val y = it["y"].asInt()
+
+                val path = "$basePath/${themeInfoJson["id"]}/${it["image"]}"
+                var mascotImg = context.contentResolver.openInputStream(path.toUri())?.use { input -> BitmapFactory.decodeStream(input) }
+                if (mascotImg == null) {
+                    return null
+                }
+                mascotImg = mascotImg.rotate(rotation).cropY(y)
+
+                ThemeMascot(
+                    image = mascotImg,
+                    rotation = rotation,
+                    y = y,
+                )
+            }
 
             ThemeDetail(
                 id = "$packageId.${themeInfoJson["id"]}",
@@ -117,7 +139,7 @@ fun parseFromPlugin(providerUri: Uri, context: Context): List<ThemeDetail>? {
                 background = background,
                 cards = cards,
                 icon = icon,
-                mascots = emptyList(),
+                mascots = mascots,
             )
         }
     }
