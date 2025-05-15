@@ -54,6 +54,9 @@ A detailed guide is on the way, but here’s a quick overview of how to integrat
 - In response, you should provide a **Content Provider** that can handle query requests and return two key properties:
     - `basePath`: A full URI (as a string) pointing to the **directory containing the root `themes.json`** file.
     - `packageId`: Your app’s Android package ID.
+- The URI to query the Content Provider **must be provided as an extra** in the broadcast response:
+    - Extra key: `cz.chrastecky.kidsmemorygame.EXTRA_THEME_DIR_URI`
+    - The value should be the URI of the Content Provider that returns the theme information.
 
 ### Required Files
 - **themes.json** (root file):
