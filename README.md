@@ -28,6 +28,10 @@ Built-in learning benefits:
 
 ![](screenshots/05.png)
 
+![](screenshots/06.png)
+
+![](screenshots/07.png)
+
 ## Technical details
 
 The game is built using Kotlin, to compile it yourself, simply clone the repository, open it in Android
