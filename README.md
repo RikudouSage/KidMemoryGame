@@ -5,7 +5,7 @@ Turn screen time into brain-boosting fun with Memory Match for kids—a vibrant 
 Why kids (and parents!) love it:
 - Bright, lovable themes – sea animals, dinosaurs, fruit and more to come!
 - Grows with your child – multiple board sizes (2×2, 3×2, 4×3, 4×4, 6×4, 6×5) that gently ramp up the challenge.
-- Positive rewards – get a burst of confetti that celebrate every success.
+- Positive rewards – get a burst of confetti that celebrate every success. After each win, a cute character from your chosen theme will peek out to say hello!
 - No reading required – big icons, cheerful voice-overs, and simple tap controls.
 - Safe & private – 100% ad-free, purchase-free, and tracker-free. We collect zero data, so your family’s privacy stays completely intact while your little angels play.
 
