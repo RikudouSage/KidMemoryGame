@@ -16,6 +16,8 @@
             <option value="$PROJECT_DIR$/farm_animals" />
             <option value="$PROJECT_DIR$/fruit" />
             <option value="$PROJECT_DIR$/sea" />
+            <option value="$PROJECT_DIR$/sound_pack" />
+            <option value="$PROJECT_DIR$/theme_icons" />
           </set>
         </option>
       </GradleProjectSettings>

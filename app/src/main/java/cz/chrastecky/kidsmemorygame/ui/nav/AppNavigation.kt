@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import cz.chrastecky.kidsmemorygame.enums.SharedPreferenceName
 import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
+import cz.chrastecky.kidsmemorygame.service.hook.HookProcessor
 import cz.chrastecky.kidsmemorygame.ui.screen.DownloadScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.ErrorScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.GameScreen
@@ -29,6 +30,7 @@ import cz.chrastecky.kidsmemorygame.ui.view_model.ThemeInfoViewModel
 fun AppNavigation(
     themeProvider: ThemeProvider,
     sharedPreferences: SharedPreferences,
+    hookProcessor: HookProcessor,
     reloadKey: Int,
 ) {
     val navController = rememberNavController()
@@ -156,6 +158,7 @@ fun AppNavigation(
                     themeId = themeId,
                     sharedPreferences = sharedPreferences,
                     themeProvider = themeProvider,
+                    hookProcessor = hookProcessor,
                     reloadGameKey = reloadGameKey,
                     onRequestReset = { reloadGameKey++ },
                     onThemeChangeRequested = {

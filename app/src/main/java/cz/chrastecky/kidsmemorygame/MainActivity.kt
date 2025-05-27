@@ -21,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import cz.chrastecky.kidsmemorygame.enums.SHARED_PREFERENCES_DATABASE_NAME
 import cz.chrastecky.kidsmemorygame.provider.MusicProvider
 import cz.chrastecky.kidsmemorygame.provider.music.LocalAssetsMusicProvider
 import cz.chrastecky.kidsmemorygame.provider.music.NullMusicProvider
@@ -32,6 +33,8 @@ import cz.chrastecky.kidsmemorygame.provider.theme.RegistrableThemeProvider
 import cz.chrastecky.kidsmemorygame.provider.theme.RemoteAssetsThemeProvider
 import cz.chrastecky.kidsmemorygame.provider.theme.parseFromPlugin
 import cz.chrastecky.kidsmemorygame.service.MusicPlayer
+import cz.chrastecky.kidsmemorygame.service.hook.DefaultHookProcessor
+import cz.chrastecky.kidsmemorygame.service.hook.HookProcessor
 import cz.chrastecky.kidsmemorygame.ui.nav.AppNavigation
 import cz.chrastecky.kidsmemorygame.ui.theme.KidsMemoryGameTheme
 import cz.chrastecky.kidsmemorygame.ui.view_model.UiStateViewModel
@@ -47,6 +50,7 @@ class MainActivity : ComponentActivity() {
     private var pluginReceiver: BroadcastReceiver? = null
     private val musicPlayer = MusicPlayer()
     private lateinit var uiStateViewModel: UiStateViewModel
+    private lateinit var hookProcessor: HookProcessor
 
     private var receiverRegistered = false
 
@@ -56,7 +60,7 @@ class MainActivity : ComponentActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
         initialize()
 
-        val sharedPreferences = getSharedPreferences("main", MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_DATABASE_NAME, MODE_PRIVATE)
         uiStateViewModel = ViewModelProvider(this)[UiStateViewModel::class.java]
 
         enableEdgeToEdge()
@@ -67,6 +71,7 @@ class MainActivity : ComponentActivity() {
                 AppNavigation(
                     themeProvider = themeProvider,
                     sharedPreferences = sharedPreferences,
+                    hookProcessor = hookProcessor,
                     reloadKey = reloadKey,
                 )
             }
@@ -116,6 +121,8 @@ class MainActivity : ComponentActivity() {
             "playstore" -> PlayAssetDeliveryMusicProvider(this)
             else -> NullMusicProvider()
         }
+
+        hookProcessor = DefaultHookProcessor(this)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             pluginReceiver = object : BroadcastReceiver() {
