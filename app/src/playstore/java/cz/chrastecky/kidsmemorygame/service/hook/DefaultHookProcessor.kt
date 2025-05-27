@@ -17,6 +17,7 @@ class DefaultHookProcessor (
 ) : HookProcessor {
     private val reviewManager = ReviewManagerFactory.create(context)
     private val sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES_DATABASE_NAME, Context.MODE_PRIVATE)
+    private var shownThisSession = false
 
     override fun onGameWon() {
         val winCount = sharedPreferences.getInt(WinCountName, 0)
@@ -26,7 +27,8 @@ class DefaultHookProcessor (
             return
         }
 
-        if (winCount >= 5) {
+        if (winCount >= 5 && !shownThisSession) {
+            shownThisSession = true
             val request = reviewManager.requestReviewFlow()
             request.addOnCompleteListener { task ->
                 if (!task.isSuccessful) {
