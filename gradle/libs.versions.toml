@@ -16,6 +16,8 @@ activityCompose = "1.10.1"
 composeBom = "2025.04.01"
 materialIconsExtended = "1.7.8"
 navigationCompose = "2.8.9"
+review = "2.0.2"
+reviewKtx = "2.0.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -41,6 +43,8 @@ ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktorClien
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorClientContentNegotiation" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorSerializationKotlinxJson" }
+review = { module = "com.google.android.play:review", version.ref = "review" }
+review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "reviewKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -200,6 +200,8 @@ dependencies {
     add("liteImplementation", libs.ktor.serialization.kotlinx.json)
     add("playstoreImplementation", libs.asset.delivery)
     add("playstoreImplementation", libs.asset.delivery.ktx)
+    add("playstoreImplementation", libs.review)
+    add("playstoreImplementation", libs.review.ktx)
 }
 
 tasks.register("generateThemes") {

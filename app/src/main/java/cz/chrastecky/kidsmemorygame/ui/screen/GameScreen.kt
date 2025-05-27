@@ -47,6 +47,7 @@ import cz.chrastecky.kidsmemorygame.enums.GameSize
 import cz.chrastecky.kidsmemorygame.enums.SharedPreferenceName
 import cz.chrastecky.kidsmemorygame.dto.ThemeDetail
 import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
+import cz.chrastecky.kidsmemorygame.service.hook.HookProcessor
 import cz.chrastecky.kidsmemorygame.ui.component.ChangeSizePopup
 import cz.chrastecky.kidsmemorygame.ui.component.GameCard
 import cz.chrastecky.kidsmemorygame.ui.component.IconCircleButton
@@ -64,6 +65,7 @@ fun GameScreen(
     themeId: String,
     sharedPreferences: SharedPreferences,
     themeProvider: ThemeProvider,
+    hookProcessor: HookProcessor,
     reloadGameKey: Int,
     onRequestReset: () -> Unit,
     onThemeChangeRequested: () -> Unit,
@@ -86,6 +88,7 @@ fun GameScreen(
                     theme = theme!!,
                     background = background!!,
                     sharedPreferences = sharedPreferences,
+                    hookProcessor = hookProcessor,
                     onRequestReset = onRequestReset,
                     onThemeChangeRequested = onThemeChangeRequested,
                 )
@@ -128,6 +131,7 @@ private fun GameScreenMain(
     theme: ThemeDetail,
     background: Bitmap,
     sharedPreferences: SharedPreferences,
+    hookProcessor: HookProcessor,
     onRequestReset: () -> Unit,
     onThemeChangeRequested: () -> Unit,
 ) {
@@ -336,6 +340,7 @@ private fun GameScreenMain(
                 },
                 onThemePicker = { onThemeChangeRequested() }
             )
+            hookProcessor.onGameWon()
         } else if (showSettingsMenu) {
             ResetGamePopup(
                 onNewGame = { onNewGame() },
