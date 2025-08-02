@@ -13,12 +13,12 @@ plugins {
 
 android {
     namespace = "cz.chrastecky.kidsmemorygame"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "cz.chrastecky.kidsmemorygame"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 27
         versionName = "1.8.0"
 
