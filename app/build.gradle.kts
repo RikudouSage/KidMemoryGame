@@ -19,8 +19,8 @@ android {
         applicationId = "cz.chrastecky.kidsmemorygame"
         minSdk = 24
         targetSdk = 35
-        versionCode = 26
-        versionName = "1.7.5"
+        versionCode = 27
+        versionName = "1.8.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
