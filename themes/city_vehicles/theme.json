@@ -1,0 +1,48 @@
+{
+  "id" : "city_vehicles",
+  "name" : "City Vehicles",
+  "background" : "background.png",
+  "cards" : [
+    "cards/ambulance.png",
+    "cards/car.png",
+    "cards/city_bus.png",
+    "cards/dump_truck.png",
+    "cards/excavator.png",
+    "cards/fire_truck.png",
+    "cards/garbage_truck.png",
+    "cards/ice_cream_truck.png",
+    "cards/metro.png",
+    "cards/motorcycle.png",
+    "cards/police.png",
+    "cards/post_office.png",
+    "cards/snowplow.png",
+    "cards/street_sweeper.png",
+    "cards/taxi.png",
+    "cards/tow_truck.png",
+    "cards/tram.png"
+  ],
+  "icon" : "cards/car.png",
+  "mascots" : [
+    {
+      "image" : "cards/ambulance.png",
+      "rotation" : 65,
+      "y" : 770
+    },
+    {
+      "image" : "cards/car.png",
+      "rotation" : 65,
+      "y" : 860
+    },
+    {
+      "image" : "cards/fire_truck.png",
+      "rotation" : 65,
+      "y" : 870
+    },
+    {
+      "image" : "cards/metro.png",
+      "rotation" : 65,
+      "y" : 824
+    }
+  ],
+  "hash" : "4b819383b8d9140bd0e1c95b515c6e95673c53b9b19dff0048a4d31e29655d17"
+}

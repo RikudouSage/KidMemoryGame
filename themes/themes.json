@@ -4,7 +4,7 @@
     "name" : "Sea Creatures",
     "configPath" : "sea/theme.json",
     "icon" : "cards/turtle.webp",
-    "hash" : "9170792f884e8caa546620b240e45f92a3ab1d067a65282df6468026e4082de4"
+    "hash" : "b6b142cffa5fc265062f0d283d63a3b66f1a8240c55ea9e0e9eb0fe0c50d82e5"
   },
   {
     "id" : "dinosaurs",
@@ -33,5 +33,12 @@
     "configPath" : "farm_animals/theme.json",
     "icon" : "cards/pig.webp",
     "hash" : "663c343c1a0b2885a402944da1ab9bf22ea63755a50e92d23de3d842dac31205"
+  },
+  {
+    "id" : "city_vehicles",
+    "name" : "City Vehicles",
+    "configPath" : "city_vehicles/theme.json",
+    "icon" : "cards/car.png",
+    "hash" : "4b819383b8d9140bd0e1c95b515c6e95673c53b9b19dff0048a4d31e29655d17"
   }
 ]
