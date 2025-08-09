@@ -39,6 +39,13 @@
     "name" : "City Vehicles",
     "configPath" : "city_vehicles/theme.json",
     "icon" : "cards/car.png",
-    "hash" : "4b819383b8d9140bd0e1c95b515c6e95673c53b9b19dff0048a4d31e29655d17"
+    "hash" : "743fc0e26e154e3737814fd92af27259205a76d67316d51b2565f2e3ac11f931"
+  },
+  {
+    "id" : "zoo",
+    "name" : "ZOO",
+    "configPath" : "zoo/theme.json",
+    "icon" : "cards/giraffe.png",
+    "hash" : "887726be3dee5ffb696cfaf92e5117b84832994f1fda4f18761037240cbb1afe"
   }
 ]
