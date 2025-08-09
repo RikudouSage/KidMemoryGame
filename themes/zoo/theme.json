@@ -1,0 +1,54 @@
+{
+  "id" : "zoo",
+  "name" : "ZOO",
+  "background" : "background.png",
+  "cards" : [
+    "cards/crocodile.png",
+    "cards/elephant.png",
+    "cards/flamingo.png",
+    "cards/giraffe.png",
+    "cards/gorilla.png",
+    "cards/hippo.png",
+    "cards/kangaroo.png",
+    "cards/lion.png",
+    "cards/meerkat.png",
+    "cards/monkey.png",
+    "cards/panda.png",
+    "cards/parrot.png",
+    "cards/peacock.png",
+    "cards/penguin.png",
+    "cards/polar-bear.png",
+    "cards/rhino.png",
+    "cards/tiger.png",
+    "cards/zebra.png"
+  ],
+  "icon" : "cards/giraffe.png",
+  "mascots" : [
+    {
+      "image" : "cards/giraffe.png",
+      "rotation" : 0,
+      "y" : 640
+    },
+    {
+      "image" : "cards/hippo.png",
+      "rotation" : 0,
+      "y" : 613
+    },
+    {
+      "image" : "cards/panda.png",
+      "rotation" : 0,
+      "y" : 644
+    },
+    {
+      "image" : "cards/parrot.png",
+      "rotation" : 0,
+      "y" : 660
+    },
+    {
+      "image" : "cards/penguin.png",
+      "rotation" : 0,
+      "y" : 640
+    }
+  ],
+  "hash" : "887726be3dee5ffb696cfaf92e5117b84832994f1fda4f18761037240cbb1afe"
+}
