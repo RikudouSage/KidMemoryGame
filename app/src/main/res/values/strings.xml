@@ -12,6 +12,24 @@
     <string name="parent_settings_title">Parent settings</string>
     <string name="minimum_distinct_images_title">Minimum distinct images</string>
     <string name="minimum_distinct_images_description">Choose the minimum number of distinct image pairs a grid must have to be available. 0 means no limit.</string>
+    <string name="parent_pin_title">Parent PIN</string>
+    <string name="parent_pin_description">Enter %s to continue.</string>
+    <string name="parent_pin_label">PIN</string>
+    <string name="parent_pin_confirm">Unlock</string>
+    <string name="parent_pin_error">Incorrect PIN. Try again.</string>
+
+    <string-array name="digit_words">
+        <item>zero</item>
+        <item>one</item>
+        <item>two</item>
+        <item>three</item>
+        <item>four</item>
+        <item>five</item>
+        <item>six</item>
+        <item>seven</item>
+        <item>eight</item>
+        <item>nine</item>
+    </string-array>
     <string name="back_button">Back</string>
     <string name="increase_button">Increase</string>
     <string name="decrease_button">Decrease</string>
