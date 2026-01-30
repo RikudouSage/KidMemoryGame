@@ -46,6 +46,13 @@
     "name" : "ZOO",
     "configPath" : "zoo/theme.json",
     "icon" : "cards/giraffe.png",
-    "hash" : "887726be3dee5ffb696cfaf92e5117b84832994f1fda4f18761037240cbb1afe"
+    "hash" : "00933d5da7f6e1cb98a6d836de745d635db072c60d21752f3888ccd80c5399d6"
+  },
+  {
+    "id" : "household",
+    "name" : "Household",
+    "configPath" : "household/theme.json",
+    "icon" : "cards/house.png",
+    "hash" : "c032df58494d72c9226b44027f8b1594f9fad3aa97d6fd4a57adfb77c2420bbc"
   }
 ]

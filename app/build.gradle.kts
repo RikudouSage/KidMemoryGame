@@ -306,7 +306,8 @@ tasks.register("generateThemes") {
         println("✓ Wrote top-level themes.json with ${globalIndex.size} entries.")
 
         val musicDir = File(rootDir, "music")
-        val musicFiles = musicDir.listFiles { it -> it.isFile && it.extension == "ogg" }?.toList() ?: return@doLast
+        val musicFiles = musicDir.listFiles { it -> it.isFile && it.extension == "ogg" }
+            ?.sortedBy { it.name } ?: return@doLast
         val indexFile = musicDir.resolve("music.json")
 
         val result: MutableList<String> = mutableListOf()
