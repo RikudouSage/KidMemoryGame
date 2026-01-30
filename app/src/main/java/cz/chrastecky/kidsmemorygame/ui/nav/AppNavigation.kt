@@ -22,6 +22,7 @@ import cz.chrastecky.kidsmemorygame.service.hook.HookProcessor
 import cz.chrastecky.kidsmemorygame.ui.screen.DownloadScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.ErrorScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.GameScreen
+import cz.chrastecky.kidsmemorygame.ui.screen.ParentSettingsScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.SplashScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.ThemePickerScreen
 import cz.chrastecky.kidsmemorygame.ui.view_model.ThemeInfoViewModel
@@ -116,13 +117,19 @@ fun AppNavigation(
                     ThemePickerScreen(
                         themes = themesViewModel.themes ?: emptyList(),
                         themeProvider = themeProvider,
-                    ) { theme, isDownloaded ->
-                        val route = if (isDownloaded) "game/${theme.id}" else "download/${theme.id}"
-                        navController.navigate(route) {
-                            popUpTo(0) { inclusive = true }
-                            launchSingleTop = true
-                        }
-                    }
+                        onThemeSelected = { theme, isDownloaded ->
+                            val route = if (isDownloaded) "game/${theme.id}" else "download/${theme.id}"
+                            navController.navigate(route) {
+                                popUpTo(0) { inclusive = true }
+                                launchSingleTop = true
+                            }
+                        },
+                        onParentSettingsRequested = {
+                            navController.navigate("parent-settings") {
+                                launchSingleTop = true
+                            }
+                        },
+                    )
                 }
 
                 PickerScreenState.Loading -> {
@@ -173,6 +180,16 @@ fun AppNavigation(
                     }
                 )
             }
+        }
+
+        composable(
+            route = "parent-settings",
+            enterTransition = { scaleIn() }
+        ) {
+            ParentSettingsScreen(
+                sharedPreferences = sharedPreferences,
+                onBack = { navController.popBackStack() },
+            )
         }
     }
 }

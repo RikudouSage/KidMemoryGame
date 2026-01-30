@@ -9,6 +9,13 @@
     <string name="grid_size_button">Změnit velikost</string>
     <string name="change_theme_button">Změnit téma</string>
     <string name="settings_button">Nastavení</string>
+    <string name="parent_settings_button">Nastavení pro rodiče</string>
+    <string name="parent_settings_title">Nastavení pro rodiče</string>
+    <string name="minimum_distinct_images_title">Minimum různých obrázků</string>
+    <string name="minimum_distinct_images_description">Zvolte minimální počet různých dvojic obrázků, které musí mít dostupná mřížka. 0 znamená bez omezení.</string>
+    <string name="back_button">Zpět</string>
+    <string name="increase_button">Zvýšit</string>
+    <string name="decrease_button">Snížit</string>
     <string name="settings">Nastavení hry</string>
     <string name="settings_description">Vyber si, co chceš dělat!</string>
     <string name="change_grid_size_title">Změnit velikost</string>
