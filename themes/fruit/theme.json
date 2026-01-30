@@ -18,6 +18,7 @@
     "cards/strawberry.webp",
     "cards/watermelon.webp"
   ],
+  "cardCount" : 14,
   "icon" : "cards/apple.webp",
   "mascots" : [
     {

@@ -8,6 +8,31 @@
     <string name="grid_size_button">Change Grid Size</string>
     <string name="change_theme_button">Change Theme</string>
     <string name="settings_button">Settings</string>
+    <string name="parent_settings_button">Parent settings</string>
+    <string name="parent_settings_title">Parent settings</string>
+    <string name="minimum_distinct_images_title">Minimum distinct images</string>
+    <string name="minimum_distinct_images_description">Choose the minimum number of distinct image pairs a grid must have to be available. 0 means no limit.</string>
+    <string name="parent_pin_title">Parent PIN</string>
+    <string name="parent_pin_description">Enter %s to continue.</string>
+    <string name="parent_pin_label">PIN</string>
+    <string name="parent_pin_confirm">Unlock</string>
+    <string name="parent_pin_error">Incorrect PIN. Try again.</string>
+
+    <string-array name="digit_words">
+        <item>zero</item>
+        <item>one</item>
+        <item>two</item>
+        <item>three</item>
+        <item>four</item>
+        <item>five</item>
+        <item>six</item>
+        <item>seven</item>
+        <item>eight</item>
+        <item>nine</item>
+    </string-array>
+    <string name="back_button">Back</string>
+    <string name="increase_button">Increase</string>
+    <string name="decrease_button">Decrease</string>
     <string name="settings">Game Options</string>
     <string name="settings_description">Pick what you’d like to do!</string>
     <string name="change_grid_size_title">Change size</string>

@@ -22,6 +22,7 @@
     "cards/tiger.png",
     "cards/zebra.png"
   ],
+  "cardCount" : 18,
   "icon" : "cards/giraffe.png",
   "mascots" : [
     {

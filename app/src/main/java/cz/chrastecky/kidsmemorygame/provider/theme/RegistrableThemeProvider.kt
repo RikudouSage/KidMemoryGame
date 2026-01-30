@@ -26,6 +26,7 @@ class RegistrableThemeProvider (
                 id = it.id,
                 name = it.name,
                 icon = it.icon,
+                cardCount = it.cards.size,
             )
         } + themeProvider.listAvailableThemes()
     }

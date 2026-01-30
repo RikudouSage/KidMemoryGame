@@ -5,4 +5,5 @@ const val SHARED_PREFERENCES_DATABASE_NAME = "main"
 enum class SharedPreferenceName {
     LastUsedTheme,
     GameSize,
+    MinimumDistinctImages,
 }

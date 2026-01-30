@@ -17,6 +17,7 @@
     "cards/smartphone.png",
     "cards/sofa.png"
   ],
+  "cardCount" : 13,
   "icon" : "cards/house.png",
   "mascots" : [
     {
@@ -35,5 +36,5 @@
       "y" : 595
     }
   ],
-  "hash" : "c032df58494d72c9226b44027f8b1594f9fad3aa97d6fd4a57adfb77c2420bbc"
+  "hash" : "30e938787ec7d6f8f6aecf2ef9381a8d14e0c7ceba0e0f67b223a71137794343"
 }

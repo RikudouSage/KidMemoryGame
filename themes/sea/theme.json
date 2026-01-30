@@ -28,6 +28,7 @@
     "cards/swordfish.webp",
     "cards/turtle.webp"
   ],
+  "cardCount" : 24,
   "icon" : "cards/turtle.webp",
   "mascots" : [
     {

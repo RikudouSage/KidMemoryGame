@@ -140,11 +140,30 @@ private fun GameScreenMain(
     val gameSize = remember {
         val default = GameSize.Size4x3
         val storedSize = sharedPreferences.getString(SharedPreferenceName.GameSize.name, default.name)!!
+        val minDistinctImages = sharedPreferences.getInt(
+            SharedPreferenceName.MinimumDistinctImages.name,
+            0
+        ).toUInt()
 
         try {
             var storedSizeEnum = GameSize.valueOf(storedSize)
             val requiredImageCount = (storedSizeEnum.columns() * storedSizeEnum.rows()) / 2u
-            if (theme.cards.size.toUInt() < requiredImageCount) {
+            val maxDistinctImages = theme.cards.size.toUInt()
+            val allowedSizes = GameSize.entries
+                .sortedBy { it.rows() * it.columns() }
+                .filter { size ->
+                    val required = (size.columns() * size.rows()) / 2u
+                    required in minDistinctImages..maxDistinctImages
+                }
+
+            if (allowedSizes.isNotEmpty()) {
+                if (requiredImageCount !in minDistinctImages..maxDistinctImages) {
+                    storedSizeEnum = allowedSizes.first()
+                    sharedPreferences.edit {
+                        putString(SharedPreferenceName.GameSize.name, storedSizeEnum.name)
+                    }
+                }
+            } else if (theme.cards.size.toUInt() < requiredImageCount) {
                 for (entry in GameSize.entries.sortedByDescending { it.rows() * it.columns() }) {
                     val requiredImageCountInner = entry.rows() * entry.columns() / 2u
                     if (theme.cards.size.toUInt() < requiredImageCountInner) {
@@ -154,7 +173,6 @@ private fun GameScreenMain(
                     storedSizeEnum = entry
                     break
                 }
-
                 sharedPreferences.edit {
                     putString(SharedPreferenceName.GameSize.name, storedSizeEnum.name)
                 }
@@ -356,6 +374,10 @@ private fun GameScreenMain(
             ChangeSizePopup(
                 background = theme.background,
                 totalCardsAmount = theme.cards.size.toUInt(),
+                minDistinctImages = sharedPreferences.getInt(
+                    SharedPreferenceName.MinimumDistinctImages.name,
+                    0
+                ).toUInt(),
                 onClickOutside = {showChangeSizeMenu = false},
             ) { newSize ->
                 showChangeSizeMenu = false

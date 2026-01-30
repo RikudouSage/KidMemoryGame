@@ -9,6 +9,31 @@
     <string name="grid_size_button">Zmeniť veľkosť</string>
     <string name="change_theme_button">Zmeniť tému</string>
     <string name="settings_button">Nastavenia</string>
+    <string name="parent_settings_button">Rodičovské nastavenia</string>
+    <string name="parent_settings_title">Rodičovské nastavenia</string>
+    <string name="minimum_distinct_images_title">Minimum rôznych obrázkov</string>
+    <string name="minimum_distinct_images_description">Zvoľte minimálny počet rôznych dvojíc obrázkov, ktoré musí mať dostupná mriežka. 0 znamená bez obmedzenia.</string>
+    <string name="parent_pin_title">Rodičovský PIN</string>
+    <string name="parent_pin_description">Pre pokračovanie zadajte %s.</string>
+    <string name="parent_pin_label">PIN</string>
+    <string name="parent_pin_confirm">Odomknúť</string>
+    <string name="parent_pin_error">Nesprávny PIN. Skúste to znova.</string>
+
+    <string-array name="digit_words">
+        <item>nula</item>
+        <item>jeden</item>
+        <item>dva</item>
+        <item>tri</item>
+        <item>štyri</item>
+        <item>päť</item>
+        <item>šesť</item>
+        <item>sedem</item>
+        <item>osem</item>
+        <item>deväť</item>
+    </string-array>
+    <string name="back_button">Späť</string>
+    <string name="increase_button">Zvýšiť</string>
+    <string name="decrease_button">Znížiť</string>
     <string name="settings">Nastavenie hry</string>
     <string name="settings_description">Vyber si, čo chceš robiť!</string>
     <string name="change_grid_size_title">Zmeniť veľkosť</string>

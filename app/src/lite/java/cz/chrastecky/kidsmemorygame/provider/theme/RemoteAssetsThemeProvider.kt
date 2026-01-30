@@ -59,19 +59,22 @@ class RemoteAssetsThemeProvider(
             themesJsonFile.writeText(remoteJsonString)
         }
 
-        val rawListRemote: List<Map<String, String>> = mapper.readValue(remoteJsonString)
-        val rawListLocal: List<Map<String, String>> = mapper.readValue(localJsonString)
+        val rawListRemote: List<Map<String, Any>> = mapper.readValue(remoteJsonString)
+        val rawListLocal: List<Map<String, Any>> = mapper.readValue(localJsonString)
         val hashmap: MutableMap<String, String> = mutableMapOf()
 
         rawListRemote.forEach {
-            hashmap[it["id"]!!] = it["hash"] ?: ""
+            val id = it["id"] as String
+            val hash = it["hash"] as? String ?: ""
+            hashmap[id] = hash
         }
 
         return rawListLocal.map { entry ->
-            val id = entry["id"]!!
-            val iconPath = entry["icon"]!!
-            val name = entry["name"]!!
-            val hash = entry["hash"]
+            val id = entry["id"] as String
+            val iconPath = entry["icon"] as String
+            val name = entry["name"] as String
+            val hash = entry["hash"] as? String
+            val cardCount = (entry["cardCount"] as? Number)?.toInt()
 
             if (hashmap[id] != hash) {
                 themesDir.resolve(id).deleteRecursively()
@@ -90,7 +93,12 @@ class RemoteAssetsThemeProvider(
             }
             val bitmap = iconFile.inputStream().use { BitmapFactory.decodeStream(it) }
 
-            ThemeInfo(id = id, name = name, icon = bitmap)
+            ThemeInfo(
+                id = id,
+                name = name,
+                icon = bitmap,
+                cardCount = cardCount,
+            )
         }
     }
 

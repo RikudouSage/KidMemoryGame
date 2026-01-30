@@ -8,4 +8,5 @@ data class ThemeInfo(
     val id: String,
     val name: String,
     val icon: Bitmap,
+    val cardCount: Int? = null,
 )

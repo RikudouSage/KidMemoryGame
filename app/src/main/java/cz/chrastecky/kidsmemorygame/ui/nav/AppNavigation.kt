@@ -17,11 +17,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import cz.chrastecky.kidsmemorygame.enums.SharedPreferenceName
+import cz.chrastecky.kidsmemorygame.dto.ThemeInfo
 import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.service.hook.HookProcessor
 import cz.chrastecky.kidsmemorygame.ui.screen.DownloadScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.ErrorScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.GameScreen
+import cz.chrastecky.kidsmemorygame.ui.screen.ParentSettingsScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.SplashScreen
 import cz.chrastecky.kidsmemorygame.ui.screen.ThemePickerScreen
 import cz.chrastecky.kidsmemorygame.ui.view_model.ThemeInfoViewModel
@@ -113,16 +115,52 @@ fun AppNavigation(
                 }
 
                 PickerScreenState.ShowPicker -> {
-                    ThemePickerScreen(
-                        themes = themesViewModel.themes ?: emptyList(),
-                        themeProvider = themeProvider,
-                    ) { theme, isDownloaded ->
-                        val route = if (isDownloaded) "game/${theme.id}" else "download/${theme.id}"
-                        navController.navigate(route) {
-                            popUpTo(0) { inclusive = true }
-                            launchSingleTop = true
+                    val minDistinctImages = sharedPreferences.getInt(
+                        SharedPreferenceName.MinimumDistinctImages.name,
+                        0
+                    )
+                    var filteredThemes by remember { mutableStateOf<List<ThemeInfo>>(emptyList()) }
+
+                    LaunchedEffect(themesViewModel.themes, minDistinctImages) {
+                        val themes = themesViewModel.themes ?: emptyList()
+                        if (minDistinctImages <= 0) {
+                            filteredThemes = themes
+                            return@LaunchedEffect
                         }
+
+                        val filtered = themes.filter { theme ->
+                            val count = theme.cardCount
+                            if (count != null) {
+                                return@filter count >= minDistinctImages
+                            }
+
+                            val isDownloaded = themeProvider.isThemeDownloaded(theme.id)
+                            if (!isDownloaded) {
+                                return@filter true
+                            }
+
+                            val detail = themeProvider.getThemeDetail(theme.id)
+                            detail.cards.size >= minDistinctImages
+                        }
+                        filteredThemes = filtered
                     }
+
+                    ThemePickerScreen(
+                        themes = filteredThemes,
+                        themeProvider = themeProvider,
+                        onThemeSelected = { theme, isDownloaded ->
+                            val route = if (isDownloaded) "game/${theme.id}" else "download/${theme.id}"
+                            navController.navigate(route) {
+                                popUpTo(0) { inclusive = true }
+                                launchSingleTop = true
+                            }
+                        },
+                        onParentSettingsRequested = {
+                            navController.navigate("parent-settings") {
+                                launchSingleTop = true
+                            }
+                        },
+                    )
                 }
 
                 PickerScreenState.Loading -> {
@@ -173,6 +211,16 @@ fun AppNavigation(
                     }
                 )
             }
+        }
+
+        composable(
+            route = "parent-settings",
+            enterTransition = { scaleIn() }
+        ) {
+            ParentSettingsScreen(
+                sharedPreferences = sharedPreferences,
+                onBack = { navController.popBackStack() },
+            )
         }
     }
 }

@@ -16,6 +16,7 @@
     "cards/triceratops.webp",
     "cards/velociraptor.webp"
   ],
+  "cardCount" : 12,
   "icon" : "cards/t-rex.webp",
   "mascots" : [
     {

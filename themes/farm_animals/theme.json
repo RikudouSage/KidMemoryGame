@@ -19,6 +19,7 @@
     "cards/sheep.webp",
     "cards/turkey.webp"
   ],
+  "cardCount" : 15,
   "icon" : "cards/pig.webp",
   "mascots" : [
     {
