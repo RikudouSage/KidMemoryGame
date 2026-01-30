@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.FileFilter
 import java.security.MessageDigest
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.application)
@@ -17,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId = "cz.chrastecky.kidsmemorygame"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 28
         versionName = "1.9.0"
@@ -38,18 +39,16 @@ android {
             )
         }
 
-        debug {
-            kotlinOptions {
-                freeCompilerArgs += listOf("-Xdebug")
-            }
-        }
+        debug {}
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
     }
     buildFeatures {
         compose = true
@@ -75,6 +74,14 @@ android {
         assetPacks += themePacks
         assetPacks += ":theme_icons"
         assetPacks += ":sound_pack"
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    if (name.contains("Debug")) {
+        compilerOptions {
+            freeCompilerArgs.add("-Xdebug")
+        }
     }
 }
 
