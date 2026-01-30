@@ -1,0 +1,39 @@
+{
+  "id" : "household",
+  "name" : "Household",
+  "background" : "background.png",
+  "cards" : [
+    "cards/bed.png",
+    "cards/blocks.png",
+    "cards/book.png",
+    "cards/clock.png",
+    "cards/door.png",
+    "cards/house.png",
+    "cards/key.png",
+    "cards/pan.png",
+    "cards/plate.png",
+    "cards/puzzle_piece.png",
+    "cards/shoes.png",
+    "cards/smartphone.png",
+    "cards/sofa.png"
+  ],
+  "icon" : "cards/house.png",
+  "mascots" : [
+    {
+      "image" : "cards/door.png",
+      "rotation" : 0,
+      "y" : 508
+    },
+    {
+      "image" : "cards/house.png",
+      "rotation" : 0,
+      "y" : 526
+    },
+    {
+      "image" : "cards/plate.png",
+      "rotation" : 0,
+      "y" : 595
+    }
+  ],
+  "hash" : "c032df58494d72c9226b44027f8b1594f9fad3aa97d6fd4a57adfb77c2420bbc"
+}
