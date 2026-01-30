@@ -107,8 +107,15 @@ class RemoteAssetsThemeProvider(
         if (!themeFile.exists()) {
             return false
         }
+        if (themeFile.length() == 0L) {
+            return false
+        }
 
-        val raw: Map<String, Any> = mapper.readValue(themeFile.readText())
+        val raw: Map<String, Any> = try {
+            mapper.readValue(themeFile.readText())
+        } catch (e: Exception) {
+            return false
+        }
         @Suppress("UNCHECKED_CAST")
         val cards = (raw["cards"]!! as List<String>)
         cards.forEach {
