@@ -17,6 +17,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import cz.chrastecky.kidsmemorygame.enums.SharedPreferenceName
+import cz.chrastecky.kidsmemorygame.dto.ThemeInfo
 import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import cz.chrastecky.kidsmemorygame.service.hook.HookProcessor
 import cz.chrastecky.kidsmemorygame.ui.screen.DownloadScreen
@@ -114,8 +115,38 @@ fun AppNavigation(
                 }
 
                 PickerScreenState.ShowPicker -> {
+                    val minDistinctImages = sharedPreferences.getInt(
+                        SharedPreferenceName.MinimumDistinctImages.name,
+                        0
+                    )
+                    var filteredThemes by remember { mutableStateOf<List<ThemeInfo>>(emptyList()) }
+
+                    LaunchedEffect(themesViewModel.themes, minDistinctImages) {
+                        val themes = themesViewModel.themes ?: emptyList()
+                        if (minDistinctImages <= 0) {
+                            filteredThemes = themes
+                            return@LaunchedEffect
+                        }
+
+                        val filtered = themes.filter { theme ->
+                            val count = theme.cardCount
+                            if (count != null) {
+                                return@filter count >= minDistinctImages
+                            }
+
+                            val isDownloaded = themeProvider.isThemeDownloaded(theme.id)
+                            if (!isDownloaded) {
+                                return@filter true
+                            }
+
+                            val detail = themeProvider.getThemeDetail(theme.id)
+                            detail.cards.size >= minDistinctImages
+                        }
+                        filteredThemes = filtered
+                    }
+
                     ThemePickerScreen(
-                        themes = themesViewModel.themes ?: emptyList(),
+                        themes = filteredThemes,
                         themeProvider = themeProvider,
                         onThemeSelected = { theme, isDownloaded ->
                             val route = if (isDownloaded) "game/${theme.id}" else "download/${theme.id}"

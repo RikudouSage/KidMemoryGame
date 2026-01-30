@@ -20,6 +20,7 @@ import cz.chrastecky.kidsmemorygame.enums.GameSize
 fun ChangeSizePopup(
     background: Bitmap,
     totalCardsAmount: UInt,
+    minDistinctImages: UInt,
     onClickOutside: () -> Unit,
     onGameSizeSelected: (GameSize) -> Unit,
 ) {
@@ -31,7 +32,7 @@ fun ChangeSizePopup(
     ) {
         val availableSizes = GameSize.entries.filter { size ->
             val requiredItemsAmount = (size.columns() * size.rows()) / 2u
-            totalCardsAmount >= requiredItemsAmount
+            totalCardsAmount >= requiredItemsAmount && requiredItemsAmount >= minDistinctImages
         }
         val itemsPerRow = 3
         val itemSize = 80.dp

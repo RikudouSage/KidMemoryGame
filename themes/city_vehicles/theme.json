@@ -21,6 +21,7 @@
     "cards/tow_truck.png",
     "cards/tram.png"
   ],
+  "cardCount" : 17,
   "icon" : "cards/car.png",
   "mascots" : [
     {

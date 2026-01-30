@@ -15,6 +15,7 @@
     "cards/white.webp",
     "cards/yellow.webp"
   ],
+  "cardCount" : 11,
   "icon" : "icon.webp",
   "mascots" : [ ],
   "hash" : "31525abb93646f17f97fb0dfda7c2abc352083c290f37df44bacbfbcd259d3dd"

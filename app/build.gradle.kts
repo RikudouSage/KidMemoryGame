@@ -234,6 +234,7 @@ tasks.register("generateThemes") {
             val cardFiles = cardsDir.listFiles { file ->
                 file.extension in listOf("webp", "png", "jpg")
             }?.map { "cards/${it.name}" }?.sorted() ?: listOf()
+            val cardCount = cardFiles.size
 
             val background = themeDir.listFiles()?.find { it.name.startsWith("background") }?.name ?: ""
 
@@ -276,6 +277,7 @@ tasks.register("generateThemes") {
                 "name" to name,
                 "background" to background,
                 "cards" to cardFiles,
+                "cardCount" to cardCount,
                 "icon" to icon,
                 "mascots" to mascots,
                 "hash" to digest.digest().joinToString("") { "%02x".format(it) }
@@ -291,6 +293,7 @@ tasks.register("generateThemes") {
                     "name" to name,
                     "configPath" to "$themeId/theme.json",
                     "icon" to icon,
+                    "cardCount" to cardCount,
                     "hash" to themeJson["hash"]!!,
                 )
             )

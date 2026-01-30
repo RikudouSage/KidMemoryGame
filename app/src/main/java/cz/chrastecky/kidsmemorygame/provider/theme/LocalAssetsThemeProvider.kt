@@ -20,17 +20,23 @@ class LocalAssetsThemeProvider(
 
     override suspend fun listAvailableThemes(): List<ThemeInfo> {
         assetManager.open("themes/themes.json").use { input ->
-            val rawList: List<Map<String, String>> = mapper.readValue(input)
+            val rawList: List<Map<String, Any>> = mapper.readValue(input)
 
             return rawList.map { entry ->
-                val id = entry["id"]!!
-                val iconPath = entry["icon"]!!
+                val id = entry["id"] as String
+                val iconPath = entry["icon"] as String
+                val cardCount = (entry["cardCount"] as? Number)?.toInt()
 
                 val bitmap = assetManager.open("themes/$id/$iconPath").use {
                     BitmapFactory.decodeStream(it)
                 }
 
-                ThemeInfo(id = id, name =  entry["name"]!!, icon = bitmap)
+                ThemeInfo(
+                    id = id,
+                    name = entry["name"] as String,
+                    icon = bitmap,
+                    cardCount = cardCount,
+                )
             }
         }
     }
@@ -93,4 +99,3 @@ class LocalAssetsThemeProvider(
         onProgress(1.0f)
     }
 }
-

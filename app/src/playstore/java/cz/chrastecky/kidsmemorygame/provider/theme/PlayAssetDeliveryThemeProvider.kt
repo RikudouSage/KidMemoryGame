@@ -31,16 +31,22 @@ class PlayAssetDeliveryThemeProvider(
         val iconsBasePath = waitForPackIfNeeded(assetPackManager, "theme_icons")
 
         assetManager.open("themes/themes.json").use { input ->
-            val rawList: List<Map<String, String>> = mapper.readValue(input)
+            val rawList: List<Map<String, Any>> = mapper.readValue(input)
 
             return rawList.map { entry ->
-                val id = entry["id"]!!
-                val iconExtension = File(entry["icon"]!!).extension
+                val id = entry["id"] as String
+                val iconExtension = File(entry["icon"] as String).extension
                 val iconPath = File(iconsBasePath, "$id.$iconExtension")
+                val cardCount = (entry["cardCount"] as? Number)?.toInt()
 
                 val bitmap = BitmapFactory.decodeFile(iconPath.path)
 
-                ThemeInfo(id = id, name =  entry["name"]!!, icon = bitmap)
+                ThemeInfo(
+                    id = id,
+                    name = entry["name"] as String,
+                    icon = bitmap,
+                    cardCount = cardCount,
+                )
             }
         }
     }
