@@ -21,11 +21,13 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -378,6 +380,17 @@ private fun ParentPinGate(
                         textAlign = TextAlign.Center,
                     ),
                     modifier = Modifier.width(220.dp),
+                    colors = TextFieldDefaults.colors(
+                        focusedTextColor = TextOnBackgroundColor,
+                        unfocusedTextColor = TextOnBackgroundColor,
+                        cursorColor = TextOnBackgroundColor,
+                        focusedIndicatorColor = BackgroundColor,
+                        unfocusedIndicatorColor = BackgroundColor.copy(alpha = 0.7f),
+                        focusedLabelColor = TextOnBackgroundColor,
+                        unfocusedLabelColor = TextOnBackgroundColor.copy(alpha = 0.8f),
+                        focusedContainerColor = CardBackground,
+                        unfocusedContainerColor = CardBackground,
+                    ),
                 )
 
                 if (showError) {
@@ -389,7 +402,13 @@ private fun ParentPinGate(
                     )
                 }
 
-                Button(onClick = onSubmit) {
+                Button(
+                    onClick = onSubmit,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = ButtonBackground,
+                        contentColor = TextOnBackgroundColor,
+                    ),
+                ) {
                     Text(text = stringResource(R.string.parent_pin_confirm))
                 }
             }
