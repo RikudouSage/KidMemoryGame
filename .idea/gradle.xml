@@ -16,7 +16,9 @@
             <option value="$PROJECT_DIR$/dinosaurs" />
             <option value="$PROJECT_DIR$/farm_animals" />
             <option value="$PROJECT_DIR$/fruit" />
+            <option value="$PROJECT_DIR$/household" />
             <option value="$PROJECT_DIR$/sea" />
+            <option value="$PROJECT_DIR$/zoo" />
           </set>
         </option>
       </GradleProjectSettings>

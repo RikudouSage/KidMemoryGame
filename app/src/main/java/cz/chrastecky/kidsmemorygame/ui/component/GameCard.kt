@@ -39,7 +39,7 @@ fun GameCard(
 ) {
     val rotation by animateFloatAsState(
         targetValue = if (card.isFlipped || card.isMatched) 180f else 0f,
-        animationSpec = tween(durationMillis = CardAnimationSpeed.toInt())
+        animationSpec = tween(durationMillis = CardAnimationSpeed)
     )
 
     val isFront = rotation > 90f
