@@ -104,25 +104,25 @@ fun ThemePickerScreen(
                         with(density) {
                             WindowInsets.safeDrawing.getLeft(density, layoutDirection).toDp()
                         },
-                        16.dp,
+                        24.dp,
                     ),
                     end = maxOf(
                         with(density) {
                             WindowInsets.safeDrawing.getRight(density, layoutDirection).toDp()
                         },
-                        16.dp,
+                        24.dp,
                     ),
                     top = maxOf(
                         with(density) {
                             WindowInsets.safeDrawing.getTop(density).toDp()
                         },
-                        16.dp,
+                        24.dp,
                     ),
                     bottom = maxOf(
                         with(density) {
                             WindowInsets.safeDrawing.getBottom(density).toDp()
                         },
-                        16.dp,
+                        24.dp,
                     )
                 )
         ) {
