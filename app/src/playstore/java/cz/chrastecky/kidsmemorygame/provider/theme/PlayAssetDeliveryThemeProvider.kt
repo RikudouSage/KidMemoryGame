@@ -15,7 +15,6 @@ import cz.chrastecky.kidsmemorygame.helper.asFloat
 import cz.chrastecky.kidsmemorygame.helper.asInt
 import cz.chrastecky.kidsmemorygame.helper.cropY
 import cz.chrastecky.kidsmemorygame.helper.rotate
-import cz.chrastecky.kidsmemorygame.helper.waitForPackIfNeeded
 import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import kotlinx.coroutines.CompletableDeferred
 import java.io.File
@@ -28,18 +27,22 @@ class PlayAssetDeliveryThemeProvider(
     private val mapper = jacksonObjectMapper()
 
     override suspend fun listAvailableThemes(): List<ThemeInfo> {
-        val iconsBasePath = waitForPackIfNeeded(assetPackManager, "theme_icons")
-
         assetManager.open("themes/themes.json").use { input ->
             val rawList: List<Map<String, Any>> = mapper.readValue(input)
 
             return rawList.map { entry ->
                 val id = entry["id"] as String
                 val iconExtension = File(entry["icon"] as String).extension
-                val iconPath = File(iconsBasePath, "$id.$iconExtension")
                 val cardCount = (entry["cardCount"] as? Number)?.toInt()
 
-                val bitmap = BitmapFactory.decodeFile(iconPath.path)
+                val assetPath = "$id.$iconExtension"
+                val bitmap = assetPackManager.openAssetFileDescriptor("theme_icons", assetPath).use { descriptor ->
+                    BitmapFactory.decodeFileDescriptor(
+                        descriptor.fileDescriptor,
+                        descriptor.startOffset,
+                        descriptor.length
+                    )
+                }
 
                 ThemeInfo(
                     id = id,
