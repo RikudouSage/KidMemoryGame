@@ -15,6 +15,7 @@ import cz.chrastecky.kidsmemorygame.helper.asFloat
 import cz.chrastecky.kidsmemorygame.helper.asInt
 import cz.chrastecky.kidsmemorygame.helper.cropY
 import cz.chrastecky.kidsmemorygame.helper.rotate
+import cz.chrastecky.kidsmemorygame.helper.waitForPackIfNeeded
 import cz.chrastecky.kidsmemorygame.provider.ThemeProvider
 import kotlinx.coroutines.CompletableDeferred
 import java.io.File
@@ -36,12 +37,8 @@ class PlayAssetDeliveryThemeProvider(
                 val cardCount = (entry["cardCount"] as? Number)?.toInt()
 
                 val assetPath = "$id.$iconExtension"
-                val bitmap = assetPackManager.openAssetFileDescriptor("theme_icons", assetPath).use { descriptor ->
-                    BitmapFactory.decodeFileDescriptor(
-                        descriptor.fileDescriptor,
-                        descriptor.startOffset,
-                        descriptor.length
-                    )
+                val bitmap = assetManager.open(assetPath).use { stream ->
+                    BitmapFactory.decodeStream(stream)
                 }
 
                 ThemeInfo(
