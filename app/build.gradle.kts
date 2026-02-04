@@ -121,7 +121,8 @@ android.applicationVariants.all {
 
                 val soundsDir = File(rootDir, "sound_pack")
                 val themeIconsDir = File(rootDir, "theme_icons")
-                val template = templatesDir.resolve("asset-pack-immediate.template").readText()
+                val fastFollowTemplate = templatesDir.resolve("asset-pack-immediate.template").readText()
+                val installTimeTemplate = templatesDir.resolve("asset-pack-install-time.template").readText()
                 themeIconsDir.mkdirs()
                 soundsDir.mkdirs()
                 val gitignoreIcons = File(themeIconsDir, ".gitignore")
@@ -130,8 +131,8 @@ android.applicationVariants.all {
                 gitignoreSounds.writeText("/*")
                 val targetGradleFileIcons = themeIconsDir.resolve("build.gradle.kts")
                 val targetGradleFileSounds = soundsDir.resolve("build.gradle.kts")
-                targetGradleFileIcons.writeText(template.replace("{{name}}", "theme_icons"))
-                targetGradleFileSounds.writeText(template.replace("{{name}}", "sound_pack"))
+                targetGradleFileIcons.writeText(installTimeTemplate.replace("{{name}}", "theme_icons"))
+                targetGradleFileSounds.writeText(fastFollowTemplate.replace("{{name}}", "sound_pack"))
 
                 themeDirs.forEach { themeDir ->
                     val themeName = themeDir.name
