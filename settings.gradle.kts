@@ -36,7 +36,7 @@ val soundsDir = File(rootDir, "sound_pack")
 
 themeDirs.forEach { themeDir ->
     val name = themeDir.name
-    if (themeDir.exists()) {
+    if (File(rootDir, name).isDirectory) {
         include(":$name")
     }
 }
