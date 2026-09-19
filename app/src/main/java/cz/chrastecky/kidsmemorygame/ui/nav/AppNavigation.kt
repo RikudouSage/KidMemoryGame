@@ -83,15 +83,24 @@ fun AppNavigation(
             val lastThemeId = sharedPreferences.getString(SharedPreferenceName.LastUsedTheme.name, null)
 
             LaunchedEffect(lastThemeId) {
-                if (lastThemeId != null) {
-                    val isDownloaded = themeProvider.isThemeDownloaded(lastThemeId)
-                    screenState = if (isDownloaded) {
-                        PickerScreenState.NavigateToGame(lastThemeId)
-                    } else {
-                        PickerScreenState.NavigateToDownload(lastThemeId)
+                try {
+                    if (themesViewModel.themes == null) {
+                        themesViewModel.themes = themeProvider.listAvailableThemes()
                     }
-                } else {
-                    screenState = PickerScreenState.ShowPicker
+
+                    if (lastThemeId != null) {
+                        val isDownloaded = themeProvider.isThemeDownloaded(lastThemeId)
+                        screenState = if (isDownloaded) {
+                            PickerScreenState.NavigateToGame(lastThemeId)
+                        } else {
+                            PickerScreenState.NavigateToDownload(lastThemeId)
+                        }
+                    } else {
+                        screenState = PickerScreenState.ShowPicker
+                    }
+                } catch (e: Exception) {
+                    error = e
+                    navController.navigate("error")
                 }
             }
 
