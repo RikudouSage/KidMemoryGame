@@ -1,27 +1,11 @@
 [
   {
-    "id" : "sea",
-    "name" : "Sea Creatures",
-    "configPath" : "sea/theme.json",
-    "icon" : "cards/turtle.webp",
-    "cardCount" : 24,
-    "hash" : "b6b142cffa5fc265062f0d283d63a3b66f1a8240c55ea9e0e9eb0fe0c50d82e5"
-  },
-  {
-    "id" : "dinosaurs",
-    "name" : "Dinosaurs",
-    "configPath" : "dinosaurs/theme.json",
-    "icon" : "cards/t-rex.webp",
-    "cardCount" : 12,
-    "hash" : "46c677d32ea1e4d39f0ffded07e3dffd68c8375e21312e095c2cb4a52022188a"
-  },
-  {
-    "id" : "fruit",
-    "name" : "Fruit",
-    "configPath" : "fruit/theme.json",
-    "icon" : "cards/apple.webp",
-    "cardCount" : 14,
-    "hash" : "c32d50afc24214110906ebf3c29ddcdf51ce964bb441bb94fb35b69608c7a842"
+    "id" : "city_vehicles",
+    "name" : "City Vehicles",
+    "configPath" : "city_vehicles/theme.json",
+    "icon" : "cards/car.png",
+    "cardCount" : 17,
+    "hash" : "913ecbd4ef6f49920e9c2fc1937c0261926885b54a07e0a7e5ecf19b3fc0d884"
   },
   {
     "id" : "colours",
@@ -29,7 +13,15 @@
     "configPath" : "colours/theme.json",
     "icon" : "icon.webp",
     "cardCount" : 11,
-    "hash" : "31525abb93646f17f97fb0dfda7c2abc352083c290f37df44bacbfbcd259d3dd"
+    "hash" : "44e0b07bb48e647eada80565d0d22130b8bcda0926e91a9dea6203ac1a9fc626"
+  },
+  {
+    "id" : "dinosaurs",
+    "name" : "Dinosaurs",
+    "configPath" : "dinosaurs/theme.json",
+    "icon" : "cards/t-rex.webp",
+    "cardCount" : 12,
+    "hash" : "0f818ae926f6cbaa662bd8b6744900875269deb67e8d1fce21f0a9ee7a252516"
   },
   {
     "id" : "farm_animals",
@@ -37,23 +29,15 @@
     "configPath" : "farm_animals/theme.json",
     "icon" : "cards/pig.webp",
     "cardCount" : 15,
-    "hash" : "663c343c1a0b2885a402944da1ab9bf22ea63755a50e92d23de3d842dac31205"
+    "hash" : "fbddbb364965819e0ff9ec66cb9422127fad11a13418d3e28577a745df53e502"
   },
   {
-    "id" : "city_vehicles",
-    "name" : "City Vehicles",
-    "configPath" : "city_vehicles/theme.json",
-    "icon" : "cards/car.png",
-    "cardCount" : 17,
-    "hash" : "743fc0e26e154e3737814fd92af27259205a76d67316d51b2565f2e3ac11f931"
-  },
-  {
-    "id" : "zoo",
-    "name" : "ZOO",
-    "configPath" : "zoo/theme.json",
-    "icon" : "cards/giraffe.png",
-    "cardCount" : 18,
-    "hash" : "00933d5da7f6e1cb98a6d836de745d635db072c60d21752f3888ccd80c5399d6"
+    "id" : "fruit",
+    "name" : "Fruit",
+    "configPath" : "fruit/theme.json",
+    "icon" : "cards/apple.webp",
+    "cardCount" : 14,
+    "hash" : "3bbe3e6d0a6a9da4e1a370ebcad2b835e382c3a716be8ab79f8a29d5d9412aee"
   },
   {
     "id" : "household",
@@ -61,6 +45,30 @@
     "configPath" : "household/theme.json",
     "icon" : "cards/house.png",
     "cardCount" : 13,
-    "hash" : "30e938787ec7d6f8f6aecf2ef9381a8d14e0c7ceba0e0f67b223a71137794343"
+    "hash" : "6549d0c82d62c7c59c4859cd52fb1f0fc0e0ecc1b5ce5365915343451fc923f8"
+  },
+  {
+    "id" : "sea",
+    "name" : "Sea Creatures",
+    "configPath" : "sea/theme.json",
+    "icon" : "cards/turtle.webp",
+    "cardCount" : 24,
+    "hash" : "8ed516a320f88af1763fb28a8ad4395474cc21083687401caf93a6f6d25dcc9d"
+  },
+  {
+    "id" : "space",
+    "name" : "Space",
+    "configPath" : "space/theme.json",
+    "icon" : "cards/jupiter.webp",
+    "cardCount" : 19,
+    "hash" : "9e835dca5ed6b25f2db18e251ad513fed4b32c2d688a9e091f86e0044ee7811a"
+  },
+  {
+    "id" : "zoo",
+    "name" : "ZOO",
+    "configPath" : "zoo/theme.json",
+    "icon" : "cards/giraffe.png",
+    "cardCount" : 18,
+    "hash" : "7860b2993cf27be0301923f4700b161c10b4ecd3dab7700c39d1bc213679aa42"
   }
 ]
