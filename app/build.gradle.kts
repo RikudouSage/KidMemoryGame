@@ -223,7 +223,9 @@ tasks.register("generateThemes") {
         val mapper = jacksonObjectMapper().writer(prettyPrinter)
 
         val themesRoot = File(rootDir, "themes")
-        val themeDirs = themesRoot.listFiles { it -> it.isDirectory } ?: return@doLast
+        val themeDirs = themesRoot.listFiles { it -> it.isDirectory }
+            ?.sortedBy { it.name }
+            ?: return@doLast
 
         val globalIndex = mutableListOf<Map<String, Any>>()
 
@@ -237,7 +239,11 @@ tasks.register("generateThemes") {
             }?.map { "cards/${it.name}" }?.sorted() ?: listOf()
             val cardCount = cardFiles.size
 
-            val background = themeDir.listFiles()?.find { it.name.startsWith("background") }?.name ?: ""
+            val background = themeDir.listFiles()
+                ?.filter { it.name.startsWith("background") }
+                ?.minByOrNull { it.name }
+                ?.name
+                ?: ""
 
             val nameFile = File(themeDir, "name.txt")
             val iconFile = File(themeDir, "icon.txt")
@@ -260,18 +266,22 @@ tasks.register("generateThemes") {
                 !file.isDirectory && !file.name.equals("theme.json")
             }?.toList() ?: emptyList()
 
-            hashableFiles.forEach { file ->
-                file.inputStream().use { input ->
-                    val buffer = ByteArray(8192)
-                    while (true) {
-                        val read = input.read(buffer)
-                        if (read <= 0) {
-                            break
+            hashableFiles
+                .sortedBy { file -> file.relativeTo(themeDir).invariantSeparatorsPath }
+                .forEach { file ->
+                    digest.update(file.relativeTo(themeDir).invariantSeparatorsPath.toByteArray(Charsets.UTF_8))
+                    digest.update(0)
+                    file.inputStream().use { input ->
+                        val buffer = ByteArray(8192)
+                        while (true) {
+                            val read = input.read(buffer)
+                            if (read <= 0) {
+                                break
+                            }
+                            digest.update(buffer, 0, read)
                         }
-                        digest.update(buffer, 0, read)
                     }
                 }
-            }
 
             val themeJson = mapOf(
                 "id" to themeId,

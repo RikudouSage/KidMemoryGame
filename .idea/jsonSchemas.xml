@@ -111,6 +111,22 @@
             </SchemaInfo>
           </value>
         </entry>
+        <entry key="theme.json">
+          <value>
+            <SchemaInfo>
+              <option name="name" value="theme.json" />
+              <option name="relativePathToSchema" value="https://schemas.wp.org/trunk/theme.json" />
+              <option name="applicationDefined" value="true" />
+              <option name="patterns">
+                <list>
+                  <Item>
+                    <option name="path" value="themes/space/theme.json" />
+                  </Item>
+                </list>
+              </option>
+            </SchemaInfo>
+          </value>
+        </entry>
       </map>
     </state>
   </component>

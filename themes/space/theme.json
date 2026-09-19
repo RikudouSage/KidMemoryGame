@@ -1,0 +1,61 @@
+{
+  "id" : "space",
+  "name" : "Space",
+  "background" : "background.webp",
+  "cards" : [
+    "cards/alien.webp",
+    "cards/asteroid.webp",
+    "cards/astronaut.webp",
+    "cards/black_hole.webp",
+    "cards/earth.webp",
+    "cards/galaxy.webp",
+    "cards/jupiter.webp",
+    "cards/mars.webp",
+    "cards/moon.webp",
+    "cards/rocket.webp",
+    "cards/rover.webp",
+    "cards/satellite.webp",
+    "cards/saturn.webp",
+    "cards/space_shuttle.webp",
+    "cards/space_station.webp",
+    "cards/star.webp",
+    "cards/sun.webp",
+    "cards/telescope.webp",
+    "cards/ufo.webp"
+  ],
+  "cardCount" : 19,
+  "icon" : "cards/jupiter.webp",
+  "mascots" : [
+    {
+      "image" : "cards/alien.webp",
+      "rotation" : 0,
+      "y" : 655
+    },
+    {
+      "image" : "cards/astronaut.webp",
+      "rotation" : 0,
+      "y" : 552
+    },
+    {
+      "image" : "cards/earth.webp",
+      "rotation" : 0,
+      "y" : 625
+    },
+    {
+      "image" : "cards/rocket.webp",
+      "rotation" : 0,
+      "y" : 523
+    },
+    {
+      "image" : "cards/space_shuttle.webp",
+      "rotation" : 55,
+      "y" : 834
+    },
+    {
+      "image" : "cards/ufo.webp",
+      "rotation" : 0,
+      "y" : 518
+    }
+  ],
+  "hash" : "9e835dca5ed6b25f2db18e251ad513fed4b32c2d688a9e091f86e0044ee7811a"
+}
