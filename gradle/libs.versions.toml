@@ -1,5 +1,5 @@
 [versions]
-agp = "8.13.2"
+agp = "9.4.1"
 assetDeliveryKtx = "2.3.0"
 jacksonModuleKotlin = "2.21.0"
 kotlin = "2.3.0"
